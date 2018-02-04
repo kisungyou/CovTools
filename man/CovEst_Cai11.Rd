@@ -27,7 +27,7 @@ to apply thresholding technique on correlation matrix in that it becomes \emph{a
 }
 \examples{
 ## generate data from multivariate normal with Identity covariance.
-data <- mvtnorm::rmvnorm(100, sigma=diag(5))
+data <- mvtnorm::rmvnorm(100, sigma=diag(10))
 
 ## apply 4 different schemes
 #  mthr is a vector of regularization parameters to be tested

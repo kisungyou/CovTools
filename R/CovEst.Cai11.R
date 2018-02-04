@@ -142,6 +142,7 @@ covest.Cai11 <- function(X,nCV,nCore,thrvec){
   }
   # parallel computation let's go
   # at first, let's not use
+  # note that "covest.Bickel08.singlesum" is for running CV in a Bickel way
   itforeach=NULL
   Rs = foreach (itforeach=1:nsearch, .combine=cbind) %dopar% {
     covest.Bickel08.singlesum(S1,S2,stest[itforeach])
