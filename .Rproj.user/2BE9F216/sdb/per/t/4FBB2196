@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#  ------------------------------------------------------------------------\n# 01. invisible_datamatrix : upgrade of check_datamatrix\n# 02. invisible_logical    : single logical variable\n# 03. invisible_PosReal    : single positive real number\n# 04. invisible_PosIntMM   : single positive integer number with [min,max]\n#  ------------------------------------------------------------------------\n\n\n\n# 01. invisible_datamatrix ------------------------------------------------\n#' @keywords internal\n#' @noRd\ninvisible_datamatrix <- function(A, fname){\n  cond1 = (is.matrix(A)||(inherits(A, \"Matrix\")))\n  cond2 = (!any(is.infinite(A)))\n  cond3 = (!any(is.na(A)))\n\n  if (cond1&&cond2&&cond3){\n    return(1)\n  } else {\n    stop(paste(\"* CovTools.\",fname,\" : input matrix X is invalid.\", sep=\"\"))\n  }\n}\n\n# 02. invisible_logical ---------------------------------------------------\n#' @keywords internal\n#' @noRd\ninvisible_logical <- function(x, fname, parname){\n  cond1 = (length(as.vector(x))==1)\n  cond2 = (is.logical(x))\n  if (cond1&&cond2){\n    return(1)\n  } else {\n    stop(paste(\"* CovTools.\",fname,\" : an input \",parname,\" should be a logical variable.\",sep=\"\"))\n  }\n}\n\n\n# 03. invisible_PosReal ---------------------------------------------------\n#' @keywords internal\n#' @noRd\ninvisible_PosReal <- function(x, fname, parname){\n  cond1 = ((length(as.vector(x))==1)&&(is.numeric(x)))\n  cond2 = ((x>0)&&(!is.na(x))&&(!is.infinite(x)))\n  if (cond1&&cond2){\n    return(1)\n  } else {\n    stop(paste(\"* CovTools.\",fname,\" : an input \",parname,\" should be a positive real number.\",sep=\"\"))\n  }\n}\n\n# 04. invisible_PosIntMM --------------------------------------------------\n#' @keywords internal\n#' @noRd\ninvisible_PosIntMM <- function(x, fname, parname, minvalue, maxvalue){\n  cond1 = (length(as.vector(x))==1)\n  cond2 = ((!is.na(x))&&(!is.infinite(x)))\n  cond3 = ((x>=minvalue)&&(x<=maxvalue))\n\n  if (cond1&&cond2&&cond3){\n    return(1)\n  } else {\n    stop(paste(\"* CovTools.\",fname,\" : an input \",parname,\" should be a positive integer number.\",sep=\"\"))\n  }\n}\n",
+    "created" : 1513110228763.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1867704895",
+    "id" : "4FBB2196",
+    "lastKnownWriteTime" : 1513117031,
+    "last_content_update" : 1513117031072,
+    "path" : "~/Desktop/CovTools/R/auxiliary_invisible.R",
+    "project_path" : "R/auxiliary_invisible.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

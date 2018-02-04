@@ -1,0 +1,65 @@
+[
+    {
+        "definitions" : [
+            {
+                "column" : 14,
+                "file" : "/home/kisung/Desktop/CovTools/src/rcpp_expm.cpp",
+                "kind" : 6,
+                "line" : 9,
+                "name" : "rcpp_geigen(arma::mat &, arma::mat &)",
+                "parent_name" : "",
+                "usr" : "c:@F@rcpp_geigen#&$@N@arma@C@Mat>#d#S0_#"
+            }
+        ],
+        "file" : "/home/kisung/Desktop/CovTools/src/rcpp_expm.cpp",
+        "file_last_write" : 1508165657
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "/home/kisung/Desktop/CovTools/src/rcpp_preest.cpp",
+                "kind" : 6,
+                "line" : 8,
+                "name" : "rcpp_objective(arma::mat &, arma::mat &, arma::mat &, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@rcpp_objective#&$@N@arma@C@Mat>#d#S0_#S0_#d#"
+            },
+            {
+                "column" : 8,
+                "file" : "/home/kisung/Desktop/CovTools/src/rcpp_preest.cpp",
+                "kind" : 6,
+                "line" : 15,
+                "name" : "rcpp_shrinkage(double, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@rcpp_shrinkage#d#d#"
+            },
+            {
+                "column" : 11,
+                "file" : "/home/kisung/Desktop/CovTools/src/rcpp_preest.cpp",
+                "kind" : 6,
+                "line" : 37,
+                "name" : "rcpp_ADMMprecision(arma::mat &, const double)",
+                "parent_name" : "",
+                "usr" : "c:@F@rcpp_ADMMprecision#&$@N@arma@C@Mat>#d#1d#"
+            }
+        ],
+        "file" : "/home/kisung/Desktop/CovTools/src/rcpp_preest.cpp",
+        "file_last_write" : 1510786886
+    },
+    {
+        "definitions" : [
+            {
+                "column" : 8,
+                "file" : "/home/kisung/Desktop/CovTools/src/rcpp_test1.cpp",
+                "kind" : 6,
+                "line" : 13,
+                "name" : "rcpptest1_cai11(arma::mat &)",
+                "parent_name" : "",
+                "usr" : "c:@F@rcpptest1_cai11#&$@N@arma@C@Mat>#d#"
+            }
+        ],
+        "file" : "/home/kisung/Desktop/CovTools/src/rcpp_test1.cpp",
+        "file_last_write" : 1510787113
+    }
+]

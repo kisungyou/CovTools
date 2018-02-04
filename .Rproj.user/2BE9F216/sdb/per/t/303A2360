@@ -1,0 +1,21 @@
+{
+    "collab_server" : "",
+    "contents" : "#' Estimating Covariance Matrix\n#'\n#' It compiles several popular methods of inferring covariance structure from observed data.\n#' Several principles or assumed structures and corresponding estimation techniques are included,\n#' such as sparse covariance estimation (\\code{Bickel08}, \\code{Cai11}), soft thresholding (\\code{Donoho95}),\n#' near positive definiteness (\\code{Qi06}), and so on.\n#'\n#' @param X an \\code{(n-by-p)} matrix where each row is an observation from the first dataset.\n#' @param method a name of estimation method.\n#' @param param a parameter value >= 0.\n#'\n#'\n#' @return a named list containing: \\describe{\n#' \\item{S}{a \\code{(p-by-p)} covariance matrix estimate.}\n#' }\n#'\n#' @examples\n#' ## generate data from multivariate normal with Identity covariance.\n#' data = mvtnorm::rmvnorm(100, sigma=diag(10))\n#'\n#' ## run estimation\n#' out3 = CovEst(data, method=\"Donoho95\")\n#' out4 = CovEst(data, method=\"Fan13\")\n#' out5 = CovEst(data, method=\"Qi06\")\n#'\n#' ## Visualize\n#' par(mfrow=c(2,3))\n#' image(pracma::flipud(diag(10)),main=\"Original Covariance\")\n#' image(pracma::flipud(out3$S), main=\"Donoho95\")\n#' image(pracma::flipud(out4$S), main=\"Fan13\")\n#' image(pracma::flipud(out5$S), main=\"Qi06\")\n#'\n#' @references [Donoho95] Donoho, D. et al. (1995) \\emph{Wavelet Shrinkage: Asymptopia?} Journal of the Royal Statistical Society Series B, Vol.57(2):301-369.\n#' @references [Fan13] Fan. J. et al. (2013) \\emph{Large covariance estimation by thresholding principal orthogonal complements.}\n#' Journal of the Royal Statistical Society Series B, Vol.75(4):603-680.\n#' @references [Qi06] Qi, H. and Sun, D. (2006) \\emph{A Quadratically Convergent Newton Method for Computing the Nearest Correlation Matrix.} SIAM J.Matrix Anal.& Appl., Vol.28(2):360-385.\n#' @export\nCovEst <- function(X, method=c(\"Bickel08\",\"Cai11\",\"Donoho95\",\"Fan13\",\"Qi06\"),param=1.0){\n  ## PREPROCESSING ON INPUTS AND PARAMETERS\n  # 1. valid data matrix\n  if (!check_datamatrix(X)){stop(\"* CovEst : an input data matrix X is invalid.\")}\n  if ((nrow(X)==1)||(ncol(X)==1)){stop(\"* CovEst : invalid input matrix X.\")}\n  # 2. method : THIS SHOULD BE UPDATED EVERYTIME A METHOD IS ADDED\n  if (missing(method)){method=\"Bickel08\"} else {\n    method = match.arg(method)\n  }\n\n  ## Parameter Checking\n  if ((length(param)!=1)||(param<0)||(is.infinite(param))||(!is.numeric(param))||(is.na(param))){\n    stop(\"* CovEst : 'param' value should be >=0.\")\n  }\n\n  ## Main Computation\n  output = switch(method,\n                  Donoho95 = covest.Donoho95.once(X,param),  # threshold of soft thresholding\n                  Fan13    = covest.Fan13.once(X,param),\n                  Qi06     = covest.Qi06.once(X)             # anyway, no CV originally.\n  )\n  ## RETURN OUTPUT\n  return(output)\n}\n",
+    "created" : 1513109945244.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "515283439",
+    "id" : "303A2360",
+    "lastKnownWriteTime" : 1513286574,
+    "last_content_update" : 1513286574957,
+    "path" : "~/Desktop/CovTools/R/CovEst.R",
+    "project_path" : "R/CovEst.R",
+    "properties" : {
+        "tempName" : "Untitled2"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
