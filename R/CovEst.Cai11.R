@@ -15,7 +15,7 @@
 #'
 #' @examples
 #' ## generate data from multivariate normal with Identity covariance.
-#' data <- mvtnorm::rmvnorm(100, sigma=diag(5))
+#' data <- mvtnorm::rmvnorm(100, sigma=diag(10))
 #'
 #' ## apply 4 different schemes
 #' #  mthr is a vector of regularization parameters to be tested
@@ -72,7 +72,7 @@ CovEst.Cai11 <- function(X, thr=0.5, nCV=10, parallel=TRUE){
   if (CV==FALSE){
     output = covest.Cai11.once(X,thr)
   } else {
-    output = covest.Bickel08(X,nCV,nCore,thr)
+    output = covest.Cai11(X,nCV,nCore,thr)
   }
 
   #-----------------------------------------------------
