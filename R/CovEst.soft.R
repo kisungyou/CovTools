@@ -1,0 +1,126 @@
+#' Covariance Estimation via Soft Thresholding
+#'
+#' Soft Thresholding method for covariance estimation takes off-diagonal elements \eqn{z} of sample covariance matrix and applies
+#' \deqn{h_{\tau}(z) = \textrm{sgn}(z)(|z|-\tau)_{+}}
+#' where \eqn{\textrm{sgn}(z)} is a sign of the value \eqn{z}, and \eqn{(x)_+ = \textrm{max}(x,0)}. If \code{thr} is rather a vector of regularization parameters, it applies
+#' cross-validation scheme to select an optimal value.
+#'
+#' @param X an \eqn{(n\times p)} matrix where each row is an observation.
+#' @param thr user-defined threshold value. If it is a vector of regularization values, it automatically selects one that minimizes cross validation risk.
+#' @param nCV the number of repetitions for 2-fold random cross validations for each threshold value.
+#' @param parallel a logical; \code{TRUE} to use half of available cores, \code{FALSE} to do every computation sequentially.
+#'
+#' @return a named list containing: \describe{
+#' \item{S}{a \eqn{(p\times p)} covariance matrix estimate.}
+#' \item{CV}{a dataframe containing vector of tested threshold values(\code{thr}) and corresponding cross validation scores(\code{CVscore}).}
+#' }
+#'
+#' @examples
+#' ## generate data from multivariate normal with Identity covariance.
+#' data <- mvtnorm::rmvnorm(10, sigma=diag(10))
+#'
+#' ## apply 4 different schemes
+#' #  mthr is a vector of regularization parameters to be tested
+#' mthr <- exp(seq(from=log(0.1),to=log(10),length.out=10))
+#'
+#' out1 <- CovEst.soft(data, thr=0.1)  # threshold value 0.1
+#' out2 <- CovEst.soft(data, thr=1)    # threshold value 1
+#' out3 <- CovEst.soft(data, thr=10)   # threshold value 10
+#' out4 <- CovEst.soft(data, thr=mthr) # automatic threshold checking
+#'
+#' ## visualize 4 estimated matrices
+#' par(mfrow=c(2,2), pty="s")
+#' image(pracma::flipud(out1$S), col=gray((0:100)/100), main="thr=0.1")
+#' image(pracma::flipud(out2$S), col=gray((0:100)/100), main="thr=1")
+#' image(pracma::flipud(out3$S), col=gray((0:100)/100), main="thr=10")
+#' image(pracma::flipud(out4$S), col=gray((0:100)/100), main="automatic")
+#'
+#'
+#' @references
+#' \insertRef{antoniadis_regularization_2001}{CovTools}
+#'
+#' \insertRef{donoho_wavelet_1995}{CovTools}
+#'
+#' @rdname CovEst.soft_Donoho95
+#' @export
+CovEst.soft <- function(X, thr=0.5, nCV=10, parallel=FALSE){
+  #-----------------------------------------------------
+  ## PREPROCESSING
+  fname    = "soft"
+  pnameTHR = "'thr'"
+  pnamenCV = "'nCV"
+  pnamenthrs = "'nthrs'"
+  #   1. data matrix
+  checker1 = invisible_datamatrix(X, fname)
+  #   2. thr
+  if (length(as.vector(thr))==1){
+    checker3 = invisible_PosReal(thr, fname, pnameTHR)
+    CV = FALSE
+  } else { # vector threshold value case
+    nthrs = length(thr)
+    for (i in 1:nthrs){
+      checker3 = invisible_PosReal(thr[i], fname, pnameTHR)
+    }
+    CV = TRUE
+  }
+  #   4. nCV
+  if (CV==TRUE){
+    nCV = as.integer(nCV)
+    checker4 = invisible_PosIntMM(nCV, fname, pnamenCV, 1, nrow(X))
+  }
+  #   5. parallel
+  if (!parallel){
+    nCore = 1
+  } else {
+    nCore = max(round(detectCores()/2),1)
+  }
+
+  #-----------------------------------------------------
+  ## MAIN COMPUTATION
+  if (CV==FALSE){
+    output = thr1.once(X,thr,func_soft)
+  } else {
+    output = thr1.multiple(X,nCV,nCore,func_soft_givenS,thr)
+  }
+
+  #-----------------------------------------------------
+  ## RETURN OUTPUT
+  return(output)
+}
+
+
+
+
+
+
+
+# Auxiliary Functions for Soft Thresholding -------------------------------
+#' @keywords internal
+#' @noRd
+func_soft <- function(X, thr){
+  S      = cov(X)
+  diagS  = diag(S)
+  output = array(0,dim(S))
+
+  idxPos = which(S>abs(thr))
+  idxNeg = which(S<(-abs(thr)))
+
+  output[idxPos] = S[idxPos]-thr
+  output[idxNeg] = S[idxNeg]+thr
+  diag(output)   = diagS
+  return(output)
+}
+#' @keywords internal
+#' @noRd
+func_soft_givenS <- function(S, thr){
+  diagS  = diag(S)
+  output = array(0,dim(S))
+
+  idxPos = which(S>abs(thr))
+  idxNeg = which(S<(-abs(thr)))
+
+  output[idxPos] = S[idxPos]-thr
+  output[idxNeg] = S[idxNeg]+thr
+  diag(output)   = diagS
+  return(output)
+}

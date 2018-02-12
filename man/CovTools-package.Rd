@@ -6,17 +6,24 @@
 \title{A Collection of Geometric and Statistical Tools for Covariance Analysis}
 \description{
 Covariance is of universal prevalence across various disciplines within statistics.
-The \pkg{CovTools} aims at providing a rich collection of geometric and inferential tools
-for convenient analysis of covariance structures. Following is a list of functions,
+The \pkg{CovTools} aims at providing a rich collection of geometric and statistical tools
+for a variety of inferences on covariance structures. Following is a list of functions,
 \tabular{cc}{
 \emph{name of a function} \tab \emph{description} \cr
 \code{\link{CovDist}} \tab compute pairwise distance of covariance matrices \cr
-\code{\link{CovEst}}  \tab estimate covariance matrix \cr
-\code{\link{CovEst.auto}}\tab estimate covariance matrix with automatic parameter tuning \cr
 \code{\link{CovMean}}\tab compute mean covariance matrix \cr
 \code{\link{CovTest1}} \tab 1-sample tests for covariance matrix \cr
-\code{\link{CovTest2}} \tab 2-sample tests for covariance matrices \cr
-\code{\link{PreEst}} \tab estimate an inverse covariance matrix \cr
-\code{\link{PreEst.auto}}\tab estimate an inverse covariance matrix with automatic parameter tuning
+\code{\link{CovTest2}} \tab 2-sample tests for covariance matrices
+}
+}
+\details{
+Also, below is a list of functions for \emph{estimating} covariance/precision matrices,
+\tabular{cc}{
+\emph{name of a function}\tab \emph{description} \cr
+\code{\link{CovEst.adaptive}} \tab Covariance Estimation using Adaptive Thresholding \cr
+\code{\link{CovEst.hard}} \tab Covariance Estimation via Hard Thresholding \cr
+\code{\link{CovEst.hardPD}} \tab Covariance Estimation via Hard Thresholding under Positive-Definiteness Constraint \cr
+\code{\link{CovEst.nearPD}} \tab Covariance Estimation via Nearest Positive-Definite Matrix Projection \cr
+\code{\link{CovEst.soft}} \tab Covariance Estimation via Soft Thresholding
 }
 }

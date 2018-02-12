@@ -60,6 +60,6 @@ invisible_PosIntMM <- function(x, fname, parname, minvalue, maxvalue){
   if (cond1&&cond2&&cond3){
     return(1)
   } else {
-    stop(paste("* CovTools.",fname," : an input ",parname," should be a positive integer number.",sep=""))
+    stop(paste("* CovTools.",fname," : an input ",parname," should be a positive integer number in [",minvalue,",",maxvalue,"].",sep=""))
   }
 }
