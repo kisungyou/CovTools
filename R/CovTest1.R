@@ -6,8 +6,8 @@
 #' where \eqn{\Sigma_n} is the covariance of data model and \eqn{\Sigma_0} is a
 #' hypothesized covariance.
 #'
-#' @param data an \code{(n-by-p)} data matrix where each row is an observation.
-#' @param Sigma0 a \code{(p-by-p)} given covariance matrix.
+#' @param data an \eqn{(n\times p)} data matrix where each row is an observation.
+#' @param Sigma0 a \eqn{(p\times p)} given covariance matrix.
 #' @param alpha level of significance.
 #' @param method a name of test.
 #'

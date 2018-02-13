@@ -1,3 +1,4 @@
+# Original Name : Bickel08
 #' Covariance Estimation via Hard Thresholding
 #'
 #' Bickel and Levina (2008) proposed a sparse covariance estimation technique to apply thresholding on off-diagonal elements of
@@ -38,12 +39,12 @@
 #' @references
 #' \insertRef{bickel_covariance_2008}{CovTools}
 #'
-#' @rdname CovEst.hard_Bickel08
+#' @rdname CovEst.hard
 #' @export
 CovEst.hard <- function(X, thr=sqrt(log(ncol(X))/nrow(X)), nCV=10, parallel=FALSE){
   #-----------------------------------------------------
   ## PREPROCESSING
-  fname    = "hard"
+  fname    = "CovEst.hard"
   pnameTHR = "'thr'"
   pnamenCV = "'nCV"
   pnamenthrs = "'nthrs'"

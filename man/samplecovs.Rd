@@ -9,10 +9,10 @@ samplecovs(ncopy, size)
 \arguments{
 \item{ncopy}{the total number of sample covariances to be generated.}
 
-\item{size}{dimension \code{p}}
+\item{size}{dimension \eqn{p}.}
 }
 \value{
-a \code{(p-by-p-by-ncopy)} array of strictly positive definite sample covariances.
+a \eqn{(p\times p\times ncopy)} array of strictly positive definite sample covariances.
 }
 \description{
 For visualization purpose, \code{samplecovs} generates a 3d array

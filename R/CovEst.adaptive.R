@@ -1,3 +1,4 @@
+# Original name : Cai11
 #' Covariance Estimation via Adaptive Thresholding
 #'
 #' Cai and Liu (2011) proposed an adaptive variant of Bickel and Levina (2008) - \code{\link{CovEst.hard}}. The idea of \emph{adaptive thresholding} is
@@ -36,12 +37,12 @@
 #' @references
 #' \insertRef{cai_adaptive_2011}{CovTools}
 #'
-#' @rdname CovEst.adaptive_Cai11
+#' @rdname CovEst.adaptive
 #' @export
 CovEst.adaptive <- function(X, thr=0.5, nCV=10, parallel=FALSE){
   #-----------------------------------------------------
   ## PREPROCESSING
-  fname    = "adaptive"
+  fname    = "CovEst.adaptive"
   pnameTHR = "'thr'"
   pnamenCV = "'nCV"
   pnamenthrs = "'nthrs'"

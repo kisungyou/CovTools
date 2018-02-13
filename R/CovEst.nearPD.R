@@ -1,3 +1,4 @@
+#  Original name : Qi06
 #' Covariance Estimation via Nearest Positive-Definite Matrix Projection
 #'
 #' Qi and Sun (2006) proposed an algorithm for computing the positive correlation matrix
@@ -26,7 +27,7 @@
 #' @references
 #' \insertRef{qi_quadratically_2006}{CovTools}
 #'
-#' @rdname CovEst.nearPD_Qi06
+#' @rdname CovEst.nearPD
 #' @export
 CovEst.nearPD <- function(X){
   #-----------------------------------------------------

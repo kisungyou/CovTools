@@ -8,9 +8,9 @@
 #' consists of samples covariances from dense random population covariance.
 #'
 #' @param ncopy the total number of sample covariances to be generated.
-#' @param size dimension \code{p}
+#' @param size dimension \eqn{p}.
 #'
-#' @return a \code{(p-by-p-by-ncopy)} array of strictly positive definite sample covariances.
+#' @return a \eqn{(p\times p\times ncopy)} array of strictly positive definite sample covariances.
 #' @examples
 #' ## generate total of 20 samples covariances of size 5-by-5.
 #' samples <- samplecovs(20,5)

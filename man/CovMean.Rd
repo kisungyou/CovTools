@@ -9,7 +9,7 @@ CovMean(A, method = c("AIRM", "Cholesky", "Euclidean", "LERM",
   power = 1)
 }
 \arguments{
-\item{A}{a \code{(p-by-p-by-N)} 3d array of \code{N} SPD matrices.}
+\item{A}{a \eqn{(p\times p\times N)} 3d array of \eqn{N} SPD matrices.}
 
 \item{method}{the type of distance measures to be used; \code{"AIRM"} for Affine Invariant
 Riemannian Metric,
@@ -24,7 +24,7 @@ Riemannian Metric,
 \item{power}{a non-zero number for PowerEuclidean distance.}
 }
 \value{
-a \code{(p-by-p)} mean covariance matrix estimated.
+a \eqn{(p\times p)} mean covariance matrix estimated.
 }
 \description{
 For a given 3-dimensional array where symmetric positive definite (SPD) matrices are stacked slice

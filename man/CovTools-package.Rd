@@ -17,13 +17,18 @@ for a variety of inferences on covariance structures. Following is a list of fun
 }
 }
 \details{
-Also, below is a list of functions for \emph{estimating} covariance/precision matrices,
+Also, below is a list of functions for \emph{estimating} covariance matrices,
 \tabular{cc}{
 \emph{name of a function}\tab \emph{description} \cr
-\code{\link{CovEst.adaptive}} \tab Covariance Estimation using Adaptive Thresholding \cr
-\code{\link{CovEst.hard}} \tab Covariance Estimation via Hard Thresholding \cr
-\code{\link{CovEst.hardPD}} \tab Covariance Estimation via Hard Thresholding under Positive-Definiteness Constraint \cr
-\code{\link{CovEst.nearPD}} \tab Covariance Estimation via Nearest Positive-Definite Matrix Projection \cr
-\code{\link{CovEst.soft}} \tab Covariance Estimation via Soft Thresholding
+\code{\link{CovEst.adaptive}} \tab Adaptive Thresholding \cr
+\code{\link{CovEst.hard}} \tab Hard Thresholding \cr
+\code{\link{CovEst.hardPD}} \tab Hard Thresholding under Positive-Definiteness Constraint \cr
+\code{\link{CovEst.nearPD}} \tab Nearest Positive-Definite Matrix Projection \cr
+\code{\link{CovEst.soft}} \tab Soft Thresholding
+}
+and precision - inverse covariance - matrices,
+\tabular{cc}{
+\emph{name of a function}\tab \emph{description} \cr
+\code{\link{PreEst.glasso}} \tab Graphical Lasso
 }
 }

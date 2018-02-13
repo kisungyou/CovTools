@@ -1,3 +1,4 @@
+#  Original name : Donoho95
 #' Covariance Estimation via Soft Thresholding
 #'
 #' Soft Thresholding method for covariance estimation takes off-diagonal elements \eqn{z} of sample covariance matrix and applies
@@ -41,12 +42,12 @@
 #'
 #' \insertRef{donoho_wavelet_1995}{CovTools}
 #'
-#' @rdname CovEst.soft_Donoho95
+#' @rdname CovEst.soft
 #' @export
 CovEst.soft <- function(X, thr=0.5, nCV=10, parallel=FALSE){
   #-----------------------------------------------------
   ## PREPROCESSING
-  fname    = "soft"
+  fname    = "CovEst.soft"
   pnameTHR = "'thr'"
   pnamenCV = "'nCV"
   pnamenthrs = "'nthrs'"

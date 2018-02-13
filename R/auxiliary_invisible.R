@@ -18,7 +18,7 @@ invisible_datamatrix <- function(A, fname){
   if (cond1&&cond2&&cond3){
     return(1)
   } else {
-    stop(paste("* CovTools.",fname," : input matrix X is invalid.", sep=""))
+    stop(paste("* CovTools::",fname," : input matrix X is invalid.", sep=""))
   }
 }
 
@@ -31,7 +31,7 @@ invisible_logical <- function(x, fname, parname){
   if (cond1&&cond2){
     return(1)
   } else {
-    stop(paste("* CovTools.",fname," : an input ",parname," should be a logical variable.",sep=""))
+    stop(paste("* CovTools::",fname," : an input ",parname," should be a logical variable.",sep=""))
   }
 }
 
@@ -45,7 +45,7 @@ invisible_PosReal <- function(x, fname, parname){
   if (cond1&&cond2){
     return(1)
   } else {
-    stop(paste("* CovTools.",fname," : an input ",parname," should be a positive real number.",sep=""))
+    stop(paste("* CovTools::",fname," : an input ",parname," should be a positive real number.",sep=""))
   }
 }
 
@@ -60,6 +60,6 @@ invisible_PosIntMM <- function(x, fname, parname, minvalue, maxvalue){
   if (cond1&&cond2&&cond3){
     return(1)
   } else {
-    stop(paste("* CovTools.",fname," : an input ",parname," should be a positive integer number in [",minvalue,",",maxvalue,"].",sep=""))
+    stop(paste("* CovTools::",fname," : an input ",parname," should be a positive integer number in [",minvalue,",",maxvalue,"].",sep=""))
   }
 }

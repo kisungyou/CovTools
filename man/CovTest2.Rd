@@ -7,9 +7,9 @@
 CovTest2(X, Y, alpha = 0.05, method = c("Cai13"))
 }
 \arguments{
-\item{X}{an \code{(m-by-p)} matrix where each row is an observation from the first dataset.}
+\item{X}{an \eqn{(m\times p)}  matrix where each row is an observation from the first dataset.}
 
-\item{Y}{an \code{(n-by-p)} matrix where each row is an observation from the second dataset.}
+\item{Y}{an \eqn{(n\times p)} matrix where each row is an observation from the second dataset.}
 
 \item{alpha}{level of significance.}
 

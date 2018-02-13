@@ -4,7 +4,7 @@
 #' by slice, it estimates Frechet mean on an open cone of SPD matrices under corresponding metric/distance
 #' measure.
 #'
-#' @param A a \code{(p-by-p-by-N)} 3d array of \code{N} SPD matrices.
+#' @param A a \eqn{(p\times p\times N)} 3d array of \eqn{N} SPD matrices.
 #' @param method the type of distance measures to be used; \code{"AIRM"} for Affine Invariant
 #' Riemannian Metric,
 #' \code{"Cholesky"} for Cholesky difference in Frobenius norm,
@@ -15,7 +15,7 @@
 #' \code{"PowerEuclidean"} for weighted eigenvalues by some exponent, and
 #' \code{"RootEuclidean"} for matrix square root.
 #' @param power a non-zero number for PowerEuclidean distance.
-#' @return a \code{(p-by-p)} mean covariance matrix estimated.
+#' @return a \eqn{(p\times p)} mean covariance matrix estimated.
 #'
 #' @examples
 #' ## generate 100 sample covariances of size (5-by-5).

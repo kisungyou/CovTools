@@ -6,8 +6,8 @@
 #' where \eqn{\Sigma_1} and \eqn{\Sigma_2} represent true (unknown) covariance
 #' for each dataset.
 #'
-#' @param X an \code{(m-by-p)} matrix where each row is an observation from the first dataset.
-#' @param Y an \code{(n-by-p)} matrix where each row is an observation from the second dataset.
+#' @param X an \eqn{(m\times p)}  matrix where each row is an observation from the first dataset.
+#' @param Y an \eqn{(n\times p)} matrix where each row is an observation from the second dataset.
 #' @param alpha level of significance.
 #' @param method a name of test.
 #'

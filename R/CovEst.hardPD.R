@@ -1,3 +1,4 @@
+# Original name : Fan13
 #' Covariance Estimation via Hard Thresholding under Positive-Definiteness Constraint
 #'
 #' Sparse covariance estimation does not necessarily guarantee positive definiteness of an estimated
@@ -32,12 +33,12 @@
 #' @references
 #' \insertRef{fan_large_2013}{CovTools}
 #'
-#' @rdname CovEst.hardPD_Fan13
+#' @rdname CovEst.hardPD
 #' @export
 CovEst.hardPD <- function(X){
   #-----------------------------------------------------
   ## PREPROCESSING
-  fname    = "hardPD"
+  fname    = "CovEst.hardPD"
   checker1 = invisible_datamatrix(X, fname)
 
   #-----------------------------------------------------

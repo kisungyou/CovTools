@@ -8,9 +8,9 @@ CovTest1(data, Sigma0 = diag(ncol(data)), alpha = 0.05,
   method = c("Cai13"))
 }
 \arguments{
-\item{data}{an \code{(n-by-p)} data matrix where each row is an observation.}
+\item{data}{an \eqn{(n\times p)} data matrix where each row is an observation.}
 
-\item{Sigma0}{a \code{(p-by-p)} given covariance matrix.}
+\item{Sigma0}{a \eqn{(p\times p)} given covariance matrix.}
 
 \item{alpha}{level of significance.}
 
