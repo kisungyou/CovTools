@@ -1,18 +1,23 @@
 #' A Collection of Geometric and Statistical Tools for Covariance Analysis
 #'
+#' @description
 #' Covariance is of universal prevalence across various disciplines within statistics.
-#' The \pkg{CovTools} aims at providing a rich collection of geometric and statistical tools
-#' for a variety of inferences on covariance structures. Following is a list of functions,
+#' \pkg{CovTools} package aims at providing a rich collection of geometric and statistical tools
+#' for a variety of inferences on covariance structures. See the sections below for a comprehensive
+#' list of functions provided from the package.
+#'
+#' @section Geometric Methods:
+#' From inference on manifolds perspective, we have following functions,
 #' \tabular{cc}{
 #' \emph{name of a function} \tab \emph{description} \cr
 #' \code{\link{CovDist}} \tab compute pairwise distance of covariance matrices \cr
-#' \code{\link{CovMean}}\tab compute mean covariance matrix \cr
-#' \code{\link{CovTest1}} \tab 1-sample tests for covariance matrix \cr
-#' \code{\link{CovTest2}} \tab 2-sample tests for covariance matrices
+#' \code{\link{CovMean}}\tab compute mean covariance matrix
 #' }
 #'
-#' Also, below is a list of functions for \emph{estimating} covariance matrices,
-#' \tabular{cc}{
+#' @section Statistical methods:
+#' We provide statistical methods for
+#' (1) \strong{Covariance Matrix Estimation},
+#' \tabular{ll}{
 #' \emph{name of a function}\tab \emph{description} \cr
 #' \code{\link{CovEst.adaptive}} \tab Adaptive Thresholding \cr
 #' \code{\link{CovEst.hard}} \tab Hard Thresholding \cr
@@ -20,11 +25,21 @@
 #' \code{\link{CovEst.nearPD}} \tab Nearest Positive-Definite Matrix Projection \cr
 #' \code{\link{CovEst.soft}} \tab Soft Thresholding
 #' }
-#' and precision - inverse covariance - matrices,
-#' \tabular{cc}{
+#' (2) \strong{Precision Matrix Estimation}
+#' \tabular{ll}{
 #' \emph{name of a function}\tab \emph{description} \cr
+#' \code{\link{PreEst.banded1}} \tab Bayesian Estimation of a Banded Precision Matrix (Banerjee 2014) \cr
+#' \code{\link{PreEst.banded2}} \tab Bayesian Estimation of a Banded Precision Matrix (Lee 2017) \cr
+#' \code{\link{PreEst.banded3}} \tab Banded Precision Matrix Estimation via Bandwidth Test \cr
 #' \code{\link{PreEst.glasso}} \tab Graphical Lasso
+#' }, and
+#' (3) \strong{Hypothesis Tests}
+#' \tabular{ll}{
+#' \emph{name of a function} \tab \emph{description} \cr
+#' \code{\link{CovTest1}} \tab 1-sample tests for covariance matrix \cr
+#' \code{\link{CovTest2}} \tab 2-sample tests for covariance matrices
 #' }
+#'
 #'
 #' @docType package
 #' @name CovTools-package
@@ -34,7 +49,7 @@
 #' @import foreach
 #' @importFrom pracma procrustes flipud
 #' @importFrom Matrix nearPD
-#' @importFrom stats cov qnorm rnorm cor qt
+#' @importFrom stats cov qnorm rnorm cor qt pnorm
 #' @importFrom mvtnorm rmvnorm
 #' @importFrom expm expm sqrtm logm
 #' @importFrom geigen geigen

@@ -9,7 +9,7 @@ CovDist(A, method = c("AIRM", "Bhattacharyya", "Cholesky", "Euclidean",
   "PowerEuclidean", "RootEuclidean"), power = 1)
 }
 \arguments{
-\item{A}{a \code{(p-by-p-by-N)} 3d array of \code{N} SPD matrices.}
+\item{A}{a \eqn{(p\times p\times N)} 3d array of \eqn{N} SPD matrices.}
 
 \item{method}{the type of distance measures to be used; \code{"AIRM"} for Affine Invariant
 Riemannian Metric, \code{"Bhattacharyya"} for Bhattacharyya distance based on normal model,
@@ -27,7 +27,7 @@ Riemannian Metric, \code{"Bhattacharyya"} for Bhattacharyya distance based on no
 \item{power}{a non-zero number for PowerEuclidean distance.}
 }
 \value{
-an \code{(N-by-N)} symmetric matrix of pairwise distances.
+an \eqn{(N\times N)} symmetric matrix of pairwise distances.
 }
 \description{
 For a given 3-dimensional array where symmetric positive definite (SPD) matrices are stacked slice

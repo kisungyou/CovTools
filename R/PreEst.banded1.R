@@ -1,15 +1,18 @@
 # Originla name : Banerjee14
-#' Bayesian Estimation of Precision Matrix with a Banding Structure (Banerjee 2014)
+#' Bayesian Estimation of a Banded Precision Matrix (Banerjee 2014)
 #'
+#' \code{PreEst.banded1} returns a Bayes estimator of the banded precision matrix using G-Wishart prior.
+#' Stein’s loss or squared error loss function is used depending on the “loss” argument in the function.
+#' The bandwidth is set at the mode of marginal posterior for the bandwidth parameter.
 #'
 #' @param X an \eqn{(n\times p)} data matrix where each row is an observation.
-#' @param upperK upper bound of bandwidth \eqn{k}
+#' @param upperK upper bound of bandwidth \eqn{k}.
 #' @param delta hyperparameter for G-Wishart prior. Default value is 10. It has to be larger than 2.
 #' @param logpi log of prior distribution for bandwidth \eqn{k}. Default is a function proportional to \eqn{-k^4}.
-#' @param loss type of loss.
+#' @param loss type of loss; either \code{"Stein"} or \code{"Squared"}.
 #'
 #' @return a named list containing: \describe{
-#' \item{C}{a \eqn{(p\times p)} estimated precision matrix.}
+#' \item{C}{a \eqn{(p\times p)} MAP estimate for precision matrix.}
 #' }
 #'
 #' @examples

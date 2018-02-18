@@ -6,7 +6,7 @@
 #' symmetry, and triangle inequalities. Other non-metric measures represent \emph{dissimilarities} between
 #' two SPD objects.
 #'
-#' @param A a \code{(p-by-p-by-N)} 3d array of \code{N} SPD matrices.
+#' @param A a \eqn{(p\times p\times N)} 3d array of \eqn{N} SPD matrices.
 #' @param method the type of distance measures to be used; \code{"AIRM"} for Affine Invariant
 #' Riemannian Metric, \code{"Bhattacharyya"} for Bhattacharyya distance based on normal model,
 #' \code{"Cholesky"} for Cholesky difference in Frobenius norm,
@@ -21,7 +21,8 @@
 #' \code{"RootEuclidean"} for matrix square root.
 #'
 #' @param power a non-zero number for PowerEuclidean distance.
-#' @return an \code{(N-by-N)} symmetric matrix of pairwise distances.
+#'
+#' @return an \eqn{(N\times N)} symmetric matrix of pairwise distances.
 #'
 #' @examples
 #' ## generate 100 SPD matrices of size (5-by-5)

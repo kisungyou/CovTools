@@ -1,12 +1,16 @@
 # Original name : Lee17
-#' Bayesian Estimation of Precision Matrix with a Banding Structure (Lee 2017)
+#' Bayesian Estimation of a Banded Precision Matrix (Lee 2017)
+#'
+#' \code{PreEst.banded2} returns a Bayes estimator of the banded precision matrix,
+#' which is defined in subsection 3.3 of Lee and Lee (2017), using the k-BC prior.
+#' The bandwidth is set at the mode of marginal posterior for the bandwidth parameter.
 #'
 #' @param X an \eqn{(n\times p)} data matrix where each row is an observation.
-#' @param upperK upper bound of bandwidth \eqn{k}
+#' @param upperK upper bound of bandwidth \eqn{k}.
 #' @param logpi log of prior distribution for bandwidth \eqn{k}. Default is a function proportional to \eqn{-k^4}.
 #'
 #' @return a named list containing: \describe{
-#' \item{C}{a \eqn{(p\times p)} estimated precision matrix.}
+#' \item{C}{a \eqn{(p\times p)} MAP estimate for precision matrix.}
 #' }
 #'
 #' @examples
