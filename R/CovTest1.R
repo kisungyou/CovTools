@@ -24,7 +24,7 @@
 #' ## run test
 #' CovTest1(data, Sigma0=diag(5))
 #'
-#' @references [Cai13] Cai, T. and Ma, Z. (2013) \emph{Optimal hypothesis testing for high dimensional covariance matrices.} Bernoulli, Vol.19(5B):2359-2388.
+#' @references Cai, T. and Ma, Z. (2013) \emph{Optimal hypothesis testing for high dimensional covariance matrices.} Bernoulli, Vol.19(5B):2359-2388.
 #' @export
 CovTest1 <- function(data, Sigma0=diag(ncol(data)), alpha=0.05, method=c("Cai13")){
   ## PREPROCESSING ON INPUTS AND PARAMETERS

@@ -40,6 +40,6 @@ CovTest2(data1, data2)
 
 }
 \references{
-[Cai13] Cai, T., Liu, W., and Xia, Y. (2013) \emph{Two-Sample Covariance Matrix Testing and Support Recovery in
+Cai, T., Liu, W., and Xia, Y. (2013) \emph{Two-Sample Covariance Matrix Testing and Support Recovery in
 High-Dimensional and Sparse Settings.} Journal of American Statistical Association, Vol.108(501):265-277.
 }
