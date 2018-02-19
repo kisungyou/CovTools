@@ -47,6 +47,7 @@
 #' @import parallel
 #' @import doParallel
 #' @import foreach
+#' @import Rdpack
 #' @importFrom pracma procrustes flipud
 #' @importFrom Matrix nearPD
 #' @importFrom stats cov qnorm rnorm cor qt pnorm

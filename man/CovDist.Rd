@@ -47,13 +47,9 @@ distAIRM = CovDist(samples, method="AIRM")
 ss = cmdscale(distAIRM)
 plot(ss[,1],ss[,2],main="2d projection")
 
-
 }
 \references{
-Arsigny, V., Fillard, P., Pennec, X., and Ayache, N. (2006) \emph{Log-Euclidean
-Metrics for Fast and Simple Calculus on Diffusion Tensors.} Magnetic Resonance in Medicine, 56:411-421.
+\insertRef{arsigny_log-euclidean_2006}{CovTools}
 
-Dryden, I.L., Koloydenko, A., and Zhou, D. (2009) \emph{Non-Euclidean
-statistics for covariance matrices, with applications to diffusion tensor imaging.} The
-Annals of Applied Statistics, Vol.3(3):1102-1123.
+\insertRef{dryden_non-euclidean_2009}{CovTools}
 }

@@ -41,7 +41,5 @@ mAIRM = CovMean(samples[,,1:50],method="AIRM")
 
 }
 \references{
-Dryden, I.L., Koloydenko, A., and Zhou, D. (2009) \emph{Non-Euclidean
-statistics for covariance matrices, with applications to diffusion tensor imaging.} The
-Annals of Applied Statistics, Vol.3(3):1102-1123.
+\insertRef{dryden_non-euclidean_2009}{CovTools}
 }

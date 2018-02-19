@@ -25,11 +25,12 @@
 #' ## run test
 #' CovTest2(data1, data2)
 #'
+#' @references
+#' \insertRef{cai_optimal_2013}{CovTools}
 #'
-#' @references Cai, T., Liu, W., and Xia, Y. (2013) \emph{Two-Sample Covariance Matrix Testing and Support Recovery in
-#' High-Dimensional and Sparse Settings.} Journal of American Statistical Association, Vol.108(501):265-277.
 #' @export
 CovTest2 <- function(X, Y, alpha=0.05, method=c("Cai13")){
+  #---------------------------------------------------------------------------------
   ## PREPROCESSING ON INPUTS AND PARAMETERS
   # 1. valid data matrix
   if (!check_datamatrix(X)){stop("* CovTest2 : an input data matrix X is invalid.")}
@@ -43,11 +44,13 @@ CovTest2 <- function(X, Y, alpha=0.05, method=c("Cai13")){
   if (missing(method)){method="Cai13"}
   method = match.arg(method)
 
+  #---------------------------------------------------------------------------------
   ## MAIN COMPUTATION
   output = switch(method,
                   Cai13 = test2.Cai13(X, Y, alpha)
   )
 
+  #---------------------------------------------------------------------------------
   ## RETURN OUTPUT
   return(output)
 }
