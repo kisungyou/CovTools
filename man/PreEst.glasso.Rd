@@ -4,7 +4,8 @@
 \alias{PreEst.glasso}
 \title{Precision Matrix Estimation via Graphical Lasso}
 \usage{
-PreEst.glasso(X, method = list(type = "fixed", param = 1), parallel = FALSE)
+PreEst.glasso(X, method = list(type = "fixed", param = 1),
+  parallel = FALSE)
 }
 \arguments{
 \item{X}{an \eqn{(n\times p)} data matrix where each row is an observation.}

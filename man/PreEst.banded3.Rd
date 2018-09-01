@@ -4,8 +4,8 @@
 \alias{PreEst.banded3}
 \title{Banded Precision Matrix Estimation via Bandwidth Test}
 \usage{
-PreEst.banded3(X, upperK = floor(ncol(X)/2), algorithm = c("Bonferroni",
-  "Holm"), alpha = 0.01)
+PreEst.banded3(X, upperK = floor(ncol(X)/2),
+  algorithm = c("Bonferroni", "Holm"), alpha = 0.01)
 }
 \arguments{
 \item{X}{an \eqn{(n\times p)} data matrix where each row is an observation.}

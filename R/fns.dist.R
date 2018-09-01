@@ -265,70 +265,17 @@ measure.KLDM.3d <- function(array3d){
 #' Jensen-Bregman Log Determinannt Divergence
 #' @keywords internal
 #' @noRd
-measure.JBLD <- function(A,B){
-  ## three conditions : size argument, symmetric, positive definite
-  # 1. sqmat
-  if ((!check_sqmat(A))||(!check_sqmat(B))){
-    stop("* measure.JBLD : input is not square matrix/Matrix.")
-  }
-  # 2. symmetric
-  leveltol = sqrt(.Machine$double.eps)
-  if ((!isSymmetric(A, tol=leveltol))||(!isSymmetric(B, tol=leveltol))){
-    stop("* measure.JBLD : input is not symmetric.")
-  }
-  A = (A+t(A))/2
-  B = (B+t(B))/2
-  # 3. positive definite
-  if ((!check_pd(A))||(!check_pd(B))){
-    stop("* measure.JBLD : input is not positive definite.")
-  }
-
-  ## Main Computation
-  term1 = (A+B)/2
-  term2 = A%*%B
-  detT1 = tryCatch(det(term1), error=function(e)e, warning=function(w)w)
-  detT2 = tryCatch(det(term2), error=function(e)e, warning=function(w)w)
-  if (inherits(detT1, "error")||inherits(detT2, "error")){
-    stop("* measure.JBLD : determinant computation failed.")
-  } else if (inherits(detT1, "warning")||inherits(detT2, "warning")){
-    message("* measure.JBLD :",output$message)
-    return(NA)
-  }
-
-  ## output
-  output = log(detT1)-log(detT2)/2;
-  return(output)
-}
-#' @keywords internal
-#' @noRd
 measure.JBLD.3d <- function(array3d){
   # 1. get ready
-  p = dim(array3d)[1]
   M = dim(array3d)[3]
-  # 2. determinant computation
-  det3d = array(0,c(1,M))
-  for (i in 1:M){
-    detT = tryCatch(det((array3d[,,i]+t(array3d[,,i])/2)))
-    if (inherits(detT, "error")){
-      stop("* measure.JBLD : computing determinant failed.")
-    } else if (inherits(detT, "warning")){
-      message("* measure.JBLD :",detT$message)
-      return(NA)
-    } else {
-      det3d[i] = detT
-    }
-  }
-  # 3. main computation
   outdist = array(0,c(M,M))
-  log2p   = log(2^p)
   for (i in 1:(M-1)){
-    x = det3d[i]
+    A = array3d[,,i]
     for (j in (i+1):M){
-      y = det3d[j]
-      term1 = log(det((array3d[,,i]+array3d[,,j])/2))
-      term2 = (log(x)+log(y))/2
-      outdist[i,j] = term1-term2
-      outdist[j,i] = term1-term2
+      B = array3d[,,j]
+      output = log(det((A+B)/2))-0.5*log(det(A%*%B))
+      outdist[i,j] = output
+      outdist[j,i] = output
     }
   }
   return(outdist)
@@ -356,15 +303,19 @@ measure.Euclidean.3d <- function(array3d){
 #' @keywords internal
 #' @noRd
 measure.Choleksy.3d <- function(array3d){
-  M       = dim(array3d)[3]
-  outdist = array(0, c(M,M))
+  M        = dim(array3d)[3]
+  outdist  = array(0, c(M,M))
+  vec_chol = list()
+  for (i in 1:M){
+    vec_chol[[i]] = base::chol(array3d[,,i])
+  }
   for (i in 1:(M-1)){
-    cholA = chol(array3d[,,i])
+    cholA = vec_chol[[i]]
     for (j in (i+1):M){
-      cholB = array3d[,,j]
-      value = norm(cholA-cholB,"f")
-      outdist[i,j] = value
-      outdist[j,i] = value
+      cholB = vec_chol[[j]]
+      output = norm(cholA-cholB,"F")
+      outdist[i,j] = output
+      outdist[j,i] = output
     }
   }
   return(outdist)
