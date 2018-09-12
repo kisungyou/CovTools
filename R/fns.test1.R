@@ -7,8 +7,7 @@ test1.Cai13 <- function(X, Sigma0, alpha){
   scaler = get_invroot(Sigma0)
   # 2. mean centering
   X.centered = scale(X, center=TRUE, scale=FALSE)
-  X.centered = X.centered %*% scaler
-  X.centered = matrix(X.centered, nrow=nrow(X.centered))
+  X.centered = matrix(X.centered,nrow(X)) %*% scaler
   # 3. parameters and hXiXj
   n = nrow(X)
   p = ncol(X)

@@ -1,4 +1,4 @@
-#' Estimate mean covariance matrix
+#' Estimate Mean Covariance Matrix
 #'
 #' For a given 3-dimensional array where symmetric positive definite (SPD) matrices are stacked slice
 #' by slice, it estimates Frechet mean on an open cone of SPD matrices under corresponding metric/distance

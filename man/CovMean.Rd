@@ -2,7 +2,7 @@
 % Please edit documentation in R/CovMean.R
 \name{CovMean}
 \alias{CovMean}
-\title{Estimate mean covariance matrix}
+\title{Estimate Mean Covariance Matrix}
 \usage{
 CovMean(A, method = c("AIRM", "Cholesky", "Euclidean", "LERM",
   "Procrustes.SS", "Procrustes.Full", "PowerEuclidean", "RootEuclidean"),

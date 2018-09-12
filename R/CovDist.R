@@ -1,4 +1,4 @@
-#' Compute pairwise distance for symmetric positive definite matrices.
+#' Compute Pairwise Distance for Symmetric Positive-Definite Matrices
 #'
 #' For a given 3-dimensional array where symmetric positive definite (SPD) matrices are stacked slice
 #' by slice, it computes pairwise distance using various popular measures. Some of measures

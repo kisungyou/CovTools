@@ -2,7 +2,7 @@
 % Please edit documentation in R/CovDist.R
 \name{CovDist}
 \alias{CovDist}
-\title{Compute pairwise distance for symmetric positive definite matrices.}
+\title{Compute Pairwise Distance for Symmetric Positive-Definite Matrices}
 \usage{
 CovDist(A, method = c("AIRM", "Bhattacharyya", "Cholesky", "Euclidean",
   "Hellinger", "JBLD", "KLDM", "LERM", "Procrustes.SS", "Procrustes.Full",
