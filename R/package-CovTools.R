@@ -36,13 +36,13 @@
 #' (3) \strong{Hypothesis Tests}
 #' \tabular{ll}{
 #' \emph{name of a function} \tab \emph{description} \cr
-#' \code{\link{CovTest1}} \tab 1-sample tests for covariance matrix \cr
-#' \code{\link{CovTest2}} \tab 2-sample tests for covariance matrices
+#' \code{\link{CovTest1}} \tab 1-sample Covariance Tests\cr
+#' \code{\link{CovTest2}} \tab 2-sample Covariance Tests
 #' }
 #'
 #'
 #' @docType package
-#' @name CovTools-package
+#' @name package-CovTools
 #' @import shapes
 #' @import parallel
 #' @import doParallel

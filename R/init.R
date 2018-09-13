@@ -1,3 +1,24 @@
-.onAttach <- function(libname, pkgname){
-  packageStartupMessage("\n * CovTools is a toolbox of geometric and statistical procedures for Covariance (and Precision) matrices, authored by Kyoungjae Lee, Lizhen Lin, and Kisung You (University of Notre Dame) under License GPL 3.\n\n * Please feel free to make comments or bug reports to the maintainer. ")
+## messages with start and end
+
+.onAttach <- function(...){
+  ## Retrieve Year Information
+  date <- date()
+  x <- regexpr("[0-9]{4}", date)
+  this.year <- substr(date, x[1], x[1] + attr(x, "match.length") - 1)
+
+  # Retrieve Current Version
+  this.version = packageVersion("CovTools")
+
+  ## Print on Screen
+  packageStartupMessage("** CovTools")
+  packageStartupMessage("**  - Geometric & Statistical Tools for Covariance Matrices.")
+  packageStartupMessage("** Version    : ",this.version," (",this.year,")",sep="")
+  packageStartupMessage("** Author     : Kyoungjae Lee, Lizhen Lin, and Kisung You")
+  packageStartupMessage("** Maintainer : Kisung You (kyou@nd.edu)")
+  packageStartupMessage("**")
+  packageStartupMessage("** Please share any bugs or suggestions to the maintainer.")
+}
+
+.onUnload <- function(libpath) {
+  library.dynam.unload("CovTools", libpath)
 }

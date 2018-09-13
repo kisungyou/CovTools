@@ -117,6 +117,9 @@ check_datamatrix <- function(A){
 #' @noRd
 get_invroot <- function(X){
   eigs = eigen(X)
+  if (any(eigs$values < .Machine$double.eps*10)){
+    stop("** The desired covariance 'Sigma0' is invalid.")
+  }
   out = eigs$vectors %*% diag((eigs$values)^(-0.5)) %*% t(eigs$vectors)
   return(out)
 }

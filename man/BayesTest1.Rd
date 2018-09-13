@@ -4,7 +4,7 @@
 \alias{BayesTest1}
 \title{Bayesian One-Sample Tests for Covariance Matrix}
 \usage{
-BayesTest1(data, Sigma0 = diag(ncol(data)), method = c("Cai13"), ...)
+BayesTest1(data, Sigma0 = diag(ncol(data)), method = c("mxPBF"), ...)
 }
 \description{
 Bayesian One-Sample Tests for Covariance Matrix

@@ -1,5 +1,3 @@
-/home/kisung/.cache/.fr-Lh0okF/DEoptim/R/DEoptim.R="98E86B22"
-/home/kisung/.cache/.fr-iAkcYl/optimization/R/optim_nm.R="65DDF7D8"
 /home/kisung/Desktop/CovTools/DESCRIPTION="3A8F0094"
 /home/kisung/Desktop/CovTools/NAMESPACE="E63B1438"
 /home/kisung/Desktop/CovTools/R/BayesTest1.R="BB209C14"
@@ -18,6 +16,7 @@
 /home/kisung/Desktop/CovTools/R/PreEst.glasso.R="CA0ACEDB"
 /home/kisung/Desktop/CovTools/R/auxiliary.R="8EBA2F27"
 /home/kisung/Desktop/CovTools/R/auxiliary_invisible.R="77E22CDD"
+/home/kisung/Desktop/CovTools/R/fns.bayestest1.R="F24350BE"
 /home/kisung/Desktop/CovTools/R/fns.covest.R="9814FFB0"
 /home/kisung/Desktop/CovTools/R/fns.dist.R="A3871FD0"
 /home/kisung/Desktop/CovTools/R/fns.mean.R="A69398D0"
@@ -31,4 +30,3 @@
 /home/kisung/Desktop/CovTools/src/rcpp_expm.cpp="2CFE8E66"
 /home/kisung/Desktop/CovTools/src/rcpp_preest.cpp="14F1F1A1"
 /home/kisung/Desktop/CovTools/src/rcpp_test1.cpp="2D790815"
-/home/kisung/Desktop/diagonality_test_github.R="48A52B4C"

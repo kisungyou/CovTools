@@ -1,4 +1,5 @@
 # [2013.Cai] Optimal hypothesis testing for high-dimensional covar --------
+# Tony Cai and Zongming Ma. (2013) Optimal hypothesis testing for high dimensional covariance matrices.
 # If (Tn > Trej), reject Null Hypothesis (Sigma=I)
 #' @keywords internal
 #' @noRd

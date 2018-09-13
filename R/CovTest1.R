@@ -40,7 +40,7 @@ CovTest1 <- function(data, Sigma0=diag(ncol(data)), alpha=0.05, method=c("Cai13"
   if ((nrow(data)==1)||(ncol(data)==1)){stop("* CovTest1 : invalid input matrix X.")}
   # 2. valid Sigma0
   if ((!check_sqmat(Sigma0))||(!check_pd(Sigma0))||(!isSymmetric(Sigma0,tol=sqrt(.Machine$double.eps)))||(nrow(Sigma0)!=p)){
-    stop("* CovTest1 : a given matrix for null hypothess 'Sigma0' is invalid.")
+    stop("* CovTest1 : a given matrix for null hypothesis 'Sigma0' is invalid.")
   }
   # 3. alpha
   if ((length(alpha)!=1)||(alpha<=0)||(alpha>=1)){

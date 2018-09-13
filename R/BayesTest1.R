@@ -1,7 +1,7 @@
 #' Bayesian One-Sample Tests for Covariance Matrix
 #'
 #' @export
-BayesTest1 <- function(data, Sigma0=diag(ncol(data)), method=c("Cai13"), ...){
+BayesTest1 <- function(data, Sigma0=diag(ncol(data)), method=c("mxPBF"), ...){
   ###########################################################################
   # Preprocessing : Inputs
   # 1. data
@@ -25,8 +25,12 @@ BayesTest1 <- function(data, Sigma0=diag(ncol(data)), method=c("Cai13"), ...){
   scaler = get_invroot(Sigma0)
   X.centered = scale(data, center=TRUE, scale=FALSE)
   X.adjusted = (matrix(X.centered,nrow=n) %*% scaler)
-  return(X.adjusted)
 
   ###########################################################################
   # Main Computation
+  output = switch(method,
+                  mxPBF = bayestest1.Lee18(X.adjusted, extra.args))
+
+  ###########################################################################
+  return(output)
 }
