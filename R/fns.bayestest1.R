@@ -3,14 +3,18 @@
 #' @noRd
 bayestest1.Lee18 <- function(X, params){
   #################################################################
-  # Params
+  ## Params
   parnames = names(params)
-  if ("a0" %in% parnames){    a0 = params$a0  } else {    a0 = 1.0} ## a0
-  if ("b0" %in% parnames){    b0 = params$b0  } else {    b0 = 1.0} ## a0
+  if ("a0" %in% parnames){    a0 = params$a0  } else {    a0 = 2.0} ## a0
+  if ("b0" %in% parnames){    b0 = params$b0  } else {    b0 = 2.0} ## a0
   if ("gamma" %in% parnames){gamma= params$gamma}else{ gamma = 1.0}
-  # Parameter Value Warning
-  #
-  #
+  ## Parameter Value Warning
+  if ((length(a0)!=1)||(a0<=0)){stop("* mxPBF : 'a0' should be nonnegative number.")}
+  if ((length(b0)!=1)||(b0<=0)){stop("* mxPBF : 'b0' should be nonnegative number.")}
+  if ((length(gamma)!=1)||(gamma<=0)){stop("* mxPBF : 'gamma' should be nonnegative number.")}
+
+  #################################################################
+  ## MAIN RUN BY JAY
   p = ncol(X)
   n = nrow(X)
   log.BF.mat = matrix(0, ncol=p,nrow=p) # log Bayes factors
@@ -24,7 +28,7 @@ bayestest1.Lee18 <- function(X, params){
         1/2 * sum((Xi)^2) - (n/2 + a0) * log(1/2 * ( sum((Xi)^2) - sum(Xi*Xj)^2/sum((Xj)^2) /(1+gamma) ) + b0)
     }
   }
-  diag(log.BF.mat) = NA # just to fill out the diagonal parts
+  diag(log.BF.mat) = -Inf # just to fill out the diagonal parts
   output = list()
   output$log.BF.mat = log.BF.mat
   return(output)

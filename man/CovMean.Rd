@@ -32,12 +32,14 @@ by slice, it estimates Frechet mean on an open cone of SPD matrices under corres
 measure.
 }
 \examples{
+\dontrun{
 ## generate 100 sample covariances of size (5-by-5).
 samples = samplecovs(100,5)
 
 ## Compute mean of first 50 sample covariances from data under Normal(0,Identity).
 mLERM = CovMean(samples[,,1:50],method="LERM")
 mAIRM = CovMean(samples[,,1:50],method="AIRM")
+}
 
 }
 \references{

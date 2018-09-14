@@ -5,7 +5,7 @@
 \title{One-Sample Tests for Covariance Matrices}
 \usage{
 CovTest1(data, Sigma0 = diag(ncol(data)), alpha = 0.05,
-  method = c("Cai13"))
+  method = c("Cai13", "Srivastava14"))
 }
 \arguments{
 \item{data}{an \eqn{(n\times p)} data matrix where each row is an observation.}
@@ -31,13 +31,18 @@ where \eqn{\Sigma_n} is the covariance of data model and \eqn{\Sigma_0} is a
 hypothesized covariance.
 }
 \examples{
+\dontrun{
 ## generate data from multivariate normal with trivial covariance.
-data = mvtnorm::rmvnorm(100, sigma=diag(5))
+data = matrix(rnorm(100*5), nrow=100)
 
 ## run test
-CovTest1(data, Sigma0=diag(5))
+CovTest1(data, method="Cai13")
+CovTest1(data, method="Srivastava14")
+}
 
 }
 \references{
 \insertRef{cai_optimal_2013}{CovTools}
+
+\insertRef{srivastava_tests_2014}{CovTools}
 }

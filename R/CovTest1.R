@@ -18,17 +18,22 @@
 #' }
 #'
 #' @examples
+#' \dontrun{
 #' ## generate data from multivariate normal with trivial covariance.
-#' data = mvtnorm::rmvnorm(100, sigma=diag(5))
+#' data = matrix(rnorm(100*5), nrow=100)
 #'
 #' ## run test
-#' CovTest1(data, Sigma0=diag(5))
+#' CovTest1(data, method="Cai13")
+#' CovTest1(data, method="Srivastava14")
+#' }
 #'
 #' @references
 #' \insertRef{cai_optimal_2013}{CovTools}
 #'
+#' \insertRef{srivastava_tests_2014}{CovTools}
+#'
 #' @export
-CovTest1 <- function(data, Sigma0=diag(ncol(data)), alpha=0.05, method=c("Cai13")){
+CovTest1 <- function(data, Sigma0=diag(ncol(data)), alpha=0.05, method=c("Cai13","Srivastava14")){
   #---------------------------------------------------------------------------------
   ## PREPROCESSING ON INPUTS AND PARAMETERS
   # 1. valid data matrix
@@ -51,9 +56,16 @@ CovTest1 <- function(data, Sigma0=diag(ncol(data)), alpha=0.05, method=c("Cai13"
   method = match.arg(method)
 
   #---------------------------------------------------------------------------------
+  ## Adjust the matrix
+  scaler = get_invroot(Sigma0)
+  X.centered = scale(data, center=TRUE, scale=FALSE)
+  X.adjusted = (matrix(X.centered,nrow=n) %*% scaler)
+
+  #---------------------------------------------------------------------------------
   ## MAIN COMPUTATION
   output = switch(method,
-                  Cai13 = test1.Cai13(data, Sigma0, alpha)
+                  Cai13 = test1.Cai13(X.adjusted, alpha),
+                  Srivastava14 = test1.Srivastava14(X.adjusted, alpha)
   )
 
   #---------------------------------------------------------------------------------
