@@ -21,25 +21,25 @@ From inference on manifolds perspective, we have following functions,
 }
 }
 
-\section{Statistical methods}{
+\section{Statistical Methods}{
 
 We provide statistical methods for
 (1) \strong{Covariance Matrix Estimation},
 \tabular{ll}{
 \emph{name of a function}\tab \emph{description} \cr
-\code{\link{CovEst.adaptive}} \tab Adaptive Thresholding \cr
-\code{\link{CovEst.hard}} \tab Hard Thresholding \cr
-\code{\link{CovEst.hardPD}} \tab Hard Thresholding under Positive-Definiteness Constraint \cr
-\code{\link{CovEst.nearPD}} \tab Nearest Positive-Definite Matrix Projection \cr
-\code{\link{CovEst.soft}} \tab Soft Thresholding
+\code{\link{CovEst.adaptive}} \tab Adaptive Thresholding. \cr
+\code{\link{CovEst.hard}} \tab Hard Thresholding. \cr
+\code{\link{CovEst.hardPD}} \tab Hard Thresholding under Positive-Definiteness Constraint. \cr
+\code{\link{CovEst.nearPD}} \tab Nearest Positive-Definite Matrix Projection. \cr
+\code{\link{CovEst.soft}} \tab Soft Thresholding.
 }
 (2) \strong{Precision Matrix Estimation}
 \tabular{ll}{
 \emph{name of a function}\tab \emph{description} \cr
-\code{\link{PreEst.2014An}} \tab Banded Precision Matrix Estimation via Bandwidth Test \cr
-\code{\link{PreEst.2014Banerjee}} \tab Bayesian Estimation of a Banded Precision Matrix (Banerjee 2014) \cr
-\code{\link{PreEst.2017Lee}} \tab Bayesian Estimation of a Banded Precision Matrix (Lee 2017) \cr
-\code{\link{PreEst.glasso}} \tab Graphical Lasso
+\code{\link{PreEst.2014An}} \tab Banded Precision Matrix Estimation via Bandwidth Test. \cr
+\code{\link{PreEst.2014Banerjee}} \tab Bayesian Estimation of a Banded Precision Matrix (Banerjee 2014). \cr
+\code{\link{PreEst.2017Lee}} \tab Bayesian Estimation of a Banded Precision Matrix (Lee 2017). \cr
+\code{\link{PreEst.glasso}} \tab Graphical Lasso.
 }
 (3) \strong{1-Sample Covariance Tests}
 \tabular{ll}{
