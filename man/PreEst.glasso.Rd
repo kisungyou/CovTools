@@ -46,6 +46,7 @@ as proposed by Yuan and Lin (2007).
 }
 
 \examples{
+\donttest{
 ## generate data from multivariate normal with Identity precision.
 data = mvtnorm::rmvnorm(100, sigma=diag(10))
 
@@ -66,6 +67,7 @@ image(pracma::flipud(diag(10)),main="Original Precision")
 image(pracma::flipud(out1$C), main="glasso::lambda=1.0")
 image(pracma::flipud(out2$C), main="glasso::Confidence=0.95")
 image(pracma::flipud(out3$C), main="glasso::BIC selection")
+}
 
 }
 \references{

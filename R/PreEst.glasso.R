@@ -33,6 +33,7 @@
 #' }
 #'
 #' @examples
+#' \donttest{
 #' ## generate data from multivariate normal with Identity precision.
 #' data = mvtnorm::rmvnorm(100, sigma=diag(10))
 #'
@@ -53,6 +54,7 @@
 #' image(pracma::flipud(out1$C), main="glasso::lambda=1.0")
 #' image(pracma::flipud(out2$C), main="glasso::Confidence=0.95")
 #' image(pracma::flipud(out3$C), main="glasso::BIC selection")
+#' }
 #'
 #' @references
 #' \insertRef{banerjee_convex_2006}{CovTools}
@@ -126,3 +128,87 @@ PreEst.glasso <- function(X, method=list(type="fixed",param=1.0), parallel=FALSE
   return(output)
 }
 
+
+# auxiliary functions -----------------------------------------------------
+# [Yuan07] Penalized Likelihood type of L1 --------------------------------
+#' @keywords internal
+#' @noRd
+preest.Yuan07.once.matrix <- function(X, lambda){
+  S    = cov(X)
+  Chat = rcpp_ADMMprecision(S, lambda);
+
+  output = list()
+  output$C = matrix(Chat, nrow=nrow(S))
+  return(output)
+}
+#' @keywords internal
+#' @noRd
+preest.Yuan07.once.BIC <- function(X, lambda){
+  n    = nrow(X)
+  p    = ncol(X)
+  S    = cov(X)
+  C    = rcpp_ADMMprecision(S, lambda);
+
+  term1 = -log(det(C))
+  term2 = sum(diag(C%*%S))
+  term3 = 0
+  sqrtprecision = sqrt(.Machine$double.eps)
+  for (i in 1:p){
+    for (j in i:p){
+      if (abs(C[i,j]) <= sqrtprecision){
+        term3 = term3+1.0
+      }
+    }
+  }
+  BICscore = -term1+term2+((log(n)/n)*term3)
+  return(BICscore)
+}
+#' @keywords internal
+#' @noRd
+preest.Yuan07.plgrid <-function(X, plgrid, nCore){
+  S = cov(X)
+  if (nCore==1){
+    cl = makeCluster(1)
+    registerDoParallel(cl)
+  } else {
+    cl = makeCluster(nCore)
+    registerDoParallel(cl)
+  }
+  # parallel computation let's go
+  # I had a similar problem and I solved it by adding .noexport = c(<Functions that were implemented in C++>) to the foreach.
+  itforeach=NULL
+  BICs = foreach (itforeach=1:length(plgrid), .combine=rbind) %dopar% {
+    preest.Yuan07.once.BIC(X,plgrid[itforeach])
+  }
+  # stop cluster
+  stopCluster(cl)
+  # find which should be the best one
+  idxmin = which.min(BICs)
+  if (length(idxmin)>1){idxmin = idxmin[1]}
+  # optimal threshold value
+  lambdaopt = plgrid[idxmin]
+  Copt = preest.Yuan07.once.matrix(X, lambdaopt)
+
+  # return output
+  output = list()
+  output$C = matrix(Copt$C, nrow=nrow(S))
+  output$BIC = data.frame(lambda=plgrid, BIC=BICs)
+  rownames(output$BIC) = NULL
+  return(output)
+}
+
+# [Banerjee06] use heuristic for lambda determination ---------------------
+#' @keywords internal
+#' @noRd
+preest.Banerjee06 <- function(X,confidence){
+  # we need \rho value
+  n = nrow(X)
+  S = cov(X); diagS = (diag(S)); SS = outer(diagS,diagS);
+  maxSS = max(SS);
+  tval  = qt(0.5+(confidence/2),df=(n-2))
+  rho   = tval*maxSS/sqrt(n-2+(tval^2))
+
+  # run ADMM
+  output = preest.Yuan07.once.matrix(X, rho)
+  return(output)
+}

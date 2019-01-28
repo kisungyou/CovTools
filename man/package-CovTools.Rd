@@ -4,12 +4,12 @@
 \name{package-CovTools}
 \alias{package-CovTools}
 \alias{package-CovTools-package}
-\title{A Collection of Geometric and Statistical Tools for Covariance Analysis}
+\title{A Collection of Geometric and Statistical Tools for Covariance (and Precision) Analysis}
 \description{
 Covariance is of universal prevalence across various disciplines within statistics.
 \pkg{CovTools} package aims at providing a rich collection of geometric and statistical tools
-for a variety of inferences on covariance structures. See the sections below for a comprehensive
-list of functions provided from the package.
+for a variety of inferences on covariance structures as well as its inverse called precision matrix.
+See the sections below for a comprehensive list of functions provided from the package.
 }
 \section{Geometric Methods}{
 
@@ -36,26 +36,29 @@ We provide statistical methods for
 (2) \strong{Precision Matrix Estimation}
 \tabular{ll}{
 \emph{name of a function}\tab \emph{description} \cr
-\code{\link{PreEst.banded1}} \tab Bayesian Estimation of a Banded Precision Matrix (Banerjee 2014) \cr
-\code{\link{PreEst.banded2}} \tab Bayesian Estimation of a Banded Precision Matrix (Lee 2017) \cr
-\code{\link{PreEst.banded3}} \tab Banded Precision Matrix Estimation via Bandwidth Test \cr
+\code{\link{PreEst.2014An}} \tab Banded Precision Matrix Estimation via Bandwidth Test \cr
+\code{\link{PreEst.2014Banerjee}} \tab Bayesian Estimation of a Banded Precision Matrix (Banerjee 2014) \cr
+\code{\link{PreEst.2017Lee}} \tab Bayesian Estimation of a Banded Precision Matrix (Lee 2017) \cr
 \code{\link{PreEst.glasso}} \tab Graphical Lasso
 }
-(3) \strong{Frequentist Hypothesis Tests}
+(3) \strong{1-Sample Covariance Tests}
 \tabular{ll}{
 \emph{name of a function} \tab \emph{description} \cr
-\code{\link{CovTest1}} \tab 1-sample Covariance Tests\cr
-\code{\link{CovTest2}} \tab 2-sample Covariance Tests
+\code{\link{BCovTest1.mxPBF}} \tab Bayesian Test using Maximum Pairwise Bayes Factor. \cr
+\code{\link{CovTest1.2013Cai}} \tab Test by Cai and Ma (2013). \cr
+\code{\link{CovTest1.2014Srivastava}} \tab Test by Srivastava, Yanagihara, and Kubokawa (2014).
 }
-(4) \strong{Bayesian Hypothesis Tests}
+(4) \strong{2-Sample Covariance Tests}
 \tabular{ll}{
 \emph{name of a function} \tab \emph{description} \cr
-\code{\link{BayesTest1}} \tab 1-sample Bayesian Covariance Tests
+\code{\link{CovTest2.2013Cai}} \tab Test by Cai and Ma (2013).
 }
-(5) \strong{Others}
+(5) \strong{1-Sample Diagonality Tests}
 \tabular{ll}{
 \emph{name of a function} \tab \emph{description} \cr
-\code{\link{DiagTest1}} \tab Diagonality Test of Covariance
+\code{\link{BDiagTest1.mxPBF}} \tab Bayesian Test using Maximum Pairwise Bayes Factor. \cr
+\code{\link{DiagTest1.2011Cai}} \tab Test by Cai and Jiang (2011). \cr
+\code{\link{DiagTest1.2015Lan}} \tab Test by Lan et al. (2015).
 }
 }
 

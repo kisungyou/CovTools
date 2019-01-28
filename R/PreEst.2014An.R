@@ -1,7 +1,7 @@
 # Original Article : An.2014 + Bickel_Levina.2008
 #' Banded Precision Matrix Estimation via Bandwidth Test
 #'
-#' \code{PreEst.banded3} returns an estimator of the banded precision matrix using the modified Cholesky decomposition.
+#' \code{PreEst.2014An} returns an estimator of the banded precision matrix using the modified Cholesky decomposition.
 #' It uses the estimator defined in Bickel and Levina (2008). The bandwidth is determined by the bandwidth test
 #' suggested by An, Guo and Liu (2014).
 #'
@@ -44,8 +44,8 @@
 #' }
 #'
 #' ## banded estimation using two different schemes
-#' Omega1 <- PreEst.banded3(X, upperK=20, algorithm="Bonferroni")
-#' Omega2 <- PreEst.banded3(X, upperK=20, algorithm="Holm")
+#' Omega1 <- PreEst.2014An(X, upperK=20, algorithm="Bonferroni")
+#' Omega2 <- PreEst.2014An(X, upperK=20, algorithm="Holm")
 #'
 #' ## visualize true and estimated precision matrices
 #' par(mfrow=c(1,3), pty="s")
@@ -59,20 +59,20 @@
 #'
 #' \insertRef{bickel_regularized_2008}{CovTools}
 #'
-#' @rdname PreEst.banded3
+#' @rdname PreEst.2014An
 #' @export
-PreEst.banded3 <- function(X, upperK=floor(ncol(X)/2), algorithm=c("Bonferroni","Holm"), alpha=0.01){
+PreEst.2014An <- function(X, upperK=floor(ncol(X)/2), algorithm=c("Bonferroni","Holm"), alpha=0.01){
   #-----------------------------------------------------
   ## PREPROCESSING
   #   1. typecheck : data
-  fname    = "PreEst.banded3"
+  fname    = "PreEst.2014An"
   checker1 = invisible_datamatrix(X, fname)
   n = nrow(X)
   p = ncol(X)
   #   2. upperK
   upperK = as.integer(upperK)
   if ((length(upperK)!=1)||(upperK<1)||(upperK>ncol(X))||(abs(upperK-round(upperK))>sqrt(.Machine$double.eps))){
-    stop("* PreEst.banded3 : 'upperK' should be an integer in [1,ncol(X)].")
+    stop("* PreEst.2014An : 'upperK' should be an integer in [1,ncol(X)].")
   }
   #   3. algorithm
   if (missing(algorithm)){
@@ -83,7 +83,7 @@ PreEst.banded3 <- function(X, upperK=floor(ncol(X)/2), algorithm=c("Bonferroni",
   #   4. alpha
   alpha = as.double(alpha)
   if ((length(alpha)!=1)||(alpha<=0)||(alpha>=1)){
-    stop("* PreEst.banded3 : 'alpha' should be a real number in (0,1).")
+    stop("* PreEst.2014An : 'alpha' should be a real number in (0,1).")
   }
 
   #-----------------------------------------------------
