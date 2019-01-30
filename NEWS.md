@@ -1,4 +1,9 @@
-# News for Package CovTools
+# News for Package SAMCpack
+### Changes in version 0.5.2
+  * Following functions are added,
+    - a
+    - b
+    
 ### Changes in version 0.5.1
   * Functions for hypothesis tests are separated for clarity.
   * Initialize the following documentation:

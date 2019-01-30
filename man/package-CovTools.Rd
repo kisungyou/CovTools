@@ -17,7 +17,7 @@ From inference on manifolds perspective, we have following functions,
 \tabular{cc}{
 \emph{name of a function} \tab \emph{description} \cr
 \code{\link{CovDist}} \tab compute pairwise distance of covariance matrices \cr
-\code{\link{CovMean}}\tab compute mean covariance matrix
+\code{\link{CovMean}} \tab compute mean covariance matrix
 }
 }
 
