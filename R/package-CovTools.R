@@ -61,6 +61,7 @@
 #' @import doParallel
 #' @import foreach
 #' @import Rdpack
+#' @import SHT
 #' @importFrom utils packageVersion
 #' @importFrom pracma procrustes flipud
 #' @importFrom Matrix nearPD

@@ -13,7 +13,7 @@ License: GPL (>=3)
 Encoding: UTF-8
 LazyData: true
 Depends: R (>= 2.14.0)
-Imports: Rcpp, geigen, shapes, expm, mvtnorm, stats, Matrix, doParallel, foreach, parallel, pracma, Rdpack, utils
+Imports: Rcpp, geigen, shapes, expm, mvtnorm, stats, Matrix, doParallel, foreach, parallel, pracma, Rdpack, utils, SHT
 LinkingTo: Rcpp, RcppArmadillo
 RoxygenNote: 6.1.1
 RdMacros: Rdpack
