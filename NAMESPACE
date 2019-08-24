@@ -3,6 +3,7 @@
 export(BCovTest1.mxPBF)
 export(BDiagTest1.mxPBF)
 export(CovDist)
+export(CovEst.2003LW)
 export(CovEst.adaptive)
 export(CovEst.hard)
 export(CovEst.hardPD)

@@ -2,6 +2,39 @@
     {
         "definitions" : [
             {
+                "column" : 11,
+                "file" : "/home/kisung/Desktop/CovTools/src/rcpp_2003LW.cpp",
+                "kind" : 6,
+                "line" : 9,
+                "name" : "covest_2003LW_computeF(arma::mat, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@covest_2003LW_computeF#$@N@arma@C@Mat>#d#d#"
+            },
+            {
+                "column" : 11,
+                "file" : "/home/kisung/Desktop/CovTools/src/rcpp_2003LW.cpp",
+                "kind" : 6,
+                "line" : 33,
+                "name" : "covest_2003LW_computePi(arma::mat, arma::vec, arma::mat)",
+                "parent_name" : "",
+                "usr" : "c:@F@covest_2003LW_computePi#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S0_#"
+            },
+            {
+                "column" : 8,
+                "file" : "/home/kisung/Desktop/CovTools/src/rcpp_2003LW.cpp",
+                "kind" : 6,
+                "line" : 59,
+                "name" : "covest_2003LW_computeRho(arma::mat, arma::vec, arma::mat, double)",
+                "parent_name" : "",
+                "usr" : "c:@F@covest_2003LW_computeRho#$@N@arma@C@Mat>#d#$@N@arma@C@Col>#d#S0_#d#"
+            }
+        ],
+        "file" : "/home/kisung/Desktop/CovTools/src/rcpp_2003LW.cpp",
+        "file_last_write" : 1566601176
+    },
+    {
+        "definitions" : [
+            {
                 "column" : 14,
                 "file" : "/home/kisung/Desktop/CovTools/src/rcpp_expm.cpp",
                 "kind" : 6,
@@ -12,7 +45,7 @@
             }
         ],
         "file" : "/home/kisung/Desktop/CovTools/src/rcpp_expm.cpp",
-        "file_last_write" : 1536725707
+        "file_last_write" : 1566594382
     },
     {
         "definitions" : [
@@ -45,7 +78,7 @@
             }
         ],
         "file" : "/home/kisung/Desktop/CovTools/src/rcpp_preest.cpp",
-        "file_last_write" : 1536725707
+        "file_last_write" : 1566594383
     },
     {
         "definitions" : [
@@ -60,6 +93,6 @@
             }
         ],
         "file" : "/home/kisung/Desktop/CovTools/src/rcpp_test1.cpp",
-        "file_last_write" : 1536725707
+        "file_last_write" : 1566594383
     }
 ]

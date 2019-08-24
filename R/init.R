@@ -10,13 +10,15 @@
   this.version = packageVersion("CovTools")
 
   ## Print on Screen
+  packageStartupMessage("**--------------------------------------------------------**")
   packageStartupMessage("** CovTools")
   packageStartupMessage("**  - Geometric & Statistical Tools for Covariance Matrices.")
-  packageStartupMessage("** Version    : ",this.version," (",this.year,")",sep="")
+  packageStartupMessage("** Version    : ",this.version,"      (",this.year,")",sep="")
   packageStartupMessage("** Author     : Kyoungjae Lee, Lizhen Lin, and Kisung You")
-  packageStartupMessage("** Maintainer : Kisung You (kyou@nd.edu)")
+  packageStartupMessage("** Maintainer : Kisung You (ksyou496@gmail.com)")
   packageStartupMessage("**")
   packageStartupMessage("** Please share any bugs or suggestions to the maintainer.")
+  packageStartupMessage("**--------------------------------------------------------**")
 }
 
 .onUnload <- function(libpath) {

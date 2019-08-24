@@ -6,6 +6,45 @@
 
 using namespace Rcpp;
 
+// covest_2003LW_computeF
+arma::mat covest_2003LW_computeF(arma::mat S, double rbar);
+RcppExport SEXP _CovTools_covest_2003LW_computeF(SEXP SSEXP, SEXP rbarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type S(SSEXP);
+    Rcpp::traits::input_parameter< double >::type rbar(rbarSEXP);
+    rcpp_result_gen = Rcpp::wrap(covest_2003LW_computeF(S, rbar));
+    return rcpp_result_gen;
+END_RCPP
+}
+// covest_2003LW_computePi
+arma::mat covest_2003LW_computePi(arma::mat Y, arma::vec Ybar, arma::mat matS);
+RcppExport SEXP _CovTools_covest_2003LW_computePi(SEXP YSEXP, SEXP YbarSEXP, SEXP matSSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type Ybar(YbarSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type matS(matSSEXP);
+    rcpp_result_gen = Rcpp::wrap(covest_2003LW_computePi(Y, Ybar, matS));
+    return rcpp_result_gen;
+END_RCPP
+}
+// covest_2003LW_computeRho
+double covest_2003LW_computeRho(arma::mat Y, arma::vec Ybar, arma::mat matS, double rbar);
+RcppExport SEXP _CovTools_covest_2003LW_computeRho(SEXP YSEXP, SEXP YbarSEXP, SEXP matSSEXP, SEXP rbarSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type Y(YSEXP);
+    Rcpp::traits::input_parameter< arma::vec >::type Ybar(YbarSEXP);
+    Rcpp::traits::input_parameter< arma::mat >::type matS(matSSEXP);
+    Rcpp::traits::input_parameter< double >::type rbar(rbarSEXP);
+    rcpp_result_gen = Rcpp::wrap(covest_2003LW_computeRho(Y, Ybar, matS, rbar));
+    return rcpp_result_gen;
+END_RCPP
+}
 // rcpp_geigen
 arma::cx_vec rcpp_geigen(arma::mat& A, arma::mat& B);
 RcppExport SEXP _CovTools_rcpp_geigen(SEXP ASEXP, SEXP BSEXP) {
@@ -43,6 +82,9 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_CovTools_covest_2003LW_computeF", (DL_FUNC) &_CovTools_covest_2003LW_computeF, 2},
+    {"_CovTools_covest_2003LW_computePi", (DL_FUNC) &_CovTools_covest_2003LW_computePi, 3},
+    {"_CovTools_covest_2003LW_computeRho", (DL_FUNC) &_CovTools_covest_2003LW_computeRho, 4},
     {"_CovTools_rcpp_geigen", (DL_FUNC) &_CovTools_rcpp_geigen, 2},
     {"_CovTools_rcpp_ADMMprecision", (DL_FUNC) &_CovTools_rcpp_ADMMprecision, 2},
     {"_CovTools_rcpptest1_cai11", (DL_FUNC) &_CovTools_rcpptest1_cai11, 1},
