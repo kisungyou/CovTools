@@ -52,8 +52,8 @@ We offer various methods for covariance and symmetric positive-definite matrices
 | `CovEst.hard`    | [Bickel and Levina (2008)][2] | hard thresholding |
 | `CovEst.hardPD`  | [Fan et al. (2013)][3] | hard thresholding under positive-definiteness constraint |
 | `CovEst.nearPD`  | [Qi and Sun (2006)][4] | nearest positive-definite matrix projection |
-| `CovEst.soft`    | [Antoniadis and Fan][5] | soft thresholding |
-| `CovEst.2003LW`  | [Ledoit and Wolf][17] | linear shrinkage estimation |
+| `CovEst.soft`    | [Antoniadis and Fan (2001)][5] | soft thresholding |
+| `CovEst.2003LW`  | [Ledoit and Wolf (2003)][17] | linear shrinkage estimation |
 
 
 ### (2). Estimation : Precision

@@ -54,7 +54,7 @@ We offer various methods for covariance and symmetric positive-definite matrices
 </tbody>
 </table>
 
-### (1). Covariance Matrix Estimation
+### (1). Estimation : Covariance
 
 <table style="width:78%;">
 <colgroup>
@@ -92,18 +92,18 @@ We offer various methods for covariance and symmetric positive-definite matrices
 </tr>
 <tr class="odd">
 <td><code>CovEst.soft</code></td>
-<td><a href="https://doi.org/10.1198/016214501753208942">Antoniadis and Fan</a></td>
+<td><a href="https://doi.org/10.1198/016214501753208942">Antoniadis and Fan (2001)</a></td>
 <td align="left">soft thresholding</td>
 </tr>
 <tr class="even">
 <td><code>CovEst.2003LW</code></td>
-<td><a href="https://doi.org/10.1016/S0927-5398(03)00007-0">Ledoit and Wolf</a></td>
+<td><a href="https://doi.org/10.1016/S0927-5398(03)00007-0">Ledoit and Wolf (2003)</a></td>
 <td align="left">linear shrinkage estimation</td>
 </tr>
 </tbody>
 </table>
 
-### (2). Precision Matrix Estimation
+### (2). Estimation : Precision
 
 <table style="width:78%;">
 <colgroup>
@@ -142,7 +142,7 @@ We offer various methods for covariance and symmetric positive-definite matrices
 </tbody>
 </table>
 
-### (3). 1-sample Covariance Test
+### (3). Hypothesis Test : 1-sample
 
 <table style="width:78%;">
 <colgroup>
@@ -176,13 +176,13 @@ We offer various methods for covariance and symmetric positive-definite matrices
 </tbody>
 </table>
 
-### (4). 2-sample Covariance Test
+### (4). Hypothesis Test : 2-sample
 
 | function name      | authors                                                | description        |
 |--------------------|--------------------------------------------------------|:-------------------|
 | `CovTest2.2013Cai` | [Cai and Ma (2013)](https://doi.org/10.3150/12-BEJ455) | Test by Cai and Ma |
 
-### (5). 1-sample Diagonality Test
+### (5). Hypothesis Test : 1-sample Diagonal
 
 <table style="width:78%;">
 <colgroup>

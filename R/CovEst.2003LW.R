@@ -21,12 +21,12 @@
 #' # set a seed for reproducibility
 #' set.seed(11)
 #' #  small data with identity covariance
-#' dat.small <- matrix(rnorm(20*3), ncol=3)
+#' dat.small <- matrix(rnorm(20*5), ncol=5)
 #' #  run the code with highly structured estimator
 #' out.small <- CovEst.2003LW(dat.small)
 #' #  visualize
 #' par(mfrow=c(1,3), pty="s")
-#' image(diag(3), main="true cov")
+#' image(diag(5), main="true cov")
 #' image(cov(dat.small), main="sample cov")
 #' image(out.small$S, main="estimated cov")
 #'
@@ -51,7 +51,6 @@
 #' par(mfrow=c(1,2))
 #' plot(nsamples, vec.delta, lwd=2, type="b", col="red", main="estimated deltas")
 #' plot(nsamples, vec.normd, lwd=2, type="b", col="blue",main="Frobenius error")
-#'
 #' }
 #'
 #' @references
