@@ -2,13 +2,13 @@
 #'
 #' Ledoit and Wolf (2003, 2004) proposed a linear shrinkage strategy to estimate covariance matrix
 #' with an application to portfolio optimization. An optimal covariance is written as a convex combination as follows,
-#' \deqn{\hat{\Sigma} = \delta F + (1-\delta) S}
-#' where \eqn{\delta \in (0,1)} a control parameter/weight, \eqn{S} an empirical covariance matrix, and \eqn{F} a \emph{target} matrix.
+#' \deqn{\hat{\Sigma} = \delta \hat{F} + (1-\delta) \hat{S}}
+#' where \eqn{\delta \in (0,1)} a control parameter/weight, \eqn{\hat{S}} an empirical covariance matrix, and \eqn{\hat{F}} a \emph{target} matrix.
 #' Although authors used \eqn{F} a highly structured estimator, we also enabled an arbitrary target matrix to be used as long as it's symmetric
 #' and positive definite of corresponding size.
 #'
 #' @param X an \eqn{(n\times p)} matrix where each row is an observation.
-#' @param target target matrix \eqn{F}. If \code{target=NULL}, highly structured estimator as of the paper is used. If \code{target} is specified as a qualified matrix, it is used instead.
+#' @param target target matrix \eqn{F}. If \code{target=NULL}, \emph{constant correlation model} estimator is used. If \code{target} is specified as a qualified matrix, it is used instead.
 #'
 #' @return a named list containing: \describe{
 #' \item{S}{a \eqn{(p\times p)} covariance matrix estimate.}
@@ -57,6 +57,8 @@
 #' \insertRef{ledoit_improved_2003}{CovTools}
 #'
 #' \insertRef{ledoit_well-conditioned_2004}{CovTools}
+#'
+#' \insertRef{ledoit_honey_2004}{CovTools}
 #'
 #' @rdname CovEst.2003LW
 #' @export

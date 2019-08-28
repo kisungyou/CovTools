@@ -100,6 +100,16 @@ We offer various methods for covariance and symmetric positive-definite matrices
 <td><a href="https://doi.org/10.1016/S0927-5398(03)00007-0">Ledoit and Wolf (2003)</a></td>
 <td align="left">linear shrinkage estimation</td>
 </tr>
+<tr class="odd">
+<td><code>CovEst.2010OAS</code></td>
+<td><a href="https://doi.org/10.1109/TSP.2010.2053029">Chen et al. (2010)</a></td>
+<td align="left">oracle approximation shrinkage</td>
+</tr>
+<tr class="even">
+<td><code>CovEst.2010RBLW</code></td>
+<td><a href="https://doi.org/10.1109/TSP.2010.2053029">Chen et al. (2010)</a></td>
+<td align="left">Rao-Blackwell Ledoit-Wolf estimation</td>
+</tr>
 </tbody>
 </table>
 

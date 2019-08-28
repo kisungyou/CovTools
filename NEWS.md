@@ -2,7 +2,7 @@
 ### Changes in version 0.5.2
   * Function list is moved to README file.
   * Following functions are added,
-    - `CovEst.2003LW` : linear shrinkage covariance estimator.
+    - `CovEst.2003LW`, `CovEst.2010OAS`, `CovEst.2010RBLW`
     
 ### Changes in version 0.5.1
   * Functions for hypothesis tests are separated for clarity.
