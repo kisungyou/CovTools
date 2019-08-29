@@ -215,7 +215,7 @@ We offer various methods for covariance and symmetric positive-definite matrices
 </tr>
 <tr class="even">
 <td><code>DiagTest1.2011Cai</code></td>
-<td><a href="http://projecteuclid.org/euclid.aos/1305292044.">Cai and Jiang (2011)</a></td>
+<td><a href="http://projecteuclid.org/euclid.aos/1305292044">Cai and Jiang (2011)</a></td>
 <td align="left">Test by Cai and Jiang</td>
 </tr>
 <tr class="odd">

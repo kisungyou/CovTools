@@ -19,7 +19,7 @@ a named list containing: \describe{
 Authors propose to estimate covariance matrix by minimizing mean squared error with the following formula,
 \deqn{\hat{\Sigma} = \rho \hat{F} + (1-\rho) \hat{S}}
 where \eqn{\rho \in (0,1)} a control parameter/weight, \eqn{\hat{S}} an empirical covariance matrix, and \eqn{\hat{F}} a \emph{target} matrix.
-It is proposed to use a structured estimate \eqn{\hat{F} = \text{Tr}(\hat{S})/p \mathbf{I}}.
+It is proposed to use a structured estimate \eqn{\hat{F} = \textrm{Tr} (\hat{S}/p) \cdot I_{p\times p}} where \eqn{I_{p\times p}} is an identity matrix of dimension \eqn{p}.
 }
 \examples{
 ## CRAN-purpose small computation

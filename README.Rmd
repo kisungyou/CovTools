@@ -89,7 +89,7 @@ We offer various methods for covariance and symmetric positive-definite matrices
 [18]: https://doi.org/10.1109/TSP.2010.2053029
 [17]: https://doi.org/10.1016/S0927-5398(03)00007-0
 [16]: http://www.tandfonline.com/doi/abs/10.1080/07350015.2014.923317
-[15]: http://projecteuclid.org/euclid.aos/1305292044.
+[15]: http://projecteuclid.org/euclid.aos/1305292044
 [14]: http://arxiv.org/abs/1809.03105
 [13]: https://doi.org/10.3150/12-BEJ455
 [12]: https://doi.org/10.1016/j.jmva.2014.06.003
