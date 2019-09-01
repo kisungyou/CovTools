@@ -1,7 +1,7 @@
 Package: CovTools
 Type: Package
 Title: Statistical Tools for Covariance Analysis
-Version: 0.5.2
+Version: 0.5.3
 Authors@R: c(person("Kyoungjae","Lee",role="aut",email="leekjstat@gmail.com"),person("Lizhen", "Lin", role = "ctb", email="lizhen.lin@nd.edu"),person("Kisung", "You", role = c("aut", "cre"),email = "ksyou496@gmail.com",comment=c(ORCID="0000-0002-8584-459X")))
 Description: Covariance is of universal prevalence across various disciplines within statistics.
     We provide a rich collection of geometric and inferential tools for convenient analysis of

@@ -74,8 +74,8 @@ CovEst.2010OAS <- function(X){
   Fhat = (trS/p)*diag(p)
 
   #   3. rhohat
-  term1 = ((1-2)/p)*trS2 + (trS^2)
-  term2 = ((n+1-2)/p)*(trS2 - (trS^2)/p)
+  term1 = (1-(2/p))*trS2 + (trS^2)        # IEEE publication is incorrect..
+  term2 = (n+1-(2/p))*(trS2 - (trS^2)/p)  # but ArXiv version is correct...
   rhohat = max(min(term1/term2, 1), 0)
 
   #-----------------------------------------------------
