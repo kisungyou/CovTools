@@ -37,11 +37,22 @@ measure.
 \examples{
 \dontrun{
 ## generate 100 sample covariances of size (5-by-5).
-samples = samplecovs(100,5)
+pdim    = 5
+samples = samplecovs(100,pdim)
 
-## Compute mean of first 50 sample covariances from data under Normal(0,Identity).
-mLERM = CovMean(samples[,,1:50],method="LERM")
-mAIRM = CovMean(samples[,,1:50],method="AIRM")
+## compute mean of first 50 sample covariances from data under Normal(0,Identity).
+mLERM = CovMean(samples[,,1:50], method="LERM")
+mAIRM = CovMean(samples[,,1:50], method="AIRM")
+mChol = CovMean(samples[,,1:50], method="Cholesky")
+mRoot = CovMean(samples[,,1:50], method="RootEuclidean")
+
+## visualize
+opar <- par(mfrow=c(2,2), pty="s")
+image(mLERM[,pdim:1], main="LERM mean")
+image(mAIRM[,pdim:1], main="AIRM mean")
+image(mChol[,pdim:1], main="Cholesky mean")
+image(mRoot[,pdim:1], main="RootEuclidean mean")
+par(opar)
 }
 
 }

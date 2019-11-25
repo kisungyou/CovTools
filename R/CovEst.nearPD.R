@@ -13,16 +13,19 @@
 #'
 #' @examples
 #' ## generate data from multivariate normal with Identity covariance.
-#' data <- mvtnorm::rmvnorm(3, sigma=diag(10))
+#' pdim <- 5
+#' data <- matrix(rnorm(10*pdim), ncol=pdim)
 #'
 #' ## compare against sample covariance
 #' out1 <- cov(data)
 #' out2 <- CovEst.nearPD(data) # apply nearPD
 #'
 #' ## visualize 2 estimated matrices
-#' par(mfrow=c(1,2), pty="s")
-#' image(pracma::flipud(out1), col=gray((0:100)/100), main="sample covariance")
-#' image(pracma::flipud(out2$S), col=gray((0:100)/100), main="SPD Projection")
+#' gcol <- gray((0:100)/100)
+#' opar <- par(mfrow=c(1,2), pty="s")
+#' image(out1[,pdim:1],   col=gcol, main="sample covariance")
+#' image(out2$S[,pdim:1], col=gcol, main="SPD Projection")
+#' par(opar)
 #'
 #' @references
 #' \insertRef{qi_quadratically_2006}{CovTools}

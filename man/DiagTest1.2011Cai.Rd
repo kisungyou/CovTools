@@ -28,7 +28,8 @@ with \eqn{\Sigma_n = (\sigma_{ij})} based on a procedure proposed by Cai and Jia
 \examples{
 \dontrun{
 ## generate data from multivariate normal with trivial covariance.
-data = matrix(rnorm(100*5), nrow=100)
+pdim = 5
+data = matrix(rnorm(100*pdim), ncol=pdim)
 
 ## run test with different alpha values
 DiagTest1.2011Cai(data, alpha=0.01)

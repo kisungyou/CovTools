@@ -20,13 +20,23 @@
 #' @examples
 #' \dontrun{
 #' ## generate 100 sample covariances of size (5-by-5).
-#' samples = samplecovs(100,5)
+#' pdim    = 5
+#' samples = samplecovs(100,pdim)
 #'
-#' ## Compute mean of first 50 sample covariances from data under Normal(0,Identity).
-#' mLERM = CovMean(samples[,,1:50],method="LERM")
-#' mAIRM = CovMean(samples[,,1:50],method="AIRM")
+#' ## compute mean of first 50 sample covariances from data under Normal(0,Identity).
+#' mLERM = CovMean(samples[,,1:50], method="LERM")
+#' mAIRM = CovMean(samples[,,1:50], method="AIRM")
+#' mChol = CovMean(samples[,,1:50], method="Cholesky")
+#' mRoot = CovMean(samples[,,1:50], method="RootEuclidean")
+#'
+#' ## visualize
+#' opar <- par(mfrow=c(2,2), pty="s")
+#' image(mLERM[,pdim:1], main="LERM mean")
+#' image(mAIRM[,pdim:1], main="AIRM mean")
+#' image(mChol[,pdim:1], main="Cholesky mean")
+#' image(mRoot[,pdim:1], main="RootEuclidean mean")
+#' par(opar)
 #' }
-
 #'
 #' @references
 #' \insertRef{dryden_non-euclidean_2009}{CovTools}
@@ -47,26 +57,27 @@ CovMean <- function(A,method=c("AIRM","Cholesky","Euclidean","LERM",
   if (any(SymApply)==FALSE){
     SymIdx = which(!SymApply)
     if (length(SymIdx)==1){
-      stopmessage = paste("* CovMean : slice number",SymApply,"is not Symmetric.")
+      stop(paste("* CovMean : slice number",SymApply,"is not Symmetric."))
     } else {
-      stopmessage = paste("* CovMean : multiple of slices are not Symmetric.")
+      stop(paste("* CovMean : multiple of slices are not Symmetric."))
     }
-    stop(stopmessage)
   }
   if (any(apply(A, 3, isSymmetric, tol=sqrt(.Machine$double.eps))==FALSE)){
     stop("* CovMean : each slice of A should be symmetric matrix.")
   }
   for (i in 1:dim(A)[3]){
     if (!check_pd(A[,,i])){
-      stopmessage = paste(" CovMean : slice number",i,"is not Positive Definite.")
-      stop(stopmessage)
+      stop(paste(" CovMean : slice number",i,"is not Positive Definite."))
     }
   }
 
   ## Main Iteration with Switch Argument
-  if (missing(method)){method = "AIRM"}
-  method = match.arg(method)
-  if (method=="PowerEuclidean"){
+  if (missing(method)){
+    method = "AIRM"
+  } else {
+    method = match.arg(method)
+  }
+  if (all(method=="PowerEuclidean")){
     if (power==0){
       stop("* CovMean : 'power' should be a nonzero element. Suggests > 0.")
     }

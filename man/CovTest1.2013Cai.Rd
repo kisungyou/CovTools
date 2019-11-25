@@ -30,7 +30,8 @@ hypothesized covariance based on a procedure proposed by Cai and Ma (2013).
 \examples{
 \dontrun{
 ## generate data from multivariate normal with trivial covariance.
-data = matrix(rnorm(100*5), nrow=100)
+pdim = 5
+data = matrix(rnorm(10*pdim), ncol=pdim)
 
 ## run the test
 CovTest1.2013Cai(data)

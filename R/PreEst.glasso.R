@@ -35,13 +35,14 @@
 #' @examples
 #' \donttest{
 #' ## generate data from multivariate normal with Identity precision.
-#' data = mvtnorm::rmvnorm(100, sigma=diag(10))
+#' pdim = 10
+#' data = matrix(rnorm(100*pdim), ncol=pdim)
 #'
 #' ## prepare input arguments for diefferent scenarios
-#' lbdvec <- c(0.01,0.1,1,10,100)         # a vector of regularization parameters
-#' list1 <- list(type="fixed",param=1.0)  # single regularization parameter case
+#' lbdvec <- c(0.01,0.1,1,10,100)              # a vector of regularization parameters
+#' list1 <- list(type="fixed",param=1.0)       # single regularization parameter case
 #' list2 <- list(type="confidence",param=0.95) # single confidence level case
-#' list3 <- list(type="BIC",param=lbdvec) # multiple regularizers with BIC selection
+#' list3 <- list(type="BIC",param=lbdvec)      # multiple regularizers with BIC selection
 #'
 #' ## compute with different scenarios
 #' out1 <- PreEst.glasso(data, method=list1)
@@ -49,11 +50,12 @@
 #' out3 <- PreEst.glasso(data, method=list3)
 #'
 #' ## visualize
-#' par(mfrow=c(2,2), pty="s")
-#' image(pracma::flipud(diag(10)),main="Original Precision")
-#' image(pracma::flipud(out1$C), main="glasso::lambda=1.0")
-#' image(pracma::flipud(out2$C), main="glasso::Confidence=0.95")
-#' image(pracma::flipud(out3$C), main="glasso::BIC selection")
+#' opar <- par(mfrow=c(2,2), pty="s")
+#' image(diag(pdim)[,pdim:1], main="Original Precision")
+#' image(out1$C[,pdim:1],     main="glasso::lambda=1.0")
+#' image(out2$C[,pdim:1],     main="glasso::Confidence=0.95")
+#' image(out3$C[,pdim:1],     main="glasso::BIC selection")
+#' par(opar)
 #' }
 #'
 #' @references

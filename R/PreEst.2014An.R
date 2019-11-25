@@ -48,10 +48,11 @@
 #' Omega2 <- PreEst.2014An(X, upperK=20, algorithm="Holm")
 #'
 #' ## visualize true and estimated precision matrices
-#' par(mfrow=c(1,3), pty="s")
-#' image(pracma::flipud(Omega0), main="Original Precision")
-#' image(pracma::flipud(Omega1$C), main="banded3::Bonferroni")
-#' image(pracma::flipud(Omega2$C), main="banded3::Holm")
+#' opar <- par(mfrow=c(1,3), pty="s")
+#' image(Omega0[,p:1],   main="Original Precision")
+#' image(Omega1$C[,p:1], main="banded3::Bonferroni")
+#' image(Omega2$C[,p:1], main="banded3::Holm")
+#' par(opar)
 #' }
 #'
 #' @references

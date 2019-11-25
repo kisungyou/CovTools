@@ -14,18 +14,21 @@
 #'
 #' @examples
 #' ## CRAN-purpose small computation
-#'
 #' # set a seed for reproducibility
 #' set.seed(11)
+#'
 #' #  small data with identity covariance
-#' dat.small <- matrix(rnorm(10*5), ncol=10)
+#' pdim      <- 10
+#' dat.small <- matrix(rnorm(5*pdim), ncol=pdim)
+#'
 #' #  run the code
 #' out.small <- CovEst.2010RBLW(dat.small)
+#'
 #' #  visualize
-#' par(mfrow=c(1,3), pty="s")
-#' image(diag(10), main="true cov")
-#' image(cov(dat.small), main="sample cov")
-#' image(out.small$S, main="estimated cov")
+#' opar <- par(mfrow=c(1,3), pty="s")
+#' image(diag(pdim)[,pdim:1],     main="true cov")
+#' image(cov(dat.small)[,pdim:1], main="sample cov")
+#' image(out.small$S[,pdim:1],    main="estimated cov")
 #'
 #' \dontrun{
 #' ## want to see how delta is determined according to
@@ -37,17 +40,18 @@
 #' vec.rho   = rep(0, nnsample)
 #' vec.normd = rep(0, nnsample)
 #' for (i in 1:nnsample){
-#'   dat.norun <- matrix(rnorm(nsamples[i]*5), ncol=5) # sample in R^5
-#'   out.norun <- CovEst.2010RBLW(dat.norun)           # run with default
+#'   dat.norun <- matrix(rnorm(nsamples[i]*pdim), ncol=pdim) # sample in R^5
+#'   out.norun <- CovEst.2010RBLW(dat.norun)                 # run with default
 #'
 #'   vec.rho[i]   = out.norun$rho
-#'   vec.normd[i] = norm(out.norun$S - diag(5),"f")    # Frobenius norm
+#'   vec.normd[i] = norm(out.norun$S - diag(5),"f")          # Frobenius norm
 #' }
 #'
 #' # let's visualize the results
-#' par(mfrow=c(1,2))
+#' opar <- par(mfrow=c(1,2))
 #' plot(nsamples, vec.rho,   lwd=2, type="b", col="red", main="estimated rhos")
 #' plot(nsamples, vec.normd, lwd=2, type="b", col="blue",main="Frobenius error")
+#' par(opar)
 #' }
 #'
 #' @references

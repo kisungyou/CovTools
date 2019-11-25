@@ -27,18 +27,22 @@ and positive definite of corresponding size.
 }
 \examples{
 ## CRAN-purpose small computation
-
 # set a seed for reproducibility
 set.seed(11)
+
 #  small data with identity covariance
-dat.small <- matrix(rnorm(20*5), ncol=5)
+pdim      <- 5
+dat.small <- matrix(rnorm(20*pdim), ncol=pdim)
+
 #  run the code with highly structured estimator
 out.small <- CovEst.2003LW(dat.small)
+
 #  visualize
-par(mfrow=c(1,3), pty="s")
-image(diag(5), main="true cov")
-image(cov(dat.small), main="sample cov")
-image(out.small$S, main="estimated cov")
+opar <- par(mfrow=c(1,3), pty="s")
+image(diag(5)[,pdim:1], main="true cov")
+image(cov(dat.small)[,pdim:1], main="sample cov")
+image(out.small$S[,pdim:1], main="estimated cov")
+par(opar)
 
 \dontrun{
 ## want to see how delta is determined according to
@@ -50,11 +54,11 @@ nnsample = length(nsamples)
 vec.delta = rep(0, nnsample)
 vec.normd = rep(0, nnsample)
 for (i in 1:nnsample){
-  dat.norun <- matrix(rnorm(nsamples[i]*5), ncol=5) # sample in R^5
-  out.norun <- CovEst.2003LW(dat.norun)             # run with default
+  dat.norun <- matrix(rnorm(nsamples[i]*pdim), ncol=pdim) # sample in R^5
+  out.norun <- CovEst.2003LW(dat.norun)                   # run with default
 
   vec.delta[i] = out.norun$delta
-  vec.normd[i] = norm(out.norun$S - diag(5),"f")    # Frobenius norm
+  vec.normd[i] = norm(out.norun$S - diag(pdim),"f")       # Frobenius norm
 }
 
 # let's visualize the results

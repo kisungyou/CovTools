@@ -19,8 +19,9 @@
 #'
 #' @examples
 #' ## generate 2 datasets from multivariate normal with identical covariance.
-#' data1 = mvtnorm::rmvnorm(100, sigma=diag(5))
-#' data2 = mvtnorm::rmvnorm(200, sigma=diag(5))
+#' pdim  = 5
+#' data1 = matrix(rnorm(100*pdim), ncol=pdim)
+#' data2 = matrix(rnorm(150*pdim), ncol=pdim)
 #'
 #' ## run test
 #' CovTest2.2013Cai(data1, data2)

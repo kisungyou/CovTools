@@ -27,7 +27,8 @@ to apply thresholding technique on correlation matrix in that it becomes \emph{a
 }
 \examples{
 ## generate data from multivariate normal with Identity covariance.
-data <- mvtnorm::rmvnorm(10, sigma=diag(10))
+pdim <- 5
+data <- matrix(rnorm(10*pdim), ncol=pdim)
 
 ## apply 4 different schemes
 #  mthr is a vector of regularization parameters to be tested
@@ -39,11 +40,12 @@ out3 <- CovEst.adaptive(data, thr=0.5)  # threshold value 0.9
 out4 <- CovEst.adaptive(data, thr=mthr) # automatic threshold checking
 
 ## visualize 4 estimated matrices
-par(mfrow=c(2,2), pty="s")
-image(pracma::flipud(out1$S), col=gray((0:100)/100), main="thr=0.1")
-image(pracma::flipud(out2$S), col=gray((0:100)/100), main="thr=0.5")
-image(pracma::flipud(out3$S), col=gray((0:100)/100), main="thr=0.9")
-image(pracma::flipud(out4$S), col=gray((0:100)/100), main="automatic")
+opar <- par(mfrow=c(2,2), pty="s")
+image(out1$S[,pdim:1], col=gray((0:100)/100), main="thr=0.1")
+image(out2$S[,pdim:1], col=gray((0:100)/100), main="thr=0.5")
+image(out3$S[,pdim:1], col=gray((0:100)/100), main="thr=0.9")
+image(out4$S[,pdim:1], col=gray((0:100)/100), main="automatic")
+par(opar)
 
 }
 \references{

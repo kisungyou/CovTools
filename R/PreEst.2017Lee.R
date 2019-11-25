@@ -15,7 +15,8 @@
 #'
 #' @examples
 #' ## generate data from multivariate normal with Identity precision.
-#' data = mvtnorm::rmvnorm(100, sigma=diag(10))
+#' pdim = 5
+#' data = matrix(rnorm(100*pdim), ncol=pdim)
 #'
 #' ## compare different K
 #' out1 <- PreEst.2017Lee(data, upperK=1)
@@ -23,11 +24,12 @@
 #' out3 <- PreEst.2017Lee(data, upperK=5)
 #'
 #' ## visualize
-#' par(mfrow=c(2,2), pty="s")
-#' image(pracma::flipud(diag(10)),main="Original Precision")
-#' image(pracma::flipud(out1$C), main="banded2::upperK=1")
-#' image(pracma::flipud(out2$C), main="banded2::upperK=3")
-#' image(pracma::flipud(out3$C), main="banded2::upperK=5")
+#' opar <- par(mfrow=c(2,2), pty="s")
+#' image(diag(pdim)[,pdim:1], main="Original Precision")
+#' image(out1$C[,pdim:1],     main="banded2::upperK=1")
+#' image(out2$C[,pdim:1],     main="banded2::upperK=3")
+#' image(out3$C[,pdim:1],     main="banded2::upperK=5")
+#' par(opar)
 #'
 #' @references
 #' \insertRef{lee_estimating_2017}{CovTools}

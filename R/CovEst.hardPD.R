@@ -14,7 +14,8 @@
 #'
 #' @examples
 #' ## generate data from multivariate normal with Identity covariance.
-#' data <- mvtnorm::rmvnorm(5, sigma=diag(10))
+#' pdim <- 5
+#' data <- matrix(rnorm(10*pdim), ncol=pdim)
 #'
 #' ## apply 4 different schemes
 #' out1 <- CovEst.hard(data, thr=0.1)  # threshold value 0.1
@@ -24,11 +25,13 @@
 #'
 #' ## visualize 4 estimated matrices
 #' mmessage <- paste("hardPD::optimal thr=",sprintf("%.2f",out4$optC),sep="")
-#' par(mfrow=c(2,2), pty="s")
-#' image(pracma::flipud(out1$S), col=gray((0:100)/100), main="thr=0.1")
-#' image(pracma::flipud(out2$S), col=gray((0:100)/100), main="thr=1")
-#' image(pracma::flipud(out3$S), col=gray((0:100)/100), main="thr=10")
-#' image(pracma::flipud(out4$S), col=gray((0:100)/100), main=mmessage)
+#' gcol     <- gray((0:100)/100)
+#' opar <- par(mfrow=c(2,2), pty="s")
+#' image(out1$S[,pdim:1], col=gcol, main="thr=0.1")
+#' image(out2$S[,pdim:1], col=gcol, main="thr=1")
+#' image(out3$S[,pdim:1], col=gcol, main="thr=10")
+#' image(out4$S[,pdim:1], col=gcol, main=mmessage)
+#' par(opar)
 #'
 #' @references
 #' \insertRef{fan_large_2013}{CovTools}

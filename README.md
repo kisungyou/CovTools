@@ -3,7 +3,8 @@
 CovTools
 ========
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/CovTools?color=green)](https://cran.r-project.org/package=CovTools) [![Travis-CI Build Status](https://travis-ci.org/kisungyou/CovTools.svg?branch=master)](https://travis-ci.org/kisungyou/CovTools) [![](https://cranlogs.r-pkg.org/badges/CovTools)](https://cran.r-project.org/package=CovTools)
+<!-- badges: start -->
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/CovTools?color=green)](https://cran.r-project.org/package=CovTools) [![Travis build status](https://travis-ci.org/kyoustat/CovTools.svg?branch=master)](https://travis-ci.org/kyoustat/CovTools) [![](https://cranlogs.r-pkg.org/badges/CovTools)](https://cran.r-project.org/package=CovTools) <!-- badges: end -->
 
 Covariance is of universal prevalence across various disciplines within statistics. This package aims at providing a rich collection of geometric and statistical tools for a variety of inferences on **covariance** structures as well as its inverse called **precision** matrix. See the package help file by `help("package-CovTools")` in R console for the list of available functions.
 
@@ -21,7 +22,7 @@ or the development version from github:
 ``` r
 ## install.packages("devtools")
 ## library(devtools)
-devtools::install_github("kisungyou/CovTools")
+devtools::install_github("kyoustat/CovTools")
 ```
 
 List of Available Methods
