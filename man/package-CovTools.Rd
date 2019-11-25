@@ -3,7 +3,6 @@
 \docType{package}
 \name{package-CovTools}
 \alias{package-CovTools}
-\alias{package-CovTools-package}
 \title{A Collection of Geometric and Statistical Tools for Covariance (and Precision) Analysis}
 \description{
 Covariance is of universal prevalence across various disciplines within statistics.

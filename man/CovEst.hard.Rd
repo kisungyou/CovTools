@@ -4,8 +4,7 @@
 \alias{CovEst.hard}
 \title{Covariance Estimation via Hard Thresholding}
 \usage{
-CovEst.hard(X, thr = sqrt(log(ncol(X))/nrow(X)), nCV = 10,
-  parallel = FALSE)
+CovEst.hard(X, thr = sqrt(log(ncol(X))/nrow(X)), nCV = 10, parallel = FALSE)
 }
 \arguments{
 \item{X}{an \eqn{(n\times p)} matrix where each row is an observation.}

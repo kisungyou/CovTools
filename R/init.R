@@ -15,7 +15,7 @@
   packageStartupMessage("**  - Geometric & Statistical Tools for Covariance Matrices.")
   packageStartupMessage("** Version    : ",this.version,"      (",this.year,")",sep="")
   packageStartupMessage("** Author     : Kyoungjae Lee, Lizhen Lin, and Kisung You")
-  packageStartupMessage("** Maintainer : Kisung You (ksyou496@gmail.com)")
+  packageStartupMessage("** Maintainer : Kisung You (kyoustat@gmail.com)")
   packageStartupMessage("**")
   packageStartupMessage("** Please share any bugs or suggestions to the maintainer.")
   packageStartupMessage("**--------------------------------------------------------**")

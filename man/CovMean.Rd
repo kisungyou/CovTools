@@ -4,9 +4,12 @@
 \alias{CovMean}
 \title{Estimate Mean Covariance Matrix}
 \usage{
-CovMean(A, method = c("AIRM", "Cholesky", "Euclidean", "LERM",
-  "Procrustes.SS", "Procrustes.Full", "PowerEuclidean", "RootEuclidean"),
-  power = 1)
+CovMean(
+  A,
+  method = c("AIRM", "Cholesky", "Euclidean", "LERM", "Procrustes.SS",
+    "Procrustes.Full", "PowerEuclidean", "RootEuclidean"),
+  power = 1
+)
 }
 \arguments{
 \item{A}{a \eqn{(p\times p\times N)} 3d array of \eqn{N} SPD matrices.}

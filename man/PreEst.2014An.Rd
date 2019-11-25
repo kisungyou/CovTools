@@ -4,8 +4,12 @@
 \alias{PreEst.2014An}
 \title{Banded Precision Matrix Estimation via Bandwidth Test}
 \usage{
-PreEst.2014An(X, upperK = floor(ncol(X)/2), algorithm = c("Bonferroni",
-  "Holm"), alpha = 0.01)
+PreEst.2014An(
+  X,
+  upperK = floor(ncol(X)/2),
+  algorithm = c("Bonferroni", "Holm"),
+  alpha = 0.01
+)
 }
 \arguments{
 \item{X}{an \eqn{(n\times p)} data matrix where each row is an observation.}
@@ -44,14 +48,14 @@ for(i in 2:p){
 }
 
 D0 = diag(runif(n = p, min = D0min, max = D0max))
-Omega0 = t(diag(p) - A0)\%*\%diag(1/diag(D0))\%*\%(diag(p) - A0)
+Omega0 = t(diag(p) - A0)%*%diag(1/diag(D0))%*%(diag(p) - A0)
 
 ## data generation (based on AR representation)
 ## it is same with generating n random samples from N_p(0, Omega0^{-1})
 X = matrix(0, nrow=n, ncol=p)
 X[,1] = rnorm(n, sd = sqrt(D0[1,1]))
 for(j in 2:p){
-  mean.vec.j = X[, 1:(j-1)]\%*\%as.matrix(A0[j, 1:(j-1)])
+  mean.vec.j = X[, 1:(j-1)]%*%as.matrix(A0[j, 1:(j-1)])
   X[,j] = rnorm(n, mean = mean.vec.j, sd = sqrt(D0[j,j]))
 }
 

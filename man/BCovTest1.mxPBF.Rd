@@ -4,8 +4,7 @@
 \alias{BCovTest1.mxPBF}
 \title{One-Sample Covariance Test using Maximum Pairwise Bayes Factor}
 \usage{
-BCovTest1.mxPBF(data, Sigma0 = diag(ncol(data)), a0 = 2, b0 = 2,
-  gamma = 1)
+BCovTest1.mxPBF(data, Sigma0 = diag(ncol(data)), a0 = 2, b0 = 2, gamma = 1)
 }
 \arguments{
 \item{data}{an \eqn{(n\times p)} data matrix where each row is an observation.}

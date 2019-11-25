@@ -4,9 +4,12 @@
 \alias{CovDist}
 \title{Compute Pairwise Distance for Symmetric Positive-Definite Matrices}
 \usage{
-CovDist(A, method = c("AIRM", "Bhattacharyya", "Cholesky", "Euclidean",
-  "Hellinger", "JBLD", "KLDM", "LERM", "Procrustes.SS", "Procrustes.Full",
-  "PowerEuclidean", "RootEuclidean"), power = 1)
+CovDist(
+  A,
+  method = c("AIRM", "Bhattacharyya", "Cholesky", "Euclidean", "Hellinger", "JBLD",
+    "KLDM", "LERM", "Procrustes.SS", "Procrustes.Full", "PowerEuclidean", "RootEuclidean"),
+  power = 1
+)
 }
 \arguments{
 \item{A}{a \eqn{(p\times p\times N)} 3d array of \eqn{N} SPD matrices.}

@@ -4,8 +4,13 @@
 \alias{PreEst.2014Banerjee}
 \title{Bayesian Estimation of a Banded Precision Matrix (Banerjee 2014)}
 \usage{
-PreEst.2014Banerjee(X, upperK = floor(ncol(X)/2), delta = 10,
-  logpi = function(k) {     -k^4 }, loss = c("Stein", "Squared"))
+PreEst.2014Banerjee(
+  X,
+  upperK = floor(ncol(X)/2),
+  delta = 10,
+  logpi = function(k) {     -k^4 },
+  loss = c("Stein", "Squared")
+)
 }
 \arguments{
 \item{X}{an \eqn{(n\times p)} data matrix where each row is an observation.}
