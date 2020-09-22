@@ -36,7 +36,7 @@ mthr <- seq(from=0.01,to=0.99,length.out=10)
 
 out1 <- CovEst.adaptive(data, thr=0.1)  # threshold value 0.1
 out2 <- CovEst.adaptive(data, thr=0.5)  # threshold value 0.5
-out3 <- CovEst.adaptive(data, thr=0.5)  # threshold value 0.9
+out3 <- CovEst.adaptive(data, thr=0.9)  # threshold value 0.9
 out4 <- CovEst.adaptive(data, thr=mthr) # automatic threshold checking
 
 ## visualize 4 estimated matrices
