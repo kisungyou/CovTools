@@ -40,13 +40,14 @@ arma::mat covest_2003LW_computePi(arma::mat Y, arma::vec Ybar, arma::mat matS){
   double inners = 0.0;
   arma::mat matPi(dimN,dimN,fill::zeros);
   for (int i=0;i<dimN;i++){
-    for (int j=0;j<dimN;j++){
+    for (int j=i;j<dimN;j++){
       tmpval = 0.0;
       for (int t=0;t<dimT;t++){
         inners = (Y(i,t)-Ybar(i))*(Y(j,t)-Ybar(j)) - matS(i,j);
         tmpval += inners*inners;
       }
       matPi(i,j) = tmpval/static_cast<double>(dimT);
+      if(i!=j) matPi(j,i) = tmpval/static_cast<double>(dimT);
     }
   }
 
