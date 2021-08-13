@@ -30,7 +30,8 @@
 #' mRoot = CovMean(samples[,,1:50], method="RootEuclidean")
 #'
 #' ## visualize
-#' opar <- par(mfrow=c(2,2), pty="s")
+#' opar <- par(no.readonly=TRUE)
+#' par(mfrow=c(2,2), pty="s")
 #' image(mLERM[,pdim:1], main="LERM mean")
 #' image(mAIRM[,pdim:1], main="AIRM mean")
 #' image(mChol[,pdim:1], main="Cholesky mean")

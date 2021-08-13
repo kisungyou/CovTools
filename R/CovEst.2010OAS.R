@@ -25,7 +25,8 @@
 #' out.small <- CovEst.2010OAS(dat.small)
 #'
 #' #  visualize
-#' opar <- par(mfrow=c(1,3), pty="s")
+#' opar <- par(no.readonly=TRUE)
+#' par(mfrow=c(1,3), pty="s")
 #' image(diag(pdim)[,pdim:1],     main="true cov")
 #' image(cov(dat.small)[,pdim:1], main="sample cov")
 #' image(out.small$S[,pdim:1],    main="estimated cov")
@@ -49,7 +50,8 @@
 #' }
 #'
 #' # let's visualize the results
-#' opar <- par(mfrow=c(1,2))
+#' opar <- par(no.readonly=TRUE)
+#' par(mfrow=c(1,2))
 #' plot(nsamples, vec.rho,   lwd=2, type="b", col="red", main="estimated rhos")
 #' plot(nsamples, vec.normd, lwd=2, type="b", col="blue",main="Frobenius error")
 #' par(opar)

@@ -7,7 +7,8 @@
 CovDist(
   A,
   method = c("AIRM", "Bhattacharyya", "Cholesky", "Euclidean", "Hellinger", "JBLD",
-    "KLDM", "LERM", "Procrustes.SS", "Procrustes.Full", "PowerEuclidean", "RootEuclidean"),
+    "KLDM", "LERM", "Procrustes.SS", "Procrustes.Full", "PowerEuclidean",
+    "RootEuclidean"),
   power = 1
 )
 }
@@ -48,7 +49,11 @@ distAIRM = CovDist(samples, method="AIRM")
 
 ## dimension reduction using MDS
 ss = cmdscale(distAIRM)
+
+## visualize
+opar <- par(no.readonly=TRUE)
 plot(ss[,1],ss[,2],main="2d projection")
+par(opar)
 
 }
 \references{

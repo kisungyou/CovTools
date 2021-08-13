@@ -22,7 +22,8 @@
 #'
 #' ## visualize 2 estimated matrices
 #' gcol <- gray((0:100)/100)
-#' opar <- par(mfrow=c(1,2), pty="s")
+#' opar <- par(no.readonly=TRUE)
+#' par(mfrow=c(1,2), pty="s")
 #' image(out1[,pdim:1],   col=gcol, main="sample covariance")
 #' image(out2$S[,pdim:1], col=gcol, main="SPD Projection")
 #' par(opar)

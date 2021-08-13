@@ -48,7 +48,8 @@
 #' Omega2 <- PreEst.2014An(X, upperK=20, algorithm="Holm")
 #'
 #' ## visualize true and estimated precision matrices
-#' opar <- par(mfrow=c(1,3), pty="s")
+#' opar <- par(no.readonly=TRUE)
+#' par(mfrow=c(1,3), pty="s")
 #' image(Omega0[,p:1],   main="Original Precision")
 #' image(Omega1$C[,p:1], main="banded3::Bonferroni")
 #' image(Omega2$C[,p:1], main="banded3::Holm")

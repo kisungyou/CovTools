@@ -33,7 +33,11 @@
 #'
 #' ## dimension reduction using MDS
 #' ss = cmdscale(distAIRM)
+#'
+#' ## visualize
+#' opar <- par(no.readonly=TRUE)
 #' plot(ss[,1],ss[,2],main="2d projection")
+#' par(opar)
 #'
 #' @references
 #' \insertRef{arsigny_log-euclidean_2006}{CovTools}

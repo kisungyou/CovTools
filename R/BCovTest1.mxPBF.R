@@ -33,7 +33,8 @@
 #' out2 = BCovTest1.mxPBF(data, a0=5.0, b0=5.0) # change some params
 #'
 #' ## visualize two Bayes Factor matrices
-#' opar <- par(mfrow=c(1,2), pty="s")
+#' opar <- par(no.readonly=TRUE)
+#' par(mfrow=c(1,2), pty="s")
 #' image(exp(out1$log.BF.mat)[,pdim:1], main="default")
 #' image(exp(out2$log.BF.mat)[,pdim:1], main="a0=b0=5.0")
 #' par(opar)

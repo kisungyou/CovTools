@@ -29,7 +29,8 @@
 #' out4 <- CovEst.adaptive(data, thr=mthr) # automatic threshold checking
 #'
 #' ## visualize 4 estimated matrices
-#' opar <- par(mfrow=c(2,2), pty="s")
+#' opar <- par(no.readonly=TRUE)
+#' par(mfrow=c(2,2), pty="s")
 #' image(out1$S[,pdim:1], col=gray((0:100)/100), main="thr=0.1")
 #' image(out2$S[,pdim:1], col=gray((0:100)/100), main="thr=0.5")
 #' image(out3$S[,pdim:1], col=gray((0:100)/100), main="thr=0.9")

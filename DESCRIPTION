@@ -1,8 +1,8 @@
 Package: CovTools
 Type: Package
 Title: Statistical Tools for Covariance Analysis
-Version: 0.5.3
-Authors@R: c(person("Kyoungjae","Lee",role="aut",email="leekjstat@gmail.com"),person("Lizhen", "Lin", role = "ctb", email="lizhen.lin@nd.edu"),person("Kisung", "You", role = c("aut", "cre"),email = "kyoustat@gmail.com",comment=c(ORCID="0000-0002-8584-459X")))
+Version: 0.5.4
+Authors@R: c(person("Kyoungjae","Lee",role="aut",email="leekjstat@gmail.com"),person("Lizhen", "Lin", role = "ctb", email="lizhen.lin@nd.edu"),person("Kisung", "You", role = c("aut", "cre"),email = "kisungyou@outlook.com",comment=c(ORCID="0000-0002-8584-459X")))
 Description: Covariance is of universal prevalence across various disciplines within statistics.
     We provide a rich collection of geometric and inferential tools for convenient analysis of
     covariance structures, topics including distance measures, mean covariance estimator,
@@ -10,11 +10,10 @@ Description: Covariance is of universal prevalence across various disciplines wi
     For an introduction to covariance in multivariate statistical analysis,
     see Schervish (1987) <doi:10.1214/ss/1177013111>.
 License: GPL (>=3)
-URL: https://github.com/kyoustat/CovTools
+URL: https://github.com/kisungyou/CovTools
 Encoding: UTF-8
-LazyData: true
 Depends: R (>= 2.14.0)
 Imports: Rcpp, geigen, shapes, expm, mvtnorm, stats, Matrix, doParallel, foreach, parallel, pracma, Rdpack, utils, SHT
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 7.0.0
+RoxygenNote: 7.1.1
 RdMacros: Rdpack

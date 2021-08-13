@@ -34,10 +34,12 @@ dat.small <- matrix(rnorm(5*pdim), ncol=pdim)
 out.small <- CovEst.2010RBLW(dat.small)
 
 #  visualize
-opar <- par(mfrow=c(1,3), pty="s")
+opar <- par(no.readonly=TRUE)
+par(mfrow=c(1,3), pty="s")
 image(diag(pdim)[,pdim:1],     main="true cov")
 image(cov(dat.small)[,pdim:1], main="sample cov")
 image(out.small$S[,pdim:1],    main="estimated cov")
+par(opar)
 
 \dontrun{
 ## want to see how delta is determined according to

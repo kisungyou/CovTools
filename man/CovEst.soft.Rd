@@ -43,7 +43,8 @@ out4 <- CovEst.soft(data, thr=mthr) # automatic threshold checking
 
 ## visualize 4 estimated matrices
 gcol <- gray((0:100)/100)
-opar <- par(mfrow=c(2,2), pty="s")
+opar <- par(no.readonly=TRUE)
+par(mfrow=c(2,2), pty="s")
 image(out1$S[,pdim:1], col=gcol, main="thr=0.1")
 image(out2$S[,pdim:1], col=gcol, main="thr=1")
 image(out3$S[,pdim:1], col=gcol, main="thr=10")

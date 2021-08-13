@@ -28,7 +28,8 @@
 #' out.small <- CovEst.2003LW(dat.small)
 #'
 #' #  visualize
-#' opar <- par(mfrow=c(1,3), pty="s")
+#' opar <- par(no.readonly=TRUE)
+#' par(mfrow=c(1,3), pty="s")
 #' image(diag(5)[,pdim:1], main="true cov")
 #' image(cov(dat.small)[,pdim:1], main="sample cov")
 #' image(out.small$S[,pdim:1], main="estimated cov")
@@ -52,9 +53,11 @@
 #' }
 #'
 #' # let's visualize the results
+#' opar <- par(no.readonly=TRUE)
 #' par(mfrow=c(1,2))
 #' plot(nsamples, vec.delta, lwd=2, type="b", col="red", main="estimated deltas")
 #' plot(nsamples, vec.normd, lwd=2, type="b", col="blue",main="Frobenius error")
+#' par(opar)
 #' }
 #'
 #' @references

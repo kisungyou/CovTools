@@ -62,7 +62,8 @@ out2 <- PreEst.glasso(data, method=list2)
 out3 <- PreEst.glasso(data, method=list3)
 
 ## visualize
-opar <- par(mfrow=c(2,2), pty="s")
+opar <- par(no.readonly=TRUE)
+par(mfrow=c(2,2), pty="s")
 image(diag(pdim)[,pdim:1], main="Original Precision")
 image(out1$C[,pdim:1],     main="glasso::lambda=1.0")
 image(out2$C[,pdim:1],     main="glasso::Confidence=0.95")
