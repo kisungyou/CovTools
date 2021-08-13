@@ -51,62 +51,39 @@ We offer various methods for covariance and symmetric positive-definite matrices
 ### (1) Estimation : Covariance
 | function name | authors | description    |
 |---------------|------------------|:-------------------|
-| `CovEst.adaptive`| [Cai and Liu (2011)][1] | adaptive thresholding |
-| `CovEst.hard`    | [Bickel and Levina (2008)][2] | hard thresholding |
-| `CovEst.hardPD`  | [Fan et al. (2013)][3] | hard thresholding under positive-definiteness constraint |
-| `CovEst.nearPD`  | [Qi and Sun (2006)][4] | nearest positive-definite matrix projection |
-| `CovEst.soft`    | [Antoniadis and Fan (2001)][5] | soft thresholding |
-| `CovEst.2003LW`  | [Ledoit and Wolf (2003)][17] | linear shrinkage estimation |
-| `CovEst.2010OAS` | [Chen et al. (2010)][18] | oracle approximation shrinkage |
-| `CovEst.2010RBLW` | [Chen et al. (2010)][18] | Rao-Blackwell Ledoit-Wolf estimation |
+| `CovEst.adaptive`| Cai and Liu (2011) | adaptive thresholding |
+| `CovEst.hard`    | Bickel and Levina (2008) | hard thresholding |
+| `CovEst.hardPD`  | Fan et al. (2013) | hard thresholding under positive-definiteness constraint |
+| `CovEst.nearPD`  | Qi and Sun (2006) | nearest positive-definite matrix projection |
+| `CovEst.soft`    | Antoniadis and Fan (2001) | soft thresholding |
+| `CovEst.2003LW`  | Ledoit and Wolf (2003) | linear shrinkage estimation |
+| `CovEst.2010OAS` | Chen et al. (2010) | oracle approximation shrinkage |
+| `CovEst.2010RBLW` | Chen et al. (2010)| Rao-Blackwell Ledoit-Wolf estimation |
 
 
 ### (2) Estimation : Precision
 | function name | authors | description    |
 |---------------|------------------|:-------------------|
-| `PreEst.2014An` | [An et al. (2014)][6] | banded precision estimation via bandwidth test |
-| `PreEst.2014Banerjee` | [Banerjee and Ghosal (2014)][7] | Bayesian estimation of a banded precision matrix |
-| `PreEst.2017Lee` | [Lee and Lee (2017)][8] | Bayesian estimation of a banded precision matrix |
-| `PreEst.glasso` | [Friedman et al. (2008)][9] | graphical lasso |
+| `PreEst.2014An` | An et al. (2014) | banded precision estimation via bandwidth test |
+| `PreEst.2014Banerjee` | Banerjee and Ghosal (2014) | Bayesian estimation of a banded precision matrix |
+| `PreEst.2017Lee` | Lee and Lee (2017) | Bayesian estimation of a banded precision matrix |
+| `PreEst.glasso` | Friedman et al. (2008) | graphical lasso |
 
 ### (3) Hypothesis Test : 1-sample 
 | function name | authors | description    |
 |---------------|------------------|:-------------------|
-| `BCovTeset1.mxPBF` | [Lee et al. (2018)][10] | Bayesian test using Maximum Pairwise Bayes Factor |
-| `CovTest1.2013Cai` | [Cai and Ma (2013)][11] | Test by Cai and Ma |
-| `CovTest1.2014Srivastava` | [Srivastava et al. (2014)][12] | Test by Srivastava, Yanagihara, and Kubokawa |
+| `BCovTeset1.mxPBF` | Lee et al. (2018) | Bayesian test using Maximum Pairwise Bayes Factor |
+| `CovTest1.2013Cai` | Cai and Ma (2013) | Test by Cai and Ma |
+| `CovTest1.2014Srivastava` | Srivastava et al. (2014) | Test by Srivastava, Yanagihara, and Kubokawa |
 
 ### (4) Hypothesis Test : 2-sample
 | function name | authors | description    |
 |---------------|------------------|:-------------------|
-| `CovTest2.2013Cai` | [Cai and Ma (2013)][13] | Test by Cai and Ma |
+| `CovTest2.2013Cai` | Cai and Ma (2013) | Test by Cai and Ma |
 
 ### (5) Hypothesis Test : 1-sample Diagonal
 | function name | authors | description    |
 |---------------|------------------|:-------------------|
-| `BDiagTest1.mxPBF`  | [Lee et al. (2018)][14] | Bayesian Test using Maximum Pairwise Bayes Factor |
-| `DiagTest1.2011Cai` | [Cai and Jiang (2011)][15] | Test by Cai and Jiang |
-| `DiagTest1.2015Lan` | [Lan et al. (2015)][16] | Test by Lan, Luo, Tsai, Wang, and Yang |
-
-
-[18]: https://doi.org/10.1109/TSP.2010.2053029
-[17]: https://doi.org/10.1016/S0927-5398(03)00007-0
-[16]: http://www.tandfonline.com/doi/abs/10.1080/07350015.2014.923317
-[15]: http://projecteuclid.org/euclid.aos/1305292044
-[14]: http://arxiv.org/abs/1809.03105
-[13]: https://doi.org/10.3150/12-BEJ455
-[12]: https://doi.org/10.1016/j.jmva.2014.06.003
-[11]: https://doi.org/10.3150/12-BEJ455
-[10]: http://arxiv.org/abs/1809.03105
-[9]: https://doi.org/10.1093/biostatistics/kxm045
-[8]: https://arxiv.org/abs/1707.01143
-[7]: https://doi.org/10.1214/14-EJS945
-[6]: https://doi.org/10.1093/biomet/asu006
-[5]: https://doi.org/10.1198/016214501753208942
-[4]: https://doi.org/10.1137/050624509
-[3]: https://doi.org/10.1111/rssb.12016
-[2]: https://projecteuclid.org/euclid.aos/1231165180
-[1]: https://www.tandfonline.com/doi/abs/10.1198/jasa.2011.tm10560
-
-
-
+| `BDiagTest1.mxPBF`  | Lee et al. (2018)| Bayesian Test using Maximum Pairwise Bayes Factor |
+| `DiagTest1.2011Cai` | Cai and Jiang (2011) | Test by Cai and Jiang |
+| `DiagTest1.2015Lan` | Lan et al. (2015) | Test by Lan, Luo, Tsai, Wang, and Yang |
