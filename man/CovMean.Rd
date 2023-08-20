@@ -6,8 +6,8 @@
 \usage{
 CovMean(
   A,
-  method = c("AIRM", "Cholesky", "Euclidean", "LERM", "Procrustes.SS",
-    "Procrustes.Full", "PowerEuclidean", "RootEuclidean"),
+  method = c("AIRM", "Cholesky", "Euclidean", "LERM", "Procrustes.SS", "Procrustes.Full",
+    "PowerEuclidean", "RootEuclidean"),
   power = 1
 )
 }

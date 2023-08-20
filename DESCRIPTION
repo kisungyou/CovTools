@@ -1,7 +1,7 @@
 Package: CovTools
 Type: Package
 Title: Statistical Tools for Covariance Analysis
-Version: 0.5.4
+Version: 0.5.5
 Authors@R: c(person("Kyoungjae","Lee",role="aut",email="leekjstat@gmail.com"),person("Lizhen", "Lin", role = "ctb", email="lizhen.lin@nd.edu"),person("Kisung", "You", role = c("aut", "cre"),email = "kisungyou@outlook.com",comment=c(ORCID="0000-0002-8584-459X")))
 Description: Covariance is of universal prevalence across various disciplines within statistics.
     We provide a rich collection of geometric and inferential tools for convenient analysis of
@@ -15,5 +15,5 @@ Encoding: UTF-8
 Depends: R (>= 2.14.0)
 Imports: Rcpp, geigen, shapes, expm, mvtnorm, stats, Matrix, doParallel, foreach, parallel, pracma, Rdpack, utils, SHT
 LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
 RdMacros: Rdpack

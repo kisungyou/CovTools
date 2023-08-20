@@ -4,9 +4,13 @@
 \alias{PreEst.2017Lee}
 \title{Bayesian Estimation of a Banded Precision Matrix (Lee 2017)}
 \usage{
-PreEst.2017Lee(X, upperK = floor(ncol(X)/2), logpi = function(k) {
-    -k^4
-})
+PreEst.2017Lee(
+  X,
+  upperK = floor(ncol(X)/2),
+  logpi = function(k) {
+     -k^4
+ }
+)
 }
 \arguments{
 \item{X}{an \eqn{(n\times p)} data matrix where each row is an observation.}
