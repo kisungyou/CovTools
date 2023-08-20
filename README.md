@@ -5,9 +5,7 @@
 
 <!-- badges: start -->
 
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/CovTools?color=green)](https://cran.r-project.org/package=CovTools)
-[![Travis build
-status](https://travis-ci.org/kisungyou/CovTools.svg?branch=master)](https://travis-ci.org/kisungyou/CovTools)
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/CovTools?color=green)](https://cran.r-project.org/package=CovTools)
 [![](https://cranlogs.r-pkg.org/badges/CovTools)](https://cran.r-project.org/package=CovTools)
 <!-- badges: end -->
 
