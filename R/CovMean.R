@@ -12,9 +12,11 @@
 #' \code{"LERM"} for Log Euclidean Riemannian Metric,
 #' \code{"Procrustes.SS"} for Procrustes Size and Shape measure,
 #' \code{"Procrustes.Full"} for Procrustes analysis with scale,
-#' \code{"PowerEuclidean"} for weighted eigenvalues by some exponent, and
+#' \code{"PowerEuclidean"} for a matrix-power transform with a non-zero exponent, and
 #' \code{"RootEuclidean"} for matrix square root.
-#' @param power a non-zero number for PowerEuclidean distance.
+#' @param power a finite non-zero number for the PowerEuclidean mean. Positive
+#' and negative powers are supported. Use \code{method = "LERM"} for the
+#' zero-power (log-Euclidean) limit.
 #' @return a \eqn{(p\times p)} mean covariance matrix estimated.
 #'
 #' @examples
@@ -54,6 +56,9 @@ CovMean <- function(A,method=c("AIRM","Cholesky","Euclidean","LERM",
   if (dim(A)[1]!=dim(A)[2]){
     stop("* CovMean : A should be stack of square matrices.")
   }
+  if ((dim(A)[1]<1)||(dim(A)[3]<1)){
+    stop("* CovMean : A should contain at least one non-empty matrix.")
+  }
   SymApply = apply(A, 3, isSymmetric, tol=sqrt(.Machine$double.eps))
   if (any(SymApply)==FALSE){
     SymIdx = which(!SymApply)
@@ -78,9 +83,10 @@ CovMean <- function(A,method=c("AIRM","Cholesky","Euclidean","LERM",
   } else {
     method = match.arg(method)
   }
-  if (all(method=="PowerEuclidean")){
-    if (power==0){
-      stop("* CovMean : 'power' should be a nonzero element. Suggests > 0.")
+  if (method=="PowerEuclidean"){
+    if ((length(power)!=1)||(!is.numeric(power))||
+        (!is.finite(power))||(power==0)){
+      stop("* CovMean : 'power' should be a finite non-zero number.")
     }
     power = as.double(power)
   }

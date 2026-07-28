@@ -6,7 +6,7 @@
 #' The bandwidth is set at the mode of marginal posterior for the bandwidth parameter.
 #'
 #' @param X an \eqn{(n\times p)} data matrix where each row is an observation.
-#' @param upperK upper bound of bandwidth \eqn{k}.
+#' @param upperK integer upper bound of bandwidth \eqn{k}, at most \eqn{p-1}.
 #' @param delta hyperparameter for G-Wishart prior. Default value is 10. It has to be larger than 2.
 #' @param logpi log of prior distribution for bandwidth \eqn{k}. Default is a function proportional to \eqn{-k^4}.
 #' @param loss type of loss; either \code{"Stein"} or \code{"Squared"}.
@@ -45,16 +45,26 @@ PreEst.2014Banerjee <- function(X, upperK=floor(ncol(X)/2), delta=10.0, logpi=fu
   #   1. typecheck : data
   fname    = "PreEst.2014Banerjee"
   checker1 = invisible_datamatrix(X, fname)
-  #   2. upperK : upper bound of bandwidth
-  Banerjee14.upperK = as.integer(upperK)
-  if ((length(Banerjee14.upperK)!=1)||(Banerjee14.upperK<1)||(Banerjee14.upperK>ncol(X))||(abs(Banerjee14.upperK-round(Banerjee14.upperK))>sqrt(.Machine$double.eps))){
-    stop("* PreEst.2014Banerjee : 'upperK' should be an integer in [1,ncol(X)].")
+  if (!is.numeric(X)){
+    stop("* PreEst.2014Banerjee : 'X' should be a numeric matrix.")
   }
+  X = as.matrix(X)
+  n = nrow(X)
+  p = ncol(X)
+  if ((n < 2)||(p < 2)){
+    stop("* PreEst.2014Banerjee : 'X' should have at least 2 rows and 2 columns.")
+  }
+  #   2. upperK : upper bound of bandwidth
+  if ((!is.numeric(upperK))||(length(upperK)!=1)||(!is.finite(upperK))||
+      (upperK != floor(upperK))||(upperK<1)||(upperK>(p-1))){
+    stop("* PreEst.2014Banerjee : 'upperK' should be an integer in [1,ncol(X)-1].")
+  }
+  Banerjee14.upperK = as.integer(upperK)
   #   3. delta :  Default 10, has to be larger than 2
-  Banerjee14.delta = as.double(delta)
-  if ((length(Banerjee14.delta)!=1)||(Banerjee14.delta<=2)||(is.na(Banerjee14.delta))||(is.infinite(Banerjee14.delta))){
+  if ((!is.numeric(delta))||(length(delta)!=1)||(!is.finite(delta))||(delta<=2)){
     stop("* PreEst.2014Banerjee : 'delta' should be a value larger than 2.")
   }
+  Banerjee14.delta = as.double(delta)
   #   4. logpi : log of prior distribution for bandwidth k.
   Banerjee14.logpi = logpi
   if (!is.function(Banerjee14.logpi)){
@@ -106,24 +116,22 @@ preest.Banerjee14 <- function(K, X, delta, logpi, type){
 preest.Banerjee14.GWishartE1 <- function(K, X, delta, logpi){
   X = scale(X, center = TRUE, scale =FALSE)
 
-  logprobBG = rep(0, K)
-  for(k in 1:K){
-    logprobBG[k] = preest.Banerjee14.logJG(k, X, delta) + logpi(k)
-  }
-  khatBG = which(logprobBG == max(logprobBG)) # choice of bandwidth
+  khatBG = preest.Banerjee14.selectK(K, X, delta, logpi)
 
   n = nrow(X); p = ncol(X)
   S = t(X)%*%X/n
 
   OmegaBG1 = matrix(0, p,p)
   OmegaBG1[1:(khatBG+1), 1:(khatBG+1)] = solve(diag(1/n, khatBG+1) + S[1:(khatBG+1), 1:(khatBG+1)])
-  for(j in 2:(p-k)){
-    OmegaBG1[j:(j+khatBG), j:(j+khatBG)] = OmegaBG1[j:(j+khatBG), j:(j+khatBG)] + solve(diag(1/n, khatBG+1) + S[j:(j+ khatBG), j:(j+khatBG)])
-    OmegaBG1[j:(j+khatBG-1), j:(j+khatBG-1)] = OmegaBG1[j:(j+khatBG-1), j:(j+khatBG-1)] - solve(diag(1/n,khatBG) + S[j:(j+khatBG-1), j:(j+khatBG-1)])
+  if ((p-khatBG) >= 2){
+    for(j in seq.int(2, p-khatBG)){
+      OmegaBG1[j:(j+khatBG), j:(j+khatBG)] = OmegaBG1[j:(j+khatBG), j:(j+khatBG)] + solve(diag(1/n, khatBG+1) + S[j:(j+ khatBG), j:(j+khatBG)])
+      OmegaBG1[j:(j+khatBG-1), j:(j+khatBG-1)] = OmegaBG1[j:(j+khatBG-1), j:(j+khatBG-1)] - solve(diag(1/n,khatBG) + S[j:(j+khatBG-1), j:(j+khatBG-1)])
+    }
   }
   OmegaBG1 = OmegaBG1*(delta+n-2)/n
 
-  return(OmegaBG1)
+  return(preest.Banerjee14.ensurePD(OmegaBG1))
 }
 # (2) Bayes estimator uner the Squared-error loss
 #' @keywords internal
@@ -131,23 +139,59 @@ preest.Banerjee14.GWishartE1 <- function(K, X, delta, logpi){
 preest.Banerjee14.GWishartE2 <- function(K, X, delta, logpi){
   X = scale(X, center = TRUE, scale =FALSE)
 
-  logprobBG = rep(0, K)
-  for(k in 1:K){
-    logprobBG[k] = preest.Banerjee14.logJG(k, X, delta) + logpi(k)
-  }
-  khatBG = which(logprobBG == max(logprobBG)) # choice of bandwidth
+  khatBG = preest.Banerjee14.selectK(K, X, delta, logpi)
 
   n = nrow(X); p = ncol(X)
   S = t(X)%*%X/n
 
   OmegaBG2 = matrix(0, p,p)
   OmegaBG2[1:(khatBG+1), 1:(khatBG+1)] = solve(diag(1/n,khatBG+1) + S[1:(khatBG+1), 1:(khatBG+1)])*(delta+khatBG+n)/n
-  for(j in 2:(p-khatBG)){
-    OmegaBG2[j:(j+khatBG), j:(j+khatBG)] = OmegaBG2[j:(j+khatBG), j:(j+khatBG)] + solve(diag(1/n,khatBG+1) + S[j:(j+khatBG), j:(j+khatBG)])*(delta+khatBG+n)/n
-    OmegaBG2[j:(j+khatBG-1), j:(j+khatBG-1)] = OmegaBG2[j:(j+khatBG-1), j:(j+khatBG-1)] - solve(diag(1/n,khatBG) + S[j:(j+khatBG-1), j:(j+khatBG-1)])*(delta+khatBG+n-1)/n
+  if ((p-khatBG) >= 2){
+    for(j in seq.int(2, p-khatBG)){
+      OmegaBG2[j:(j+khatBG), j:(j+khatBG)] = OmegaBG2[j:(j+khatBG), j:(j+khatBG)] + solve(diag(1/n,khatBG+1) + S[j:(j+khatBG), j:(j+khatBG)])*(delta+khatBG+n)/n
+      OmegaBG2[j:(j+khatBG-1), j:(j+khatBG-1)] = OmegaBG2[j:(j+khatBG-1), j:(j+khatBG-1)] - solve(diag(1/n,khatBG) + S[j:(j+khatBG-1), j:(j+khatBG-1)])*(delta+khatBG+n-1)/n
+    }
   }
 
-  return(OmegaBG2)
+  return(preest.Banerjee14.ensurePD(OmegaBG2))
+}
+
+# Select a single posterior mode. which.max() intentionally resolves ties by
+# choosing the smallest bandwidth rather than returning a vector index.
+#' @keywords internal
+#' @noRd
+preest.Banerjee14.selectK <- function(K, X, delta, logpi){
+  logprobBG = vapply(seq_len(K), function(k){
+    logprior = logpi(k)
+    if ((!is.numeric(logprior))||(length(logprior)!=1)||(!is.finite(logprior))){
+      stop("* PreEst.2014Banerjee : 'logpi' should return one finite numeric value.")
+    }
+    score = as.numeric(preest.Banerjee14.logJG(k, X, delta)) + logprior
+    if (!is.finite(score)){
+      stop("* PreEst.2014Banerjee : posterior bandwidth score is not finite.")
+    }
+    score
+  }, numeric(1))
+  best = max(logprobBG)
+  tolerance = 1000*.Machine$double.eps*max(1, max(abs(logprobBG)))
+  return(as.integer(which(logprobBG >= (best-tolerance))[1]))
+}
+
+#' @keywords internal
+#' @noRd
+preest.Banerjee14.ensurePD <- function(Omega){
+  Omega = (Omega+t(Omega))/2
+  if (any(!is.finite(Omega))){
+    stop("* PreEst.2014Banerjee : precision estimate contains non-finite values.")
+  }
+  okay = tryCatch({
+    chol(Omega)
+    TRUE
+  }, error=function(e) FALSE)
+  if (!okay){
+    stop("* PreEst.2014Banerjee : precision estimate is not positive definite.")
+  }
+  return(Omega)
 }
 ########################################################################
 # auxiliary functions
@@ -164,12 +208,13 @@ preest.Banerjee14.logJG <- function(k, X, delta){
   res = res + (p-k-1)*(lgamma(0.5*(delta+n+k)) - lgamma(0.5*(delta+k)))
   SC1 = S[1:(1+k), 1:(1+k)]
   res = res - 0.5*(delta+n+k)*determinant(diag(1,nrow=k+1)+n*SC1, logarithm = T)$modulus
-  for(j in 2:(p-k)){
-    SSj = S[j:(j+k-1), j:(j+k-1)]
-    SCj = S[j:(j+k), j:(j+k)]
-    res = res + 0.5*(delta+n+k-1)*determinant(diag(1,nrow=k)+n*SSj, logarithm = T)$modulus - 0.5*(delta+n+k)*determinant(diag(1,nrow=k+1)+n*SCj, logarithm = T)$modulus
+  if ((p-k) >= 2){
+    for(j in seq.int(2, p-k)){
+      SSj = S[j:(j+k-1), j:(j+k-1)]
+      SCj = S[j:(j+k), j:(j+k)]
+      res = res + 0.5*(delta+n+k-1)*determinant(diag(1,nrow=k)+n*SSj, logarithm = TRUE)$modulus - 0.5*(delta+n+k)*determinant(diag(1,nrow=k+1)+n*SCj, logarithm = TRUE)$modulus
+    }
   }
 
   return(res)
 }
-

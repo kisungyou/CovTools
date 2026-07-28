@@ -13,10 +13,6 @@ covest_2003LW_computeRho <- function(Y, Ybar, matS, rbar) {
     .Call(`_CovTools_covest_2003LW_computeRho`, Y, Ybar, matS, rbar)
 }
 
-rcpp_geigen <- function(A, B) {
-    .Call(`_CovTools_rcpp_geigen`, A, B)
-}
-
 #' @keywords internal
 #' @noRd
 rcpp_ADMMprecision <- function(S, lambda) {

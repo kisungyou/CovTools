@@ -13,7 +13,7 @@ BDiagTest1.mxPBF(data, a0 = 2, b0 = 2, gamma = 1)
 
 \item{b0}{scale parameter for inverse-gamma prior.}
 
-\item{gamma}{non-negative number. See the equation above.}
+\item{gamma}{positive number. See the equation above.}
 }
 \value{
 a named list containing: \describe{
@@ -32,6 +32,9 @@ Under \eqn{H_0}, the prior is set as
 \deqn{\tau_{ij}^2 \sim IG(a0, b0)} and under \eqn{H_1}, priors are
 \deqn{ a_{ij}|\tau_{ij}^2 \sim N(0, \tau_{ij}^2/(\gamma*||X_j||^2))}
 \deqn{\tau_{ij}^2 \sim IG(a0, b0).}
+Since the hypothesis concerns covariance rather than raw second moments,
+columns are centered internally before this zero-mean pairwise regression
+model is evaluated.
 }
 \examples{
 \dontrun{

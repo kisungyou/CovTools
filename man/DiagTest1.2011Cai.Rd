@@ -24,6 +24,8 @@ the null hypothesis is
 \deqn{H_0 : \sigma_{ij} = 0~\mathrm{for any}~i \neq j}
 and alternative hypothesis is \eqn{H_1 : ~\mathrm{not}~H_0}
 with \eqn{\Sigma_n = (\sigma_{ij})} based on a procedure proposed by Cai and Jiang (2011).
+Each column is centered before the sample correlations are computed, so the
+test is invariant to translations of the observations.
 }
 \examples{
 \dontrun{

@@ -34,18 +34,33 @@ thr1.multiple <- function(X, nCV, nCore, func_S, thrvec){
   # 1. get parameters
   n = nrow(X)
   p = ncol(X)
+  if ((length(nCV)!=1L)||(!is.numeric(nCV))||(!is.finite(nCV))||
+      (nCV<1)||(nCV!=as.integer(nCV))){
+    stop("* thr1.multiple : 'nCV' should be a positive integer.")
+  }
+  if ((length(nCore)!=1L)||(!is.numeric(nCore))||(!is.finite(nCore))||
+      (nCore<1)||(nCore!=as.integer(nCore))){
+    stop("* thr1.multiple : 'nCore' should be a positive integer.")
+  }
+  nCV  = as.integer(nCV)
+  nCore = as.integer(nCore)
   # 2. nCV
   S1 = array(0,c(p,p,nCV))
   S2 = array(0,c(p,p,nCV))
   n1 = round(n*(1-(1/log(n))))
   n2 = round(n-n1)
+  if ((!is.finite(n1))||(n1<2L)||(n2<2L)){
+    stop(paste0("* thr1.multiple : the prescribed cross-validation split ",
+                "requires at least two observations in both training and ",
+                "validation samples."))
+  }
   # 3. divide and compute S for nfold cross validation
-  idxall = (1:n)
-  for (i in 1:nCV){
+  idxall = seq_len(n)
+  for (i in seq_len(nCV)){
     idx1 = sample(idxall, n1)
     idx2 = setdiff(idxall, idx1)
-    S1[,,i] = cov(X[idx1,])
-    S2[,,i] = cov(X[idx2,])
+    S1[,,i] = cov(X[idx1,,drop=FALSE])
+    S2[,,i] = cov(X[idx2,,drop=FALSE])
   }
   # 4. covariance
   S = cov(X)
@@ -54,22 +69,31 @@ thr1.multiple <- function(X, nCV, nCore, func_S, thrvec){
   # 1. get ready for multiple thresholding vectors
   stest   = thrvec
   nsearch = length(stest)
-  # 2. parallel setup
+  if (nsearch<1L){
+    stop("* thr1.multiple : 'thrvec' should contain at least one value.")
+  }
+  # 2. compute the scores sequentially unless parallel work was requested
   if (nCore==1){
-    cl = makeCluster(1)
-    registerDoParallel(cl)
+    Rs = vapply(seq_len(nsearch), function(i){
+      thr1.singlesum(S1, S2, func_S, stest[i])
+    }, numeric(1))
   } else {
-    cl = makeCluster(nCore)
-    registerDoParallel(cl)
+    cl = makeCluster(min(nCore, nsearch))
+    on.exit(stopCluster(cl), add=TRUE)
+    Rs = parallel::parSapply(
+      cl,
+      seq_len(nsearch),
+      function(i, S1, S2, func_S, stest, score_fun){
+        score_fun(S1, S2, func_S, stest[i])
+      },
+      S1=S1,
+      S2=S2,
+      func_S=func_S,
+      stest=stest,
+      score_fun=thr1.singlesum
+    )
   }
-  # 3. do parallel computation
-  itforeach = NULL
-  Rs = foreach (itforeach=1:nsearch, .combine=cbind) %dopar% {
-    thr1.singlesum(S1, S2, func_S, stest[itforeach])
-  }
-  # 4. stop cluster
-  stopCluster(cl)
-  # 5. find the minimal element
+  # 3. find the minimal element
   idxsmin = which(Rs==min(Rs))
   if (length(idxsmin)>1){
     idxsmin = idxsmin[1]

@@ -6,7 +6,7 @@
 \usage{
 PreEst.2014An(
   X,
-  upperK = floor(ncol(X)/2),
+  upperK = min(floor(ncol(X)/2), ncol(X) - 1, nrow(X) - 5),
   algorithm = c("Bonferroni", "Holm"),
   alpha = 0.01
 )
@@ -14,7 +14,8 @@ PreEst.2014An(
 \arguments{
 \item{X}{an \eqn{(n\times p)} data matrix where each row is an observation.}
 
-\item{upperK}{upper bound of bandwidth \eqn{k}.}
+\item{upperK}{integer upper bound of bandwidth \eqn{k}, at most
+\eqn{\min(p-1,n-5)}.}
 
 \item{algorithm}{bandwidth test algorithm to be used.}
 

@@ -6,7 +6,8 @@
 #' suggested by An, Guo and Liu (2014).
 #'
 #' @param X an \eqn{(n\times p)} data matrix where each row is an observation.
-#' @param upperK upper bound of bandwidth \eqn{k}.
+#' @param upperK integer upper bound of bandwidth \eqn{k}, at most
+#' \eqn{\min(p-1,n-5)}.
 #' @param algorithm bandwidth test algorithm to be used.
 #' @param alpha significance level for the bandwidth test.
 #'
@@ -63,19 +64,30 @@
 #'
 #' @rdname PreEst.2014An
 #' @export
-PreEst.2014An <- function(X, upperK=floor(ncol(X)/2), algorithm=c("Bonferroni","Holm"), alpha=0.01){
+PreEst.2014An <- function(X, upperK=min(floor(ncol(X)/2), ncol(X)-1, nrow(X)-5),
+                          algorithm=c("Bonferroni","Holm"), alpha=0.01){
   #-----------------------------------------------------
   ## PREPROCESSING
   #   1. typecheck : data
   fname    = "PreEst.2014An"
   checker1 = invisible_datamatrix(X, fname)
+  if (!is.numeric(X)){
+    stop("* PreEst.2014An : 'X' should be a numeric matrix.")
+  }
+  X = as.matrix(X)
   n = nrow(X)
   p = ncol(X)
-  #   2. upperK
-  upperK = as.integer(upperK)
-  if ((length(upperK)!=1)||(upperK<1)||(upperK>ncol(X))||(abs(upperK-round(upperK))>sqrt(.Machine$double.eps))){
-    stop("* PreEst.2014An : 'upperK' should be an integer in [1,ncol(X)].")
+  if ((n < 6)||(p < 2)){
+    stop("* PreEst.2014An : 'X' should have at least 6 rows and 2 columns.")
   }
+  #   2. upperK
+  maxK = min(p-1, n-5)
+  if ((!is.numeric(upperK))||(length(upperK)!=1)||(!is.finite(upperK))||
+      (upperK != floor(upperK))||(upperK<1)||(upperK>maxK)){
+    stop(paste0("* PreEst.2014An : 'upperK' should be an integer in [1,",
+                maxK, "]."))
+  }
+  upperK = as.integer(upperK)
   #   3. algorithm
   if (missing(algorithm)){
     algorithm = "Bonferroni"
@@ -83,9 +95,16 @@ PreEst.2014An <- function(X, upperK=floor(ncol(X)/2), algorithm=c("Bonferroni","
     algorithm = match.arg(algorithm)
   }
   #   4. alpha
-  alpha = as.double(alpha)
-  if ((length(alpha)!=1)||(alpha<=0)||(alpha>=1)){
+  if ((!is.numeric(alpha))||(length(alpha)!=1)||(!is.finite(alpha))||
+      (alpha<=0)||(alpha>=1)){
     stop("* PreEst.2014An : 'alpha' should be a real number in (0,1).")
+  }
+  alpha = as.double(alpha)
+
+  # Precision estimation is invariant to the unknown mean.
+  X = scale(X, center=TRUE, scale=FALSE)
+  if (any(colSums(X^2) <= .Machine$double.eps)){
+    stop("* PreEst.2014An : every column of 'X' should have positive variance.")
   }
 
   #-----------------------------------------------------
@@ -96,35 +115,43 @@ PreEst.2014An <- function(X, upperK=floor(ncol(X)/2), algorithm=c("Bonferroni","
   for (k in 1:K){
     pk.vec[k] = p.bandAN(k, X)
   }
-  alpha = 0.01
+  if (any(!is.finite(pk.vec))){
+    stop("* PreEst.2014An : bandwidth test produced a non-finite p-value.")
+  }
 
   # bandwidth selection procedure
   if(algorithm=="Bonferroni"){ # algorithm 1
-    for(k in K:1){
-      if(pk.vec[k] <= alpha / K) break
-    }
-    khat = k
+    rejected = which(pk.vec <= alpha/K)
+    khat = if (length(rejected)==0) 1L else max(rejected)
   }else{ # algorithm 2
-    alpha.vec = alpha / (K - (1:K) + 1)
-    pk.vec.ordered = pk.vec[order(pk.vec)]
-    reject.ind = as.numeric(pk.vec.ordered <= alpha.vec) * (1:K)
-    khat = max(order(pk.vec)[reject.ind])
+    ordering = order(pk.vec)
+    ordered.p = pk.vec[ordering]
+    alpha.vec = alpha/(K-seq_len(K)+1)
+    first.not.rejected = which(ordered.p > alpha.vec)[1]
+    nrejected = if (is.na(first.not.rejected)) K else first.not.rejected-1L
+    khat = if (nrejected==0) 1L else max(ordering[seq_len(nrejected)])
   }
+  khat = as.integer(khat)
 
   # Estimating the precision matrix based on khat
   Dhat = diag(p)
   Ahat = matrix(0, p,p)
   for(j in 1:p){
-    Dhat[j,j] = dhat(j, khat, X) # ordinary LSE
+    dvalue = as.numeric(dhat(j, khat, X))
+    if ((length(dvalue)!=1)||(!is.finite(dvalue))||(dvalue<=0)){
+      stop("* PreEst.2014An : residual variance estimate is not positive.")
+    }
+    Dhat[j,j] = dvalue # ordinary LSE
   }
   for(j in 2:p){
     Zj = Z(j, khat, X)
     Xj = X[, j]
     Covhat = t(Zj)%*%matrix(Xj)/nrow(X)   # k X 1 matrix
-    ahat = solve( VhatZ(j, khat, X)) %*% Covhat # k X 1 matrix
+    ahat = An14.solve(VhatZ(j, khat, X), Covhat) # k X 1 matrix
     Ahat[j, max(1, j-khat):(j-1)] = c(ahat)
   }
   Omegahat = t(diag(p) - Ahat)%*%diag(1/diag(Dhat))%*%(diag(p) - Ahat) # estimated precision matrix
+  Omegahat = (Omegahat+t(Omegahat))/2
 
   #-----------------------------------------------------
   ## RETURN OUTPUT
@@ -177,9 +204,9 @@ dhat <- function(j, k, X){
     VhatX = sum(Xj^2)/n   # scalar
     Covhat = t(Zj)%*%matrix(Xj)/n   # k X 1 matrix
     # res = VhatX - t(Covhat)%*%solve( VhatZ(j, k, X), Covhat)
-    res = VhatX - t(Covhat)%*%solve( VhatZ(j, k, X) ) %*% Covhat
+    res = VhatX - t(Covhat)%*%An14.solve(VhatZ(j, k, X), Covhat)
     if(res <= 0){
-      ahat = solve(VhatZ(j, k, X), Covhat)
+      ahat = An14.solve(VhatZ(j, k, X), Covhat)
       res = t(as.matrix(c(-ahat, 1))) %*% VhatZ(j+1,k+1,X) %*% as.matrix(c(-ahat, 1))
     }
   }
@@ -197,7 +224,7 @@ dhatAN <- function(j, k, X){
     Zj = Z(j, k, X)
     nVhatX = sum(Xj^2)   # scalar
     nCovhat = t(Zj)%*%matrix(Xj)   # k X 1 matrix
-    res = nVhatX - t(nCovhat)%*%solve(n*VhatZ(j, k, X), nCovhat)
+    res = nVhatX - t(nCovhat)%*%An14.solve(n*VhatZ(j, k, X), nCovhat)
   }
   return(res/(n - j + max(1,j-k)))
 }
@@ -209,7 +236,7 @@ thatAN <- function(j, k, X){ # scalar
   Zj = Z(j, k, X)
 
   Covhat = t(Zj)%*%matrix(Xj)/n   # k X 1 matrix
-  res = solve(VhatZ(j, k, X), Covhat)
+  res = An14.solve(VhatZ(j, k, X), Covhat)
   return(res[1])
 }
 #' @keywords internal
@@ -222,7 +249,8 @@ inv.deltahatAN <- function(j, k, X){
     res = sum(Xjk^2)
   }else{
     Zjk1 = Z(j, k-1, X)
-    res = ( sum(Xjk^2) - t(Xjk)%*%Zjk1%*%solve(t(Zjk1)%*%Zjk1, t(Zjk1)%*%Xjk ))
+    res = (sum(Xjk^2) -
+      t(Xjk)%*%Zjk1%*%An14.solve(t(Zjk1)%*%Zjk1, t(Zjk1)%*%Xjk))
   }
   return(res)
 }
@@ -237,7 +265,23 @@ LfAN <- function(k, X){
     Lf = Lf + thatAN(j, k, X)^2 / dhatAN(j, k, X) * inv.deltahatAN(j, k, X) - (n-k)/(n-k-2)
   }
   Lf = Lf * (n-k-2)*sqrt(n-k-4)/(n-k)/sqrt(2*(n-k-1))/sqrt(p-k)
-  return(Lf)
+  return(as.numeric(Lf))
 }
 
-
+#' @keywords internal
+#' @noRd
+An14.solve <- function(A, B=NULL){
+  output = tryCatch({
+    if (is.null(B)){
+      solve(A)
+    } else {
+      solve(A, B)
+    }
+  }, error=function(e){
+    stop("* PreEst.2014An : a regression design is singular.", call.=FALSE)
+  })
+  if (any(!is.finite(output))){
+    stop("* PreEst.2014An : a regression solve produced non-finite values.")
+  }
+  return(output)
+}

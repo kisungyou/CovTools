@@ -5,6 +5,8 @@
 #' \deqn{H_0 : \sigma_{ij} = 0~\mathrm{for any}~i \neq j}
 #' and alternative hypothesis is \eqn{H_1 : ~\mathrm{not}~H_0}
 #' with \eqn{\Sigma_n = (\sigma_{ij})} based on a procedure proposed by Cai and Jiang (2011).
+#' Each column is centered before the sample correlations are computed, so the
+#' test is invariant to translations of the observations.
 #'
 #' @param data an \eqn{(n\times p)} data matrix where each row is an observation.
 #' @param alpha level of significance.
@@ -65,22 +67,19 @@ diagtest1.Cai11 <- function(X, alpha){
   p = ncol(X)
   n = nrow(X)
 
-  Rho = matrix(0, p,p)
-  for(i in 1:p){
-    X.i = matrix(X[,i], ncol=1)
-    for(j in (1:p)[-i]){
-      X.j = matrix(X[,j], ncol=1)
-      Rho[i,j] = sum(X.i*X.j) / sqrt( sum( X.i^2 )*sum( X.j^2 ) )
-    }
+  X = sweep(X, 2L, colMeans(X), FUN="-", check.margin=FALSE)
+  column.ss = colSums(X^2)
+  if ((any(!is.finite(column.ss)))||(any(column.ss<=0))){
+    stop("* DiagTest1.2011Cai : every column should have positive sample variation.")
   }
+  Rho = crossprod(X)/sqrt(outer(column.ss, column.ss))
+  diag(Rho) = 0
   Ln = max(abs(Rho))
   Tn = n*(Ln)^2 - 4*log(p) + log(log(p))
 
   res = list()
   res$statistic = Tn
   res$threshold = -log(8*pi) - 2*log(log(1/(1-alpha)))
-  res$test = (Tn > res$threshold)
+  res$reject = (Tn > res$threshold)
   return(res)
 }
-
-

@@ -5,6 +5,8 @@
 #' \deqn{H_0 : \sigma_{ij} = 0~\mathrm{for any}~i \neq j}
 #' and alternative hypothesis is \eqn{H_1 : ~\mathrm{not}~H_0}
 #' with \eqn{\Sigma_n = (\sigma_{ij})} based on a procedure proposed by Lan et al. (2015).
+#' Each column is centered before the covariance-based statistic is computed,
+#' so the test is invariant to translations of the observations.
 #'
 #' @param data an \eqn{(n\times p)} data matrix where each row is an observation.
 #' @param alpha level of significance.
@@ -67,11 +69,12 @@ diagtest1.Lan15 <- function(X, alpha){
   n = nrow(X)
   z.val = qnorm(1 - alpha)
 
-  Sg.hat = 0
-  for(i in 1:n){
-    X.i = matrix(X[i,], ncol=1)
-    Sg.hat = Sg.hat + X.i%*%t(X.i)/n
+  X = sweep(X, 2L, colMeans(X), FUN="-", check.margin=FALSE)
+  column.ss = colSums(X^2)
+  if ((any(!is.finite(column.ss)))||(any(column.ss<=0))){
+    stop("* DiagTest1.2015Lan : every column should have positive sample variation.")
   }
+  Sg.hat = crossprod(X)/n
   Sg.hat2 = Sg.hat^2
 
   Bias.hat = sqrt(n)/(2*p^{3/2}) * ( sum(diag(Sg.hat))^2 - sum(diag(Sg.hat2)) )

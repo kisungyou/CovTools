@@ -6,7 +6,8 @@
 #' where \eqn{\Sigma_n} is the covariance of data model and \eqn{\Sigma_0} is a
 #' hypothesized covariance based on a procedure proposed by Srivastava, Yanagihara, and Kubokawa (2014).
 #'
-#' @param data an \eqn{(n\times p)} data matrix where each row is an observation.
+#' @param data an \eqn{(n\times p)} data matrix with at least four observations,
+#' where each row is an observation.
 #' @param Sigma0 a \eqn{(p\times p)} given covariance matrix.
 #' @param alpha level of significance.
 #'
@@ -40,6 +41,9 @@ CovTest1.2014Srivastava <- function(data, Sigma0=diag(ncol(data)), alpha=0.05){
   n = nrow(data)
   p = ncol(data)
   if ((nrow(data)==1)||(ncol(data)==1)){stop("* CovTest1.2014Srivastava : invalid input matrix X.")}
+  if (n<4L){
+    stop("* CovTest1.2014Srivastava : at least 4 observations are required.")
+  }
   # 2. valid Sigma0
   if ((!check_sqmat(Sigma0))||(!check_pd(Sigma0))||(!isSymmetric(Sigma0,tol=sqrt(.Machine$double.eps)))||(nrow(Sigma0)!=p)){
     stop("* CovTest1.2014Srivastava : a given matrix for null hypothesis 'Sigma0' is invalid.")
@@ -71,6 +75,9 @@ test1.Srivastava14 <- function(X, alpha){
   Sigma0 = diag(ncol(X))
   p = ncol(X)
   n = nrow(X)
+  if (n<4L){
+    stop("* test1.Srivastava14 : at least 4 observations are required.")
+  }
   z.val = qnorm(1 - alpha)
   bar.X = matrix(colMeans(X), nrow = p, ncol = 1)
   Sn = cov(X)

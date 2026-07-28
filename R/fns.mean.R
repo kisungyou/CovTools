@@ -109,18 +109,45 @@ meancov.Procrustes.Full <- function(A){
 #' @keywords internal
 #' @noRd
 meancov.PowerEuclidean <- function(A, pcoef){
+  if ((length(pcoef)!=1)||(!is.numeric(pcoef))||
+      (!is.finite(pcoef))||(pcoef==0)){
+    stop("* CovMean.PowerEuclidean : power must be a finite non-zero number.")
+  }
+
   # 1.
   p = dim(A)[1]
   M = dim(A)[3]
   # 2. S_i^\alpha
   Salpha = array(0,dim(A))
   for (i in 1:M){
-    eigtgt = eigen(A[,,i], symmetric=TRUE)
-    Salpha[,,i] = eigtgt$vectors %*% diag((eigtgt$values)^pcoef) %*% t(eigtgt$vectors)
+    current = matrix(A[,,i], nrow=p, ncol=p)
+    eigtgt = eigen(current, symmetric=TRUE)
+    eigvals = eigtgt$values
+    if (any(!is.finite(eigvals))||any(eigvals<=0)){
+      stop("* CovMean.PowerEuclidean : input eigenvalues must be finite and positive.")
+    }
+    powered = eigvals^pcoef
+    if (any(!is.finite(powered))||any(powered<=0)){
+      stop("* CovMean.PowerEuclidean : powered eigenvalues are not finite and positive.")
+    }
+    Salpha[,,i] = eigtgt$vectors %*%
+      diag(powered, nrow=p, ncol=p) %*% t(eigtgt$vectors)
+    Salpha[,,i] = (Salpha[,,i]+t(Salpha[,,i]))/2
   }
   # 3. mean estimation
   outDelta = apply(Salpha, c(1,2), mean)
-  eigDelta = eigen(outDelta)
-  output   = eigDelta$vectors %*% (diag(eigDelta$values)^(1/pcoef)) %*% t(eigDelta$vectors)
+  outDelta = matrix(outDelta, nrow=p, ncol=p)
+  outDelta = (outDelta+t(outDelta))/2
+  eigDelta = eigen(outDelta, symmetric=TRUE)
+  if (any(!is.finite(eigDelta$values))||any(eigDelta$values<=0)){
+    stop("* CovMean.PowerEuclidean : transformed mean is not positive definite.")
+  }
+  mean_powered = eigDelta$values^(1/pcoef)
+  if (any(!is.finite(mean_powered))||any(mean_powered<=0)){
+    stop("* CovMean.PowerEuclidean : inverse power produced invalid eigenvalues.")
+  }
+  output = eigDelta$vectors %*%
+    diag(mean_powered, nrow=p, ncol=p) %*% t(eigDelta$vectors)
+  output = (output+t(output))/2
   return(output)
 }

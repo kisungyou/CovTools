@@ -17,7 +17,7 @@ PreEst.2014Banerjee(
 \arguments{
 \item{X}{an \eqn{(n\times p)} data matrix where each row is an observation.}
 
-\item{upperK}{upper bound of bandwidth \eqn{k}.}
+\item{upperK}{integer upper bound of bandwidth \eqn{k}, at most \eqn{p-1}.}
 
 \item{delta}{hyperparameter for G-Wishart prior. Default value is 10. It has to be larger than 2.}
 

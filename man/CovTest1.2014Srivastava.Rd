@@ -7,7 +7,8 @@
 CovTest1.2014Srivastava(data, Sigma0 = diag(ncol(data)), alpha = 0.05)
 }
 \arguments{
-\item{data}{an \eqn{(n\times p)} data matrix where each row is an observation.}
+\item{data}{an \eqn{(n\times p)} data matrix with at least four observations,
+where each row is an observation.}
 
 \item{Sigma0}{a \eqn{(p\times p)} given covariance matrix.}
 

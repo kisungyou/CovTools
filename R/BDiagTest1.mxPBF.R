@@ -11,11 +11,14 @@
 #' \deqn{\tau_{ij}^2 \sim IG(a0, b0)} and under \eqn{H_1}, priors are
 #' \deqn{ a_{ij}|\tau_{ij}^2 \sim N(0, \tau_{ij}^2/(\gamma*||X_j||^2))}
 #' \deqn{\tau_{ij}^2 \sim IG(a0, b0).}
+#' Since the hypothesis concerns covariance rather than raw second moments,
+#' columns are centered internally before this zero-mean pairwise regression
+#' model is evaluated.
 #'
 #' @param data an \eqn{(n\times p)} data matrix where each row is an observation.
 #' @param a0 shape parameter for inverse-gamma prior.
 #' @param b0 scale parameter for inverse-gamma prior.
-#' @param gamma non-negative number. See the equation above.
+#' @param gamma positive number. See the equation above.
 #'
 #' @return a named list containing: \describe{
 #' \item{log.BF.mat}{ \eqn{(p\times p)} matrix of pairwise log Bayes factors.}
@@ -78,12 +81,17 @@ diagtest1.mxPBF <- function(X, params){
 
   if ((length(a0)!=1)||(a0<=0)){stop("* mxPBF : 'a0' should be nonnegative number.")}
   if ((length(b0)!=1)||(b0<=0)){stop("* mxPBF : 'b0' should be nonnegative number.")}
-  if ((length(gamma)!=1)||(gamma<=0)){stop("* mxPBF : 'gamma' should be nonnegative number.")}
+  if ((length(gamma)!=1)||(gamma<=0)){stop("* mxPBF : 'gamma' should be a positive number.")}
 
   #################################################################
   ## MAIN RUN BY JAY
   p = ncol(X)
   n = nrow(X)
+  X = sweep(X, 2L, colMeans(X), FUN="-", check.margin=FALSE)
+  column.ss = colSums(X^2)
+  if ((any(!is.finite(column.ss)))||(any(column.ss<=0))){
+    stop("* mxPBF : every column should have positive sample variation after centering.")
+  }
   log.BF.mat = matrix(0, ncol=p,nrow=p) # log Bayes factors
 
   for(i in 1:p){
@@ -91,7 +99,7 @@ diagtest1.mxPBF <- function(X, params){
     for(j in (1:p)[-i]){
       Xj = matrix(X[,j], ncol=1)
       log.BF.mat[i,j] = 1/2 * log(gamma/(1+gamma)) -
-        (n/2 + a0) * ( log(( sum((Xi)^2) - sum(Xi*Xj)^2/sum((Xj)^2) /(1+gamma) ) + 2*b0) - log( sum((Xi)^2) + 2*b0) )
+        (n/2 + a0) * ( log(( column.ss[i] - sum(Xi*Xj)^2/column.ss[j] /(1+gamma) ) + 2*b0) - log( column.ss[i] + 2*b0) )
     }
   }
   diag(log.BF.mat) = -Inf # just to fill out the diagonal parts

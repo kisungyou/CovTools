@@ -74,6 +74,13 @@ PreEst.glasso <- function(X, method=list(type="fixed",param=1.0), parallel=FALSE
   #   1. typecheck : data
   fname    = "PreEst.glasso"
   checker1 = invisible_datamatrix(X, fname)
+  if (!is.numeric(X)){
+    stop("* PreEst.glasso : 'X' should be a numeric matrix.")
+  }
+  X = as.matrix(X)
+  if ((nrow(X)<2)||(ncol(X)<2)){
+    stop("* PreEst.glasso : 'X' should have at least 2 rows and 2 columns.")
+  }
   #   2. typecheck : method
   if ((!is.list(method))||(length(method)!=2)){
     stop("* PreEst.glasso : 'method' is invalid. Please see the documentation.")
@@ -81,12 +88,20 @@ PreEst.glasso <- function(X, method=list(type="fixed",param=1.0), parallel=FALSE
   if (!(all((sort(names(method))==sort(c("type","param")))==TRUE))){
     stop("* PreEst.glasso : 'method' should have two fields; 'type' and 'param'.")
   }
-  if (!(method$type %in% c("fixed","confidence","BIC"))){
+  if ((!is.character(method$type))||(length(method$type)!=1)||
+      (!(method$type %in% c("fixed","confidence","BIC")))){
     stop("* PreEst.glasso : you can opt from one of 'fixed','confidence', or 'BIC' method.")
   }
   #   3. setting for parallel computation
-  if (!parallel){nCore = 1  }
-  else {nCore = max(round(detectCores()/2),1)}
+  if ((!is.logical(parallel))||(length(parallel)!=1)||(is.na(parallel))){
+    stop("* PreEst.glasso : 'parallel' should be TRUE or FALSE.")
+  }
+  if (!parallel){
+    nCore = 1
+  } else {
+    detected = detectCores()
+    nCore = if (is.na(detected)) 1 else max(floor(detected/2),1)
+  }
 
   #-----------------------------------------------------
   ## MAIN COMPUTATION
@@ -94,7 +109,7 @@ PreEst.glasso <- function(X, method=list(type="fixed",param=1.0), parallel=FALSE
   if (method$type=="fixed"){
     # parameter check
     Yuan07.lambda = method$param
-    if (length(Yuan07.lambda)>1){ # vector case : it should be controlled using 'BIC'
+    if ((!is.numeric(Yuan07.lambda))||(length(Yuan07.lambda)>1)){ # vector case : it should be controlled using 'BIC'
       stop("* PreEst.glasso : 'fixed' argument only handles single regularization parameter case.")
     } else {
       if ((length(Yuan07.lambda)!=1)||(is.na(Yuan07.lambda))||(is.infinite(Yuan07.lambda))||(Yuan07.lambda<=0)){
@@ -105,7 +120,7 @@ PreEst.glasso <- function(X, method=list(type="fixed",param=1.0), parallel=FALSE
   } else if (method$type=="BIC"){
     # parameter check
     Yuan07.lambda = method$param
-    if (length(Yuan07.lambda)<=1){
+    if ((!is.numeric(Yuan07.lambda))||(length(Yuan07.lambda)<=1)){
       stop("* PreEst.glasso : 'BIC' argument handles a vector of regularization parameter case only. Use 'fixed' argument instead.")
     } else {
       if ((any(is.na(Yuan07.lambda)))||(any(is.infinite(Yuan07.lambda)))||(any(Yuan07.lambda<=0))){
@@ -116,11 +131,15 @@ PreEst.glasso <- function(X, method=list(type="fixed",param=1.0), parallel=FALSE
   } else if (method$type=="confidence"){
     # parameter check
     Banerjee06.confidence = method$param
-    if (length(Banerjee06.confidence)>1){
+    if ((!is.numeric(Banerjee06.confidence))||(length(Banerjee06.confidence)>1)){
       stop("* PreEst.glasso : for 'confidence', it deals with a single confidence level value for each computation.")
     } else {
-      if ((Banerjee06.confidence<=0)||(Banerjee06.confidence>=1)||(is.na(Banerjee06.confidence))){
+      if ((length(Banerjee06.confidence)!=1)||(Banerjee06.confidence<=0)||
+          (Banerjee06.confidence>=1)||(!is.finite(Banerjee06.confidence))){
         stop("* PreEst.glasso : for 'confidence', the parameter value should be in (0,1).")
+      }
+      if (nrow(X)<=2){
+        stop("* PreEst.glasso : 'confidence' requires at least 3 observations.")
       }
       output = preest.Banerjee06(X, Banerjee06.confidence)
     }
@@ -152,42 +171,47 @@ preest.Yuan07.once.BIC <- function(X, lambda){
   S    = cov(X)
   C    = rcpp_ADMMprecision(S, lambda);
 
-  term1 = -log(det(C))
-  term2 = sum(diag(C%*%S))
-  term3 = 0
-  sqrtprecision = sqrt(.Machine$double.eps)
-  for (i in 1:p){
-    for (j in i:p){
-      if (abs(C[i,j]) <= sqrtprecision){
-        term3 = term3+1.0
-      }
-    }
+  logdet = determinant(C, logarithm=TRUE)
+  if ((logdet$sign<=0)||(!is.finite(as.numeric(logdet$modulus)))){
+    stop("* PreEst.glasso : precision estimate is not positive definite.")
   }
-  BICscore = -term1+term2+((log(n)/n)*term3)
+  term1 = -as.numeric(logdet$modulus)
+  term2 = sum(C*S)
+  sqrtprecision = sqrt(.Machine$double.eps)
+  term3 = sum(abs(C[upper.tri(C, diag=TRUE)]) > sqrtprecision)
+  BICscore = term1+term2+((log(n)/n)*term3)
   return(BICscore)
 }
 #' @keywords internal
 #' @noRd
 preest.Yuan07.plgrid <-function(X, plgrid, nCore){
   S = cov(X)
-  if (nCore==1){
-    cl = makeCluster(1)
-    registerDoParallel(cl)
+  nWorkers = min(nCore, length(plgrid))
+  if (nWorkers==1){
+    BICs = vapply(plgrid, function(lambda){
+      preest.Yuan07.once.BIC(X, lambda)
+    }, numeric(1))
   } else {
-    cl = makeCluster(nCore)
-    registerDoParallel(cl)
+    cl = parallel::makeCluster(nWorkers)
+    on.exit({
+      if (!is.null(cl)){
+        try(parallel::stopCluster(cl), silent=TRUE)
+      }
+    }, add=TRUE)
+    BICs = parallel::parSapply(
+      cl,
+      plgrid,
+      function(lambda, data_matrix, score_fun){
+        score_fun(data_matrix, lambda)
+      },
+      data_matrix=X,
+      score_fun=preest.Yuan07.once.BIC
+    )
+    parallel::stopCluster(cl)
+    cl = NULL
   }
-  # parallel computation let's go
-  # I had a similar problem and I solved it by adding .noexport = c(<Functions that were implemented in C++>) to the foreach.
-  itforeach=NULL
-  BICs = foreach (itforeach=1:length(plgrid), .combine=rbind) %dopar% {
-    preest.Yuan07.once.BIC(X,plgrid[itforeach])
-  }
-  # stop cluster
-  stopCluster(cl)
   # find which should be the best one
   idxmin = which.min(BICs)
-  if (length(idxmin)>1){idxmin = idxmin[1]}
   # optimal threshold value
   lambdaopt = plgrid[idxmin]
   Copt = preest.Yuan07.once.matrix(X, lambdaopt)

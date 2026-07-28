@@ -17,10 +17,12 @@
 #' \code{"LERM"} for Log Euclidean Riemannian Metric,
 #' \code{"Procrustes.SS"} for Procrustes Size and Shape measure,
 #' \code{"Procrustes.Full"} for Procrustes analysis with scale,
-#' \code{"PowerEuclidean"} for weighted eigenvalues by some exponent, and
+#' \code{"PowerEuclidean"} for a matrix-power transform with a non-zero exponent, and
 #' \code{"RootEuclidean"} for matrix square root.
 #'
-#' @param power a non-zero number for PowerEuclidean distance.
+#' @param power a finite non-zero number for PowerEuclidean distance. Positive
+#' and negative powers are supported; the distance is scaled by
+#' \eqn{1/|\alpha|}, where \eqn{\alpha} is the supplied power.
 #'
 #' @return an \eqn{(N\times N)} symmetric matrix of pairwise distances.
 #'
@@ -57,6 +59,9 @@ CovDist <- function(A,method=c("AIRM","Bhattacharyya","Cholesky",
   if (dim(A)[1]!=dim(A)[2]){
     stop("* CovDist : A should be stack of square matrices.")
   }
+  if ((dim(A)[1]<1)||(dim(A)[3]<1)){
+    stop("* CovDist : A should contain at least one non-empty matrix.")
+  }
   SymApply = apply(A, 3, isSymmetric, tol=sqrt(.Machine$double.eps))
   if (any(SymApply)==FALSE){
     SymIdx = which(!SymApply)
@@ -81,10 +86,14 @@ CovDist <- function(A,method=c("AIRM","Bhattacharyya","Cholesky",
   if (missing(method)){method = "AIRM"}
   method = match.arg(method)
   if (method=="PowerEuclidean"){
-    if (power==0){
-      stop("* CovDist : 'power' should be a nonzero element. Suggests > 0.")
+    if ((length(power)!=1)||(!is.numeric(power))||
+        (!is.finite(power))||(power==0)){
+      stop("* CovDist : 'power' should be a finite non-zero number.")
     }
     power = as.double(power)
+  }
+  if (dim(A)[3]==1){
+    return(matrix(0, nrow=1, ncol=1))
   }
   outdist= switch(method,
                   AIRM = measure.AIRM.3d(A),

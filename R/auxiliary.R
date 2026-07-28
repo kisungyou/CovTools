@@ -75,7 +75,49 @@ check_pd <- function(A){
     return(TRUE)
   }
 }
-# 3. check if a function is metric
+# 3. reduce a symmetric-definite matrix pair to a symmetric matrix
+#' @keywords internal
+#' @noRd
+reduce_spd_pair <- function(A, B){
+  A = as.matrix(A)
+  B = as.matrix(B)
+
+  if ((!is.numeric(A))||(!is.numeric(B))||
+      (length(dim(A))!=2)||(length(dim(B))!=2)||
+      (nrow(A)!=ncol(A))||(nrow(B)!=ncol(B))||
+      (!identical(dim(A), dim(B)))||(nrow(A)==0)){
+    stop("* reduce_spd_pair : inputs must be numeric square matrices of the same size.")
+  }
+  if ((!all(is.finite(A)))||(!all(is.finite(B)))){
+    stop("* reduce_spd_pair : inputs must contain only finite values.")
+  }
+
+  leveltol = sqrt(.Machine$double.eps)
+  if ((!isSymmetric(A, tol=leveltol))||(!isSymmetric(B, tol=leveltol))){
+    stop("* reduce_spd_pair : inputs must be symmetric.")
+  }
+
+  A = (A+t(A))/2
+  B = (B+t(B))/2
+  cholB = chol(B)
+  left_reduced = forwardsolve(t(cholB), A)
+  reduced = t(forwardsolve(t(cholB), t(left_reduced)))
+  return((reduced+t(reduced))/2)
+}
+
+# 4. eigenvalues of a symmetric-definite matrix pair
+#' @keywords internal
+#' @noRd
+eigenvalues_spd_pair <- function(A, B){
+  reduced = reduce_spd_pair(A, B)
+  values = eigen(reduced, symmetric=TRUE, only.values=TRUE)$values
+  if ((any(!is.finite(values)))||(any(values<=0))){
+    stop("* eigenvalues_spd_pair : decomposition did not yield finite positive eigenvalues.")
+  }
+  return(sort(values))
+}
+
+# 5. check if a function is metric
 #' @keywords internal
 #' @noRd
 check_metric <- function(func,n=5,thr=1e-5){
@@ -97,7 +139,7 @@ check_metric <- function(func,n=5,thr=1e-5){
     return(FALSE)
   }
 }
-# 4. check if the given input is valid datamatrix without NA and Infs
+# 6. check if the given input is valid datamatrix without NA and Infs
 #' @keywords internal
 #' @noRd
 check_datamatrix <- function(A){

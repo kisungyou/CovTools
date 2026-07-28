@@ -25,10 +25,12 @@ Riemannian Metric, \code{"Bhattacharyya"} for Bhattacharyya distance based on no
 \code{"LERM"} for Log Euclidean Riemannian Metric,
 \code{"Procrustes.SS"} for Procrustes Size and Shape measure,
 \code{"Procrustes.Full"} for Procrustes analysis with scale,
-\code{"PowerEuclidean"} for weighted eigenvalues by some exponent, and
+\code{"PowerEuclidean"} for a matrix-power transform with a non-zero exponent, and
 \code{"RootEuclidean"} for matrix square root.}
 
-\item{power}{a non-zero number for PowerEuclidean distance.}
+\item{power}{a finite non-zero number for PowerEuclidean distance. Positive
+and negative powers are supported; the distance is scaled by
+\eqn{1/|\alpha|}, where \eqn{\alpha} is the supplied power.}
 }
 \value{
 an \eqn{(N\times N)} symmetric matrix of pairwise distances.

@@ -50,18 +50,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// rcpp_geigen
-arma::cx_vec rcpp_geigen(arma::mat& A, arma::mat& B);
-RcppExport SEXP _CovTools_rcpp_geigen(SEXP ASEXP, SEXP BSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat& >::type A(ASEXP);
-    Rcpp::traits::input_parameter< arma::mat& >::type B(BSEXP);
-    rcpp_result_gen = Rcpp::wrap(rcpp_geigen(A, B));
-    return rcpp_result_gen;
-END_RCPP
-}
 // rcpp_ADMMprecision
 arma::mat rcpp_ADMMprecision(arma::mat& S, const double lambda);
 RcppExport SEXP _CovTools_rcpp_ADMMprecision(SEXP SSEXP, SEXP lambdaSEXP) {
@@ -90,7 +78,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_CovTools_covest_2003LW_computeF", (DL_FUNC) &_CovTools_covest_2003LW_computeF, 2},
     {"_CovTools_covest_2003LW_computePi", (DL_FUNC) &_CovTools_covest_2003LW_computePi, 3},
     {"_CovTools_covest_2003LW_computeRho", (DL_FUNC) &_CovTools_covest_2003LW_computeRho, 4},
-    {"_CovTools_rcpp_geigen", (DL_FUNC) &_CovTools_rcpp_geigen, 2},
     {"_CovTools_rcpp_ADMMprecision", (DL_FUNC) &_CovTools_rcpp_ADMMprecision, 2},
     {"_CovTools_rcpptest1_cai11", (DL_FUNC) &_CovTools_rcpptest1_cai11, 1},
     {NULL, NULL, 0}

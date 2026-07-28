@@ -24,14 +24,14 @@ measure.AIRM <- function(A,B){
   }
 
   ## Main Computation
-  objeig = tryCatch(geigen(A, B, symmetric=TRUE, only.values = TRUE), error=function(e)e, warning=function(w)w)
-  if (inherits(objeig, "error")){
+  eigvals = tryCatch(eigenvalues_spd_pair(A, B), error=function(e)e, warning=function(w)w)
+  if (inherits(eigvals, "error")){
     stop("* measure.AIRM : generalized eigenvalue decomposition failed.")
-  } else if (inherits(objeig, "warning")){
-    message(paste("* measure.AIRM :",objeig$message))
+  } else if (inherits(eigvals, "warning")){
+    message(paste("* measure.AIRM :",eigvals$message))
     return(NA)
   } else {
-    output = sqrt(sum((log(objeig$values))^2))
+    output = sqrt(sum((log(eigvals))^2))
     return(output)
   }
 }
@@ -45,21 +45,21 @@ measure.AIRM.3d <- function(array3d){
   for (i in 1:M){
     data3d[,,i] = (array3d[,,i]+t(array3d[,,i]))/2
   }
-  # 3. main computation using geigen
+  # 3. main computation
   outdist = array(0,c(M,M))
   for (i in 1:(M-1)){
     A = data3d[,,i]
     for (j in (i+1):M){
       B = data3d[,,j]
-      objeig = tryCatch(geigen(A, B, symmetric=TRUE, only.values = TRUE), error=function(e)e, warning=function(w)w)
-      if (inherits(objeig, "error")){
+      eigvals = tryCatch(eigenvalues_spd_pair(A, B), error=function(e)e, warning=function(w)w)
+      if (inherits(eigvals, "error")){
         stop("* measure.AIRM : generalized eigenvalue decomposition failed.")
-      } else if (inherits(objeig, "warning")){
-        message(paste("* measure.AIRM :",objeig$message))
+      } else if (inherits(eigvals, "warning")){
+        message(paste("* measure.AIRM :",eigvals$message))
         return(NA)
       } else {
-        outdist[i,j] = sqrt(sum((log(objeig$values))^2))
-        outdist[j,i] = sqrt(sum((log(objeig$values))^2))
+        outdist[i,j] = sqrt(sum((log(eigvals))^2))
+        outdist[j,i] = sqrt(sum((log(eigvals))^2))
       }
     }
   }
@@ -217,14 +217,13 @@ measure.KLDM <- function(A,B){
   }
 
   ## Main Computation
-  objeig = tryCatch(geigen(A, B, symmetric=TRUE, only.values = TRUE), error=function(e)e, warning=function(w)w)
-  if (inherits(objeig, "error")){
+  eigvals = tryCatch(eigenvalues_spd_pair(A, B), error=function(e)e, warning=function(w)w)
+  if (inherits(eigvals, "error")){
     stop("* measure.KLDM : generalized eigenvalue decomposition failed.")
-  } else if (inherits(objeig, "warning")){
-    message(paste("* measure.KLDM :",objeig$message))
+  } else if (inherits(eigvals, "warning")){
+    message(paste("* measure.KLDM :",eigvals$message))
     return(NA)
   } else {
-    eigvals = objeig$values
     output = sum((sqrt(eigvals)-1/sqrt(eigvals))^2)/2;
     return(output)
   }
@@ -239,20 +238,19 @@ measure.KLDM.3d <- function(array3d){
   for (i in 1:M){
     data3d[,,i] = (array3d[,,i]+t(array3d[,,i]))/2
   }
-  # 3. main computation using geigen
+  # 3. main computation
   outdist = array(0,c(M,M))
   for (i in 1:(M-1)){
     A = data3d[,,i]
     for (j in (i+1):M){
       B = data3d[,,j]
-      objeig = tryCatch(geigen(A, B, symmetric=TRUE, only.values = TRUE), error=function(e)e, warning=function(w)w)
-      if (inherits(objeig, "error")){
+      eigvals = tryCatch(eigenvalues_spd_pair(A, B), error=function(e)e, warning=function(w)w)
+      if (inherits(eigvals, "error")){
         stop("* measure.KLDM : generalized eigenvalue decomposition failed.")
-      } else if (inherits(objeig, "warning")){
-        message(paste("* measure.KLDM :",objeig$message))
+      } else if (inherits(eigvals, "warning")){
+        message(paste("* measure.KLDM :",eigvals$message))
         return(NA)
       } else {
-        eigvals = objeig$values
         outdist[i,j] = sum((sqrt(eigvals)-1/sqrt(eigvals))^2)/2;
         outdist[j,i] = sum((sqrt(eigvals)-1/sqrt(eigvals))^2)/2;
       }
@@ -357,9 +355,9 @@ measure.Procrustes.SS.3d <- function(array3d){
   }
   outdist = array(0,c(M,M))
   for (i in 1:(M-1)){
-    cholA = array3d[,,i]
+    cholA = chol3d[,,i]
     for (j in (i+1):M){
-      cholB = array3d[,,j]
+      cholB = chol3d[,,j]
       value = pracma::procrustes(cholA,cholB)
       outdist[i,j] = value$d
       outdist[j,i] = value$d
@@ -391,31 +389,50 @@ measure.Procrustes.Full.3d <- function(array3d){
 #' @keywords internal
 #' @noRd
 measure.PowerEuclidean.3d <- function(A, pcoef){
+  if ((length(pcoef)!=1)||(!is.numeric(pcoef))||
+      (!is.finite(pcoef))||(pcoef==0)){
+    stop("* measure.PowerEuclidean : power must be a finite non-zero number.")
+  }
+
   # 1.
   p = dim(A)[1]
   M = dim(A)[3]
   # 2. S_i^\alpha
   Salpha = array(0,dim(A))
   for (i in 1:M){
-    eigtgt = tryCatch(eigen(A[,,i], symmetric=TRUE), error=function(e)e, warning=function(w)w)
+    current = matrix(A[,,i], nrow=p, ncol=p)
+    eigtgt = tryCatch(eigen(current, symmetric=TRUE), error=function(e)e, warning=function(w)w)
     if (inherits(eigtgt, "error")){
       stop("* measure.PowerEuclidean : eigen decomposition failed.")
     } else if (inherits(eigtgt, "warning")){
-      message(paste(" measure.PowerEuclidean :",eigtgt$warning))
-      return(NA)
+      stop(paste("* measure.PowerEuclidean :",eigtgt$message))
     } else {
-      Salpha[,,i] = eigtgt$vectors %*% diag((eigtgt$values)^pcoef) %*% t(eigtgt$vectors)
+      eigvals = eigtgt$values
+      if (any(!is.finite(eigvals))||any(eigvals<=0)){
+        stop("* measure.PowerEuclidean : input eigenvalues must be finite and positive.")
+      }
+      powered = eigvals^pcoef
+      if (any(!is.finite(powered))||any(powered<=0)){
+        stop("* measure.PowerEuclidean : powered eigenvalues are not finite and positive.")
+      }
+      Salpha[,,i] = eigtgt$vectors %*%
+        diag(powered, nrow=p, ncol=p) %*% t(eigtgt$vectors)
+      Salpha[,,i] = (Salpha[,,i]+t(Salpha[,,i]))/2
     }
   }
   # 3. distance computation
   outdist = array(0,c(M,M))
   for (i in 1:(M-1)){
-    A = Salpha[,,i]
+    A = matrix(Salpha[,,i], nrow=p, ncol=p)
     for (j in (i+1):M){
-      B = Salpha[,,j]
-      outvalue = norm(A-B,"f")/pcoef
+      B = matrix(Salpha[,,j], nrow=p, ncol=p)
+      outvalue = norm(A-B,"f")/abs(pcoef)
+      if ((!is.finite(outvalue))||(outvalue<0)){
+        stop("* measure.PowerEuclidean : distance computation failed.")
+      }
       outdist[i,j] = outvalue
       outdist[j,i] = outvalue
     }
   }
+  return(outdist)
 }

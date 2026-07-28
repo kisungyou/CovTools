@@ -62,7 +62,9 @@ arma::mat rcpp_ADMMprecision(arma::mat& S, const double lambda){
 
   for (int k=0;k<max_iter;k++){
     // update X
-    eig_sym(es,Q,rho*(Z-U)-S);
+    if (!eig_sym(es,Q,rho*(Z-U)-S)){
+      Rcpp::stop("ADMM eigenvalue decomposition failed.");
+    }
     for (int i=0;i<n;i++){
       xi(i) = (es(i)+sqrt(pow(es(i),2)+4*rho))/(2*rho);
     }
@@ -95,5 +97,19 @@ arma::mat rcpp_ADMMprecision(arma::mat& S, const double lambda){
       break;
     }
   }
-  return(X);
+
+  // Z is the proximal (sparse) precision estimate. At finite ADMM tolerance it
+  // may differ slightly from the strictly positive-definite X iterate. Preserve
+  // its exact off-diagonal zeros, enforce symmetry, and add only the smallest
+  // diagonal correction needed if roundoff leaves it on/outside the SPD cone.
+  arma::mat output = 0.5*(Z+Z.t());
+  arma::vec output_eigenvalues;
+  if (!eig_sym(output_eigenvalues, output)){
+    Rcpp::stop("ADMM output eigenvalue decomposition failed.");
+  }
+  const double minimum_eigenvalue = output_eigenvalues.min();
+  if (minimum_eigenvalue <= 0.0){
+    output.diag() += (-minimum_eigenvalue+abstol);
+  }
+  return(output);
 }

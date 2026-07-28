@@ -6,7 +6,7 @@
 \usage{
 PreEst.2017Lee(
   X,
-  upperK = floor(ncol(X)/2),
+  upperK = min(floor(ncol(X)/2), ncol(X) - 1, nrow(X) - 3),
   logpi = function(k) {
      -k^4
  }
@@ -15,7 +15,8 @@ PreEst.2017Lee(
 \arguments{
 \item{X}{an \eqn{(n\times p)} data matrix where each row is an observation.}
 
-\item{upperK}{upper bound of bandwidth \eqn{k}.}
+\item{upperK}{integer upper bound of bandwidth \eqn{k}, at most
+\eqn{\min(p-1,n-3)}.}
 
 \item{logpi}{log of prior distribution for bandwidth \eqn{k}. Default is a function proportional to \eqn{-k^4}.}
 }
@@ -37,7 +38,7 @@ data = matrix(rnorm(100*pdim), ncol=pdim)
 ## compare different K
 out1 <- PreEst.2017Lee(data, upperK=1)
 out2 <- PreEst.2017Lee(data, upperK=3)
-out3 <- PreEst.2017Lee(data, upperK=5)
+out3 <- PreEst.2017Lee(data, upperK=4)
 
 ## visualize
 opar <- par(no.readonly=TRUE)
@@ -45,7 +46,7 @@ par(mfrow=c(2,2), pty="s")
 image(diag(pdim)[,pdim:1], main="Original Precision")
 image(out1$C[,pdim:1],     main="banded2::upperK=1")
 image(out2$C[,pdim:1],     main="banded2::upperK=3")
-image(out3$C[,pdim:1],     main="banded2::upperK=5")
+image(out3$C[,pdim:1],     main="banded2::upperK=4")
 par(opar)
 
 }

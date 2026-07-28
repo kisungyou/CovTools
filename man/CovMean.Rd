@@ -21,10 +21,12 @@ Riemannian Metric,
 \code{"LERM"} for Log Euclidean Riemannian Metric,
 \code{"Procrustes.SS"} for Procrustes Size and Shape measure,
 \code{"Procrustes.Full"} for Procrustes analysis with scale,
-\code{"PowerEuclidean"} for weighted eigenvalues by some exponent, and
+\code{"PowerEuclidean"} for a matrix-power transform with a non-zero exponent, and
 \code{"RootEuclidean"} for matrix square root.}
 
-\item{power}{a non-zero number for PowerEuclidean distance.}
+\item{power}{a finite non-zero number for the PowerEuclidean mean. Positive
+and negative powers are supported. Use \code{method = "LERM"} for the
+zero-power (log-Euclidean) limit.}
 }
 \value{
 a \eqn{(p\times p)} mean covariance matrix estimated.

@@ -30,13 +30,11 @@
 #' @importFrom stats cov qnorm rnorm cor qt pnorm
 #' @importFrom mvtnorm rmvnorm
 #' @importFrom expm expm sqrtm logm
-#' @importFrom geigen geigen
 #' @importFrom Rcpp evalCpp
 #' @importFrom foreach "%dopar%" foreach registerDoSEQ
 #' @importFrom parallel detectCores stopCluster makeCluster
 #' @importFrom doParallel registerDoParallel
 #' @useDynLib CovTools, .registration=TRUE
 NULL
-
 
 

@@ -12,13 +12,22 @@ CovEst.hardPD(X)
 \value{
 a named list containing: \describe{
 \item{S}{a \eqn{(p\times p)} covariance matrix estimate.}
-\item{optC}{an optimal threshold value \eqn{C_{min}} that guarantees positive definiteness after thresholding.}
+\item{optC}{a nonnegative threshold value \eqn{C_{min}} that guarantees
+positive definiteness after thresholding. A value of zero means that the
+sample covariance already satisfies the tolerance.}
 }
 }
 \description{
 Sparse covariance estimation does not necessarily guarantee positive definiteness of an estimated
 covariance matrix. Fan et al. (2013) proposed to solve this issue by taking an iterative procedure to
 take an incremental decrease of threshold value until positive definiteness is preserved.
+}
+\details{
+The selected estimate is verified to have minimum eigenvalue at least
+\eqn{\sqrt{\epsilon}}, where \eqn{\epsilon} is machine precision. Since
+hard thresholding preserves the diagonal, the function stops with an
+informative error when a column variance is below this tolerance and no
+qualifying estimate can be constructed.
 }
 \examples{
 ## generate data from multivariate normal with Identity covariance.
